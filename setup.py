@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
  
 setup(
-    name="fastpix-python",
+    name="fastpix_python",
     version="0.1.3",
     packages=find_packages(),
     install_requires=[
