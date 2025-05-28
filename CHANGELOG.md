@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4]
+- Changed package name
+
 ## [0.1.3]
 - Version update
 
