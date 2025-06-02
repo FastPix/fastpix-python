@@ -19,7 +19,7 @@ The FastPix Python SDK simplifies integration with the FastPix platform. This SD
 For detailed usage, refer to the [FastPix API Reference](https://docs.fastpix.io/reference).
 
 ## Latest Release
-  - Current Version: 0.1.3
+  - Current Version: 0.1.5
    - View our [changelog](CHANELOG.md) for details on recent updates
    - Download the latest release from our [releases page](https://github.com/FastPix/python-server-sdk/releases/tag/v1.0.0)
 
