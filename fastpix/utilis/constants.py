@@ -1,4 +1,4 @@
-BASE_URL = "https://v1.fastpix.io"
+BASE_URL = "https://api.fastpix.io/v1"
 
 import re
 import uuid
