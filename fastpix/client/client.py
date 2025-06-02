@@ -49,7 +49,13 @@ class Client:
         """
         try:
             # Attempt to fetch media to verify credentials
-            response = self.media.get_all_media()
+            media_request_params = {
+            "limit": 10,  # Number of media assets to fetch in one request
+            "offset": 1,  # Starting position for the list of media assets
+            "orderBy": "desc"  # Sort order for the media assets
+            }
+
+            response = self.media.get_all_media(params=media_request_params)
             return response
 
         except APIError as e:

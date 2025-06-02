@@ -47,7 +47,7 @@ pip install git+https://github.com/FastPix/fastpix_python
 ### Importing the SDK
 
 ```python
-from fastpix_python import Client
+from fastpix.client import Client
 ```
 
 ### Initialization:
@@ -55,7 +55,7 @@ from fastpix_python import Client
 Initialize the FastPix SDK with your API credentials.
 
 ```python
-from fastpix_python import Client
+from fastpix.client import Client
 
 client = Client(username="your-access-token-id", password="your-secret-key")
 ```
@@ -67,7 +67,7 @@ Below is an example of configuring `FastPix Python SDK` into your project.
 `Note:-` For Async SDK Users: When using the AsyncClient, all SDK methods must be prefixed with the await keyword.
 ```python
 # Sync Usage
-from fastpix_python import Client
+from fastpix.client import Client
 
 client = Client(username="your-access-token-id", password="your-secret-key")
 

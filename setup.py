@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
  
 setup(
     name="fastpix_python",
-    version="0.1.5",
+    version="0.1.6",
     packages=find_packages(),
     install_requires=[
         "requests>=2.25.0",
@@ -20,7 +20,12 @@ setup(
     long_description_content_type="text/markdown",
     author="FastPix",
     author_email="dev@fastpix.io",
-    url="https://github.com/fastpix-io/fastpix-python-server-sdk",
+    url="https://github.com/FastPix/fastpix-python",
+    project_urls={
+        "GitHub": "https://github.com/FastPix/fastpix-python",
+        "Website": "https://fastpix.io",
+        "Dashboard": "https://dashboard.fastpix.io",
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
