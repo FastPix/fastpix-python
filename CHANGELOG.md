@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.8]
+- Version update and ReadMe update
+
+## [0.1.7]
+- Updated the Base URL
+
+## [0.1.6]
+- Updated the project URLs
+
+## [0.1.5]
+- Updated the version and added the file
+
 ## [0.1.4]
 - Changed package name
 
