@@ -3,10 +3,10 @@
 import importlib.metadata
 
 __title__: str = "fastpix_python"
-__version__: str = "1.0.0"
+__version__: str = "1.0.1"
 __openapi_doc_version__: str = "1.0.0"
 __gen_version__: str = "2.723.4"
-__user_agent__: str = "fastpix-sdk/python 1.0.0 2.723.4 1.0.0 fastpix_python"
+__user_agent__: str = "fastpix-sdk/python 1.0.1 2.723.4 1.0.1 fastpix_python"
 
 try:
     if __package__ is not None:
