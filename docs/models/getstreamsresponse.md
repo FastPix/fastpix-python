@@ -1,0 +1,12 @@
+# GetStreamsResponse
+
+Displays the result of the request.
+
+
+## Fields
+
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                | Example                                                                                    |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `success`                                                                                  | *Optional[bool]*                                                                           | :heavy_minus_sign:                                                                         | It demonstrates whether the request is successful or not.                                  | true                                                                                       |
+| `data`                                                                                     | List[[models.GetCreateLiveStreamResponseDTO](../models/getcreatelivestreamresponsedto.md)] | :heavy_minus_sign:                                                                         | Displays the result of the request.                                                        |                                                                                            |
+| `pagination`                                                                               | [Optional[models.LiveStreamPagination]](../models/livestreampagination.md)                 | :heavy_minus_sign:                                                                         | Pagination organizes content into pages for better readability and navigation.             |                                                                                            |

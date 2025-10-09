@@ -1,0 +1,10 @@
+# MediaClipResponse
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `success`                                                                      | *bool*                                                                         | :heavy_check_mark:                                                             | N/A                                                                            | true                                                                           |
+| `data`                                                                         | List[[models.MediaClipResponseData](../models/mediaclipresponsedata.md)]       | :heavy_check_mark:                                                             | N/A                                                                            |                                                                                |
+| `pagination`                                                                   | [models.MediaClipResponsePagination](../models/mediaclipresponsepagination.md) | :heavy_check_mark:                                                             | N/A                                                                            |                                                                                |

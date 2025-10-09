@@ -2,63 +2,158 @@
 
 All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.0.0]
+
+### Added
+- Complete API coverage for Media, Live Streaming, Video Data, and Signing Keys
+- Python 3.9+ support with async/await patterns and type hints
+- Media upload, management, and processing capabilities
+- Live streaming with simulcasting support
+- Video analytics and performance tracking
+- Cryptographic signing keys for secure authentication
+- In-video AI processing features
+- DRM configuration and management
+- Playlist creation and management
+- Comprehensive error handling with specific exception types
+- Both sync and async client implementations
+- Built-in retry mechanisms and timeout handling
+
+### Changed
+- Reorganized package structure for better maintainability
+- Updated dependencies to modern Python packages (httpx, pydantic, httpcore)
+- Improved API design with better error handling
+- Enhanced documentation and examples
+
+### Fixed
+- Improved error handling with specific exception types
+- Fixed type annotation issues for better IDE support
+- Ensured consistent API patterns across modules
+
+---
+
 ## [0.1.8]
-- Version update and ReadMe update
+
+### Added
+- Enhanced README documentation with comprehensive usage examples
+- Improved project setup and installation instructions
+
+### Changed
+- Updated version number to reflect latest improvements
+- Restructured documentation for better user experience
+- Enhanced code examples and API usage guides
+
+---
 
 ## [0.1.7]
-- Updated the Base URL
+
+### Added
+- New base URL configuration system for better API connectivity
+- Support for different API environments (production, staging, development)
+
+### Changed
+- Updated base URL configuration for improved API endpoint resolution
+- Enhanced connection stability and reliability
+- Improved error handling for connection issues
+
+---
 
 ## [0.1.6]
-- Updated the project URLs
+
+### Added
+- Project URL management system for better package distribution
+- Enhanced package metadata and configuration
+
+### Changed
+- Updated project URLs in configuration files for better package identification
+- Improved package metadata and distribution information
+- Enhanced project discoverability and documentation links
+
+---
 
 ## [0.1.5]
-- Updated the version and added the file
+
+### Added
+- Comprehensive version tracking and file management system
+- Automated version control and release management
+- Initial project structure and configuration framework
+
+### Changed
+- Updated version number and project configuration
+- Improved project organization and file structure
+- Enhanced build and deployment processes
+
+---
 
 ## [0.1.4]
-- Changed package name
+
+### Added
+- New package naming convention for better identification
+- Enhanced package metadata and distribution information
+
+### Changed
+- Changed package name for better identification and distribution
+- Updated package metadata and configuration
+- Improved package discoverability and installation process
+
+---
 
 ## [0.1.3]
-- Version update
+
+### Added
+- Version management improvements
+- Enhanced configuration system
+
+### Changed
+- Updated version number to reflect latest changes
+- Improved project configuration and build processes
+- Enhanced package metadata and dependencies
+
+---
 
 ## [0.1.2]
-- workflow update
+
+### Added
+- Comprehensive documentation link validation system
+- Enhanced workflow automation and CI/CD pipeline
+
+### Fixed
+- Corrected redirection links in README documentation
+- Fixed broken documentation links for better user experience
+- Resolved navigation issues in project documentation
+
+### Changed
+- Updated workflow configuration and processes
+- Improved project automation and deployment pipeline
+- Enhanced documentation structure and organization
+
+---
 
 ## [0.1.1]
 
-- Long description is added.
+### Changed
+- Updated codebase with consistent naming conventions
+- Added comprehensive package description
+
+### Fixed
+- Resolved naming convention inconsistencies
+
+---
 
 ## [0.1.0]
 
-### Features:
-
-- **Sync and Async SDK**: Users can now choose between synchronous and asynchronous SDKs based on their requirements.
-- **Media API Integration**: Full integration with FastPix Media APIs, enabling:
-  - **Media Upload**: Users can upload and manage video content seamlessly.
-  - **Manage Playback IDs**: Users can generate and manage playback IDs for video content.
-    - **Create Playback ID**: Generate a playback ID for a media file.
-    - **Delete Playback ID**: Remove a playback ID for a media file.
-  - **Media Listing and Deletion**: List and delete media files efficiently.
-    - **Get All Media**: Retrieve a list of all media files.
-    - **Get Media by ID**: Retrieve details of a specific media file using its media ID.
-    - **Update Media**: Update metadata or settings for a specific media file.
-    - **Create Pull Video**: Initiate a pull to import a video from an external source.
-    - **Get Media Info**: Retrieve detailed information about a media file.
-     - **Get Presigned URL**: Create a pre-signed URL that users can use to upload video content through the Upload SDK or the Push Video API.
-
-- **Livestream API Integration**: Features for managing live streams, including:
-  - **Create and Manage Livestreams**: Users can create, update, and delete live streams.
-    - **Create Livestream**: Initiate the creation of a new livestream.
-    - **Get All Livestreams**: List all available live streams.
-    - **Get Livestream by ID**: Retrieve details of a specific livestream using its stream ID.
-    - **Update Livestream**: Modify settings or details of an existing livestream.
-    - **Delete Livestream**: Remove a livestream from the platform.
-  - **Manage Playback IDs for Livestreams**: Users can generate and manage playback IDs for livestreams.
-    - **Create Playback ID for Livestream**: Generate a playback ID for a livestream.
-    - **Get Playback ID for Livestream**: Retrieve a playback ID for a livestream.
-    - **Delete Playback ID for Livestream**: Remove a playback ID for a livestream.
-
-- **Simulcast for Livestreams**: Below are the simulcast features for livestreams:
-  - **Create Simulcast Configuration**: Enable simulcasting by creating a new simulcast configuration.
-  - **Get Simulcast Configuration**: Retrieve details of an existing simulcast configuration.
-  - **Update Simulcast Configuration**: Modify an existing simulcast configuration.
-  - **Delete Simulcast Configuration**: Remove a simulcast configuration.
+### Added
+- Initial release of FastPix Python SDK
+- Sync and async client support
+- Media API integration with upload, management, and processing
+- Playback ID management for media files
+- Media operations (list, get, update, delete)
+- Presigned URL generation for video uploads
+- Livestream API integration
+- Livestream management (create, update, delete)
+- Playback ID management for livestreams
+- Simulcast configuration for livestreams

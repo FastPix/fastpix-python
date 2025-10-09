@@ -1,0 +1,13 @@
+# AddTrackRequest
+
+Contains details about the track being added to the media file.
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `url`                                                                                | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | The direct URL of the track file. It should point to a valid audio or subtitle file. | https://static.fastpix.io/music-1.mp3                                                |
+| `type`                                                                               | [Optional[models.AddTrackRequestType]](../models/addtrackrequesttype.md)             | :heavy_minus_sign:                                                                   | Specifies the type of track being added. It can be either `audio` or `subtitle`.     | audio                                                                                |
+| `language_code`                                                                      | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | The BCP 47 language code representing the track's language.                          | it                                                                                   |
+| `language_name`                                                                      | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | The full name of the language corresponding to the `languageCode`.                   | Italian                                                                              |

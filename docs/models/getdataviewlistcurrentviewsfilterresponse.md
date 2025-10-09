@@ -1,0 +1,12 @@
+# GetDataViewlistCurrentViewsFilterResponse
+
+Successfully retrieved concurrent viewers breakdown by the specified dimension.
+
+
+## Fields
+
+| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `success`                                                                                                | *Optional[bool]*                                                                                         | :heavy_minus_sign:                                                                                       | Indicates if the request was successful.                                                                 |
+| `data`                                                                                                   | List[[models.GetDataViewlistCurrentViewsFilterData](../models/getdataviewlistcurrentviewsfilterdata.md)] | :heavy_minus_sign:                                                                                       | Breakdown of concurrent viewers by the specified dimension.                                              |
+| `timespan`                                                                                               | List[*int*]                                                                                              | :heavy_minus_sign:                                                                                       | Start and end epoch timestamps (milliseconds) for the timespan window.                                   |

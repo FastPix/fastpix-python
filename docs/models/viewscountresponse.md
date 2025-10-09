@@ -1,0 +1,9 @@
+# ViewsCountResponse
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `success`                                                                      | *Optional[bool]*                                                               | :heavy_minus_sign:                                                             | Indicates whether the request was successful or not.                           | true                                                                           |
+| `data`                                                                         | [Optional[models.ViewsCountResponseData]](../models/viewscountresponsedata.md) | :heavy_minus_sign:                                                             | Contains the view count details.                                               |                                                                                |

@@ -1,0 +1,11 @@
+# CreateMediaPlaybackIDResponse
+
+Playback id for an media
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `success`                                                                            | *Optional[bool]*                                                                     | :heavy_minus_sign:                                                                   | Demonstrates whether the request is successful or not.                               | true                                                                                 |
+| `data`                                                                               | [Optional[models.CreateMediaPlaybackIDData]](../models/createmediaplaybackiddata.md) | :heavy_minus_sign:                                                                   | Displays the result of the request.                                                  |                                                                                      |

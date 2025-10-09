@@ -1,0 +1,6 @@
+# FastPix Python SDK Requirements
+
+# Core dependencies
+httpx>=0.24.0
+pydantic>=2.0.0
+typing-extensions>=4.0.0
