@@ -1,11 +1,17 @@
 # UpdateMediaTrackResponse
 
-Media details updated successfully
 
+## Supported Types
 
-## Fields
+### `models.UpdateMediaTrackResponseBody`
 
-| Field                                                                    | Type                                                                     | Required                                                                 | Description                                                              | Example                                                                  |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `success`                                                                | *Optional[bool]*                                                         | :heavy_minus_sign:                                                       | Demonstrates whether the request is successful or not.                   | true                                                                     |
-| `data`                                                                   | [Optional[models.UpdateTrackResponse]](../models/updatetrackresponse.md) | :heavy_minus_sign:                                                       | Contains details about the track that was added or updated.              |                                                                          |
+```python
+value: models.UpdateMediaTrackResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

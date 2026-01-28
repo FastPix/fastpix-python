@@ -1,10 +1,17 @@
 # DeleteMediaResponse
 
-Delete a video media
 
+## Supported Types
 
-## Fields
+### `models.DeleteMediaResponseBody`
 
-| Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `success`                                              | *Optional[bool]*                                       | :heavy_minus_sign:                                     | Demonstrates whether the request is successful or not. | true                                                   |
+```python
+value: models.DeleteMediaResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

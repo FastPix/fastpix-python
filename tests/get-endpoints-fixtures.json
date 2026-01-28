@@ -1,0 +1,179 @@
+{
+  "operations": {
+    "list-media": {
+      "query": {
+        "limit": 10,
+        "offset": 1,
+        "orderBy": "desc"
+      }
+    },
+    "list-live-clips": {
+      "pathParams": {
+        "livestreamId": "your-livestream-id"
+      }
+    },
+    "get-media": {
+      "pathParams": {
+        "mediaId": "your-media-id"
+      }
+    },
+    "get-media-summary": {
+      "pathParams": {
+        "mediaId": "your-media-id"
+      }
+    },
+    "retrieveMediaInputInfo": {
+      "pathParams": {
+        "mediaId": "your-media-id"
+      }
+    },
+    "list-playback-ids": {
+      "pathParams": {
+        "mediaId": "your-media-id"
+      }
+    },
+    "list-uploads": {
+      "query": {
+        "limit": 5,
+        "offset": 1,
+        "orderBy": "desc"
+      }
+    },
+    "get-media-clips": {
+      "pathParams": {
+        "mediaId": "your-media-id"
+      }
+    },
+    "get-all-playlists": {
+      "query": {
+        "limit": 5,
+        "offset": 1
+      }
+    },
+    "get-playback-id": {
+      "pathParams": {
+        "mediaId": "your-media-id",
+        "playbackId": "your-playback-id"
+      }
+    },
+    "get-playlist-by-id": {
+      "pathParams": {
+        "playlistId": "your-playlist-id"
+      }
+    },
+    "getDrmConfiguration": {
+      "query": {
+        "limit": 10,
+        "offset": 1
+      }
+    },
+    "getDrmConfigurationById": {
+      "pathParams": {
+        "drmConfigurationId": "your-drm-configuration-id"
+      }
+    },
+    "get-all-streams": {
+      "query": {
+        "limit": 5,
+        "offset": 1,
+        "orderBy": "desc"
+      }
+    },
+    "get-live-stream-by-id": {
+      "pathParams": {
+        "streamId": "your-stream-id"
+      }
+    },
+    "get-live-stream-viewer-count-by-id": {
+      "pathParams": {
+        "streamId": "your-stream-id"
+      }
+    },
+    "get-live-stream-playback-id": {
+      "pathParams": {
+        "streamId": "your-stream-id",
+        "playbackId": "your-playback-id"
+      }
+    },
+    "get-specific-simulcast-of-stream": {
+      "pathParams": {
+        "streamId": "your-stream-id",
+        "simulcastId": "your-simulcast-id"
+      }
+    },
+    "list_signing_keys": {
+      "query": {
+        "limit": 5,
+        "offset": 1
+      }
+    },
+    "get-signing_key_by_id": {
+      "pathParams": {
+        "signingKeyId": "your-signing-key-id"
+      }
+    },
+    "list_video_views": {
+      "query": {
+        "timespan": "24:hours",
+        "limit": 5,
+        "offset": 1
+      }
+    },
+    "get_video_view_details": {
+      "pathParams": {
+        "viewId": "your-view-id"
+      }
+    },
+    "list_by_top_content": {
+      "query": {
+        "timespan": "24:hours",
+        "limit": 5
+      }
+    },
+    "list_dimensions": {},
+    "list_filter_values_for_dimension": {
+      "pathParams": {
+        "dimensionsId": "browser_name"
+      }
+    },
+    "list_breakdown_values": {
+      "pathParams": {
+        "metricId": "quality_of_experience_score"
+      },
+      "query": {
+        "timespan": "24:hours",
+        "groupBy": "browser_name"
+      }
+    },
+    "list_overall_values": {
+      "pathParams": {
+        "metricId": "quality_of_experience_score"
+      },
+      "query": {
+        "timespan": "24:hours"
+      }
+    },
+    "get_timeseries_data": {
+      "pathParams": {
+        "metricId": "quality_of_experience_score"
+      },
+      "query": {
+        "timespan": "24:hours",
+        "groupBy": "hour"
+      }
+    },
+    "list_comparison_values": {
+      "query": {
+        "timespan": "24:hours",
+        "dimension": "browser_name",
+        "value": "Chrome"
+      }
+    },
+    "list_errors": {
+      "query": {
+        "timespan": "24:hours",
+        "limit": 5
+      }
+    }
+  }
+} 

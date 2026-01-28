@@ -1,12 +1,17 @@
 # ListErrorsResponse
 
-Get filter/ dimension value details by dimension name.
 
+## Supported Types
 
-## Fields
+### `models.ListErrorsResponseBody`
 
-| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `success`                                                                          | *Optional[bool]*                                                                   | :heavy_minus_sign:                                                                 | It demonstrates whether the request is successful or not.                          |                                                                                    |
-| `data`                                                                             | [Optional[models.ListErrorsData]](../models/listerrorsdata.md)                     | :heavy_minus_sign:                                                                 | Displays the result of the request.                                                |                                                                                    |
-| `timespan`                                                                         | List[*int*]                                                                        | :heavy_minus_sign:                                                                 | The timeframe from and to details displayed in the form of unix epoch timestamps.<br/> | {<br/>"availableValue": [<br/>1610025789,<br/>1610025947<br/>]<br/>}               |
+```python
+value: models.ListErrorsResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

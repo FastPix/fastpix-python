@@ -1,50 +1,30 @@
-# Python SDK
+# FastPix Python SDK
 
-Developer‑friendly and type‑safe Python SDK specifically catered to leverage *fastpix_python* API.
+A robust, type-safe Python SDK designed for seamless integration with the FastPix API platform.
 
-<!-- Start Summary [summary] -->
 
 ## Introduction
 
-The FastPix Python SDK simplifies integration with the FastPix platform. It provides a clean, Pythonic interface for secure and efficient communication with the FastPix API, enabling easy management of media uploads, live streaming, on‑demand content, playlists, video analytics, and signing keys for secure access and token management. It is intended for use with Python 3.8 and above.
-
+The FastPix Python SDK simplifies integration with the FastPix platform. It provides a clean, Python interface for secure and efficient communication with the FastPix API, enabling easy management of media uploads, live streaming, on‑demand content, playlists, video analytics, and signing keys for secure access and token management. It is intended for use with Python 3.9.2 and above.
 
 ## Prerequisites
 
 ### Environment and Version Support
 
-<table>
-<tr>
-<th>Requirement</th>
-<th>Version</th>
-<th>Description</th>
-</tr>
-<tr>
-<td><strong>Python</strong></td>
-<td><code>3.8+</code></td>
-<td>Core runtime environment</td>
-</tr>
-<tr>
-<td><strong>pip</strong></td>
-<td><code>Latest</code></td>
-<td>Package manager for dependencies</td>
-</tr>
-<tr>
-<td><strong>Internet</strong></td>
-<td><code>Required</code></td>
-<td>API communication and authentication</td>
-</tr>
-</table>
+| Requirement | Version | Description |
+|---|---:|---|
+| Python | `3.9.2+` | Core runtime environment |
+| pip/uv/poetry | `Latest` | Package manager for dependencies |
+| Internet | `Required` | API communication and authentication |
 
-> **Pro Tip:** We recommend using Python 3.9+ for optimal performance and the latest language features.
+> Pro Tip: We recommend using Python 3.11+ for optimal performance and the latest language features.
 
 ### Getting Started with FastPix
 
-To get started with the **FastPix Python SDK**, ensure you have the following:
+To get started with the FastPix Python SDK, ensure you have the following:
 
-- The FastPix APIs are authenticated using an **Access Token** and a **Secret Key**. You must generate these credentials to use the SDK.
-
-- Follow the steps in the [Authentication with Access Tokens](https://docs.fastpix.io/docs/basic-authentication) guide to obtain your credentials.
+- The FastPix APIs are authenticated using a **Username** and a **Password**. You must generate these credentials to use the SDK.
+- Follow the steps in the [Authentication with Basic Auth](https://docs.fastpix.io/docs/basic-authentication) guide to obtain your credentials.
 
 ### Environment Variables (Optional)
 
@@ -52,25 +32,15 @@ Configure your FastPix credentials using environment variables for enhanced secu
 
 ```bash
 # Set your FastPix credentials
-export FASTPIX_ACCESS_TOKEN="your_access_token_here"
-export FASTPIX_SECRET_KEY="your_secret_key_here"
-
-# Or add to your .env file
-echo "FASTPIX_ACCESS_TOKEN=your_access_token_here" >> .env
-echo "FASTPIX_SECRET_KEY=your_secret_key_here" >> .env
+export FASTPIX_USERNAME="your-access-token"
+export FASTPIX_PASSWORD="your-secret-key"
 ```
 
-> **Security Note:** Never commit your credentials to version control. Use environment variables or secure credential management systems.
+> Security Note: Never commit your credentials to version control. Use environment variables or secure credential management systems.
 
-
-
-
-<!-- End Summary [summary] -->
-
-<!-- Start Table of Contents [toc] -->
 ## Table of Contents
-<!-- $toc-max-depth=2 -->
-* [Fastpix_Python](#fastpixpython)
+
+* [FastPix Python SDK](#fastpix-python-sdk)
   * [Setup](#setup)
   * [Example Usage](#example-usage)
   * [Available Resources and Operations](#available-resources-and-operations)
@@ -78,52 +48,79 @@ echo "FASTPIX_SECRET_KEY=your_secret_key_here" >> .env
   * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
-  * [Resource Management](#resource-management)
   * [Debugging](#debugging)
   * [Development](#development)
 
-
-<!-- End Table of Contents [toc] -->
-
-<!-- Start Setup [setup] -->
 ## Setup
 
 ### Installation
 
-Install the FastPix Python SDK using pip:
+Install the FastPix Python SDK using your preferred package manager:
+
+#### uv
+
+*uv* is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
 
 ```bash
-pip install git+https://github.com/FastPix/fastpix-python
+uv add fastpix-python
 ```
 
-Or if you're using a virtual environment:
+#### pip
+
+*pip* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
-# Create virtual environment
-python -m venv fastpix-env
+pip install fastpix-python
+```
 
-# Activate virtual environment
-# On Windows:
-fastpix-env\Scripts\activate
-# On macOS/Linux:
-source fastpix-env/bin/activate
+#### Poetry
 
-### Imports
+*Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
-Import the necessary modules for your FastPix integration:
+```bash
+poetry add fastpix-python
+```
+
+### Shell and Script Usage with `uv`
+
+You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
+
+```shell
+uvx --from fastpix-python python
+```
+
+It's also possible to write a standalone Python script without needing to set up a whole project like so:
 
 ```python
-# Basic imports
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "fastpix-python",
+# ]
+# ///
+
 from fastpix_python import Fastpix, models
 
-# Specific API imports
-from fastpix_python.manage_videos import ManageVideos
-from fastpix_python.live_playback import LivePlayback
-from fastpix_python.metrics import Metrics
+sdk = Fastpix(
+    security=models.Security(
+        username="your-access-token",
+        password="your-secret-key",
+    ),
+)
 
-# Error handling imports
-from fastpix_python.errors import FastPixError, AuthenticationError
+# Rest of script here...
 ```
+
+Once that is saved to a file, you can run it with `uv run script.py` where `script.py` can be replaced with the actual file name.
+
+### IDE Support
+
+#### PyCharm
+
+Generally, the SDK will work well with most IDEs out of the box. However, when using PyCharm, you can enjoy much better integration with Pydantic by installing an additional plugin.
+
+- [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 
 ### Initialization
 
@@ -132,15 +129,12 @@ Initialize the FastPix SDK with your credentials:
 ```python
 from fastpix_python import Fastpix, models
 
-# Initialize with credentials
-with Fastpix(
+fastpix = Fastpix(
     security=models.Security(
         username="your-access-token",
         password="your-secret-key",
     ),
-) as fastpix:
-    # Your API calls here
-    pass
+)
 ```
 
 Or using environment variables:
@@ -149,107 +143,51 @@ Or using environment variables:
 import os
 from fastpix_python import Fastpix, models
 
-# Initialize with environment variables
-with Fastpix(
+fastpix = Fastpix(
     security=models.Security(
-        username=os.getenv("FASTPIX_ACCESS_TOKEN"),
-        password=os.getenv("FASTPIX_SECRET_KEY"),
+        username=os.getenv("FASTPIX_USERNAME"),  # Your Access Token
+        password=os.getenv("FASTPIX_PASSWORD"),  # Your Secret Key
     ),
-) as fastpix:
-    # Your API calls here
-    pass
+)
 ```
 
-
-
-<!-- End Setup [setup] -->
-
-<!-- Start Example Usage [example-usage] -->
 ## Example Usage
 
-### Example
-
 ```python
-# Synchronous Example
-from fastpix_python import Fastpix, models
+import os
+import sys
+import json
 
+# Add the src directory to the Python path so we can import fastpix_python
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+
+from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_media(inputs=[
-        {
-            "type": "video",
-            "url": "https://static.fastpix.io/sample.mp4",
-        },
-    ], access_policy="public", metadata={
-        "key1": "value1",
-    }, subtitles={
-        "language_name": "english",
-        "metadata": {
-            "key1": "value1",
-        },
-        "language_code": "en",
-    }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-        "generate": True,
-    }, chapters=True, named_entities=True)
-
-    # Handle response
-    print(res)
-```
-
-</br>
-
-The same SDK client can also be used to make asynchronous requests by importing asyncio.
-
-```python
-# Asynchronous Example
-import asyncio
-from fastpix_python import Fastpix, models
-
-async def main():
-
-    async with Fastpix(
-        security=models.Security(
-            username = "your-access-token",
-            password = "secret-key",
-        ),
-    ) as fastpix:
-
-        res = await fastpix.input_video.create_media_async(inputs=[
+    res = fastpix.input_video.create_from_url(
+        inputs=[
             {
                 "type": "video",
-                "url": "https://static.fastpix.io/sample.mp4",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
-        ], access_policy="public", metadata={
+        ],
+        metadata={
             "key1": "value1",
-        }, subtitles={
-            "language_name": "english",
-            "metadata": {
-                "key1": "value1",
-            },
-            "language_code": "en",
-        }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-            "generate": True,
-        }, chapters=True, named_entities=True)
+        },
+    )
 
-        # Handle response
-        print(res)
-
-asyncio.run(main())
+    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
 ```
-<!-- End Example Usage [example-usage] -->
 
-
-
-<!-- Start API Reference [api-reference] -->
 ## Available Resources and Operations
 
-single line description here
+Comprehensive Python SDK for FastPix platform integration with full API coverage.
 
 ### Media API
 
@@ -258,79 +196,76 @@ Upload, manage, and transform video content with comprehensive media management 
 For detailed documentation, see [FastPix Video on Demand Overview](https://docs.fastpix.io/docs/video-on-demand-overview).
 
 #### Input Video
-- [Create from URL](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/inputvideo/README.md#createmedia) - Upload video content from external URL
-- [Upload from Device](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/inputvideo/README.md#direct_upload_video_media) - Upload video files directly from device
+- [Create from URL](docs/sdks/inputvideo/README.md#create_from_url) - Upload video content from external URL
+- [Upload from Device](docs/sdks/inputvideo/README.md#direct_upload) - Upload video files directly from device
 
 #### Manage Videos
-- [List All Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#list_media) - Retrieve complete list of all media files
-- [Get Media by ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#get_media) - Get detailed information for specific media
-- [Update Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#updated_media) - Modify media metadata and settings
-- [Delete Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#delete_media) - Remove media files from library
-- [Add Track](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#add_media_track) - Add audio or subtitle tracks to media
-- [Cancel Upload](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#cancel_upload) - Stop ongoing media upload process
-- [Update Track](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#update_media_track) - Modify existing audio or subtitle tracks
-- [Delete Track](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#delete_media_track) - Remove audio or subtitle tracks
-- [Generate Subtitles](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#generate_subtitle_track) - Create automatic subtitles for media
-- [Update Source Access](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#updated_source_access) - Control access permissions for media source
-- [Update MP4 Support](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#updated_mp4_support) - Configure MP4 download capabilities
-- [Get Input Info](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#retrieve_media_input_info) - Retrieve detailed input information
-- [List Uploads](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#list_uploads) - Get all available upload URLs
-- [Get Media Clips](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managevideos/README.md#get_media_clips) - Retrieve all video clips for media
+- [List All Media](docs/sdks/managevideos/README.md#list_media) - Retrieve complete list of all media files
+- [Get Media by ID](docs/sdks/mediasdk/README.md#get) - Get detailed information for specific media
+- [Update Media](docs/sdks/managevideos/README.md#update_media) - Modify media metadata and settings
+- [Delete Media](docs/sdks/videos/README.md#delete) - Remove media files from library
+- [Cancel Upload](docs/sdks/managevideos/README.md#cancel_upload) - Stop ongoing media upload process
+- [Get Input Info](docs/sdks/managevideos/README.md#retrievemediainputinfo) - Retrieve detailed input information
+- [List Uploads](docs/sdks/managevideos/README.md#list_unused_upload_urls) - Get all available upload URLs
 
 #### Playback
-- [Create Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playback/README.md#create_media_playback_id) - Generate secure playback identifier
-- [Delete Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playback/README.md#delete_media_playback_id) - Remove playback access
-- [Get Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playback/README.md#get_playback_id) - Retrieve playback configuration details
+- [Create Playback ID](docs/sdks/playback/README.md#create) - Generate secure playback identifier
+- [Delete Playback ID](docs/sdks/playback/README.md#delete) - Remove playback access
+- [Get Playback ID](docs/sdks/playback/README.md#get_by_id) - Retrieve playback configuration details
+- [List Playback IDs](docs/sdks/playback/README.md#list_playback_ids) - Get all playback IDs for a media
+- [Update Domain Restrictions](docs/sdks/playback/README.md#update_domain_restrictions) - Configure domain-based access control
+- [Update User-Agent Restrictions](docs/sdks/playback/README.md#update_user_agent_restrictions) - Configure user-agent-based access control
 
 #### Playlist
-- [Create Playlist](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#create_a_playlist) - Create new video playlist
-- [List Playlists](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#get_all_playlists) - Get all available playlists
-- [Get Playlist](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#get_playlist_by_id) - Retrieve specific playlist details
-- [Update Playlist](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#update_a_playlist) - Modify playlist settings and metadata
-- [Delete Playlist](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#delete_a_playlist) - Remove playlist from library
-- [Add Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#add_media_to_playlist) - Add media items to playlist
-- [Reorder Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#change_media_order_in_playlist) - Change order of media in playlist
-- [Remove Media](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/playlist/README.md#delete_media_from_playlist) - Remove media from playlist
+- [Create Playlist](docs/sdks/playlist/README.md#create) - Create new video playlist
+- [List Playlists](docs/sdks/playlists/README.md#get_all) - Get all available playlists
+- [Get Playlist](docs/sdks/playlist/README.md#get) - Retrieve specific playlist details
+- [Update Playlist](docs/sdks/playlists/README.md#update) - Modify playlist settings and metadata
+- [Delete Playlist](docs/sdks/playlist/README.md#delete) - Remove playlist from library
+- [Add Media](docs/sdks/playlist/README.md#add_media) - Add media items to playlist
+- [Reorder Media](docs/sdks/playlists/README.md#change_media_order) - Change order of media in playlist
+- [Remove Media](docs/sdks/playlist/README.md#delete_media) - Remove media from playlist
 
 #### Signing Keys
-- [Create Key](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/signingkeys/README.md#create_signing_key) - Generate new signing key pair
-- [List Keys](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/signingkeys/README.md#list_signing_keys) - Get all available signing keys
-- [Delete Key](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/signingkeys/README.md#delete_signing_key) - Remove signing key from system
-- [Get Key](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/signingkeys/README.md#get_signing_key_by_id) - Retrieve specific signing key details
+- [Create Key](docs/sdks/signingkeys/README.md#create) - Generate new signing key pair
+- [List Keys](docs/sdks/signingkeys/README.md#list_signing_keys) - Get all available signing keys
+- [Delete Key](docs/sdks/signingkeys/README.md#delete_signing_key) - Remove signing key from system
+- [Get Key](docs/sdks/signingkeys/README.md#get_signing_key_by_id) - Retrieve specific signing key details
 
 #### DRM Configurations
-- [List DRM Configs](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/drmconfigurations/README.md#get_drm_configuration) - Get all DRM configuration options
-- [Get DRM Config](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/drmconfigurations/README.md#get_drm_configuration_by_id) - Retrieve specific DRM configuration
+- [List DRM Configs](docs/sdks/drmconfigurations/README.md#list) - Get all DRM configuration options
+- [Get DRM Config](docs/sdks/drmconfigurations/README.md#get_by_id) - Retrieve specific DRM configuration
 
-### Live API 
+### Live API
 
 Stream, manage, and transform live video content with real-time broadcasting capabilities.
 
 For detailed documentation, see [FastPix Live Stream Overview](https://docs.fastpix.io/docs/live-stream-overview).
 
 #### Start Live Stream
-- [Create Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/startlivestream/README.md#create_new_stream) - Initialize new live streaming session
+- [Create Stream](docs/sdks/startlivestream/README.md#create_stream) - Initialize new live streaming session with DVR mode support
 
 #### Manage Live Stream
-- [List Streams](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#get_all_streams) - Retrieve all active live streams
-- [Get Viewer Count](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#get_live_stream_viewer_count_by_id) - Get real-time viewer statistics
-- [Get Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#get_live_stream_by_id) - Retrieve detailed stream information
-- [Delete Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#delete_live_stream) - Terminate and remove live stream
-- [Update Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#update_live_stream) - Modify stream settings and configuration
-- [Enable Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#enable_live_stream) - Activate live streaming
-- [Disable Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#disable_live_stream) - Pause live streaming
-- [Complete Stream](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/managelivestream/README.md#complete_live_stream) - Finalize and archive stream
+- [List Streams](docs/sdks/livestreams/README.md#list) - Retrieve all active live streams
+- [Get Viewer Count](docs/sdks/managelivestream/README.md#get_viewer_count) - Get real-time viewer statistics
+- [Get Stream](docs/sdks/livestreams/README.md#get_by_id) - Retrieve detailed stream information
+- [Delete Stream](docs/sdks/streams/README.md#delete) - Terminate and remove live stream
+- [Update Stream](docs/sdks/managelivestream/README.md#update) - Modify stream settings and configuration
+- [Enable Stream](docs/sdks/livestreams/README.md#enable) - Activate live streaming
+- [Disable Stream](docs/sdks/livestreams/README.md#disable) - Pause live streaming
+- [Complete Stream](docs/sdks/managelivestream/README.md#complete) - Finalize and archive stream
+- [List Live Clips](docs/sdks/mediasdk/README.md#list_live_clips) - Get all clips of a live stream
 
 #### Live Playback
-- [Create Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/liveplayback/README.md#create_playback_id_of_stream) - Generate secure live playback access
-- [Delete Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/liveplayback/README.md#delete_playback_id_of_stream) - Revoke live playback access
-- [Get Playback ID](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/liveplayback/README.md#get_live_stream_playback_id) - Retrieve live playback configuration
+- [Create Playback ID](docs/sdks/liveplayback/README.md#create_playback_id) - Generate secure live playback access
+- [Delete Playback ID](docs/sdks/liveplayback/README.md#delete_playback_id) - Revoke live playback access
+- [Get Playback ID](docs/sdks/liveplayback/README.md#get_playback_id_details) - Retrieve live playback configuration
 
 #### Simulcast Stream
-- [Create Simulcast](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/simulcaststream/README.md#create_simulcast_of_stream) - Set up multi-platform streaming
-- [Delete Simulcast](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/simulcaststream/README.md#delete_simulcast_of_stream) - Remove simulcast configuration
-- [Get Simulcast](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/simulcaststream/README.md#get_specific_simulcast_of_stream) - Retrieve simulcast settings
-- [Update Simulcast](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/simulcaststream/README.md#update_specific_simulcast_of_stream) - Modify simulcast parameters
+- [Create Simulcast](docs/sdks/simulcaststream/README.md#create) - Set up multi-platform streaming
+- [Delete Simulcast](docs/sdks/simulcast/README.md#delete) - Remove simulcast configuration
+- [Get Simulcast](docs/sdks/simulcaststream/README.md#get_simulcast) - Retrieve simulcast settings
+- [Update Simulcast](docs/sdks/simulcaststream/README.md#update_simulcast) - Modify simulcast parameters
 
 ### Video Data API
 
@@ -339,42 +274,59 @@ Monitor video performance and quality with comprehensive analytics and real-time
 For detailed documentation, see [FastPix Video Data Overview](https://docs.fastpix.io/docs/video-data-overview).
 
 #### Metrics
-- [List Breakdown Values](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/metrics/README.md#list_breakdown_values) - Get detailed breakdown of metrics by dimension
-- [List Overall Values](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/metrics/README.md#list_overall_values) - Get aggregated metric values across all content
-- [Get Timeseries Data](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/metrics/README.md#get_timeseries_data) - Retrieve time-based metric trends and patterns
-- [List Comparison Values](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/metrics/README.md#list_comparison_values) - Compare metrics across different time periods
+- [List Breakdown Values](docs/sdks/metrics/README.md#list_breakdown_values) - Get detailed breakdown of metrics by dimension
+- [List Overall Values](docs/sdks/metrics/README.md#list_overall_values) - Get aggregated metric values across all content
+- [Get Timeseries Data](docs/sdks/metrics/README.md#get_timeseries_data) - Retrieve time-based metric trends and patterns
+- [List Comparison Values](docs/sdks/metrics/README.md#list_comparison_values) - Compare metrics across different time periods
 
 #### Views
-- [List Video Views](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/viewssdk/README.md#list_video_views) - Get comprehensive list of video viewing sessions
-- [Get View Details](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/viewssdk/README.md#get_video_view_details) - Retrieve detailed information about specific video views
-- [List Top Content](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/viewssdk/README.md#list_by_top_content) - Find your most popular and engaging content
-- [Get Concurrent Viewers](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/viewssdk/README.md#get_data_viewlist_current_views_get_timeseries_views) - Monitor real-time viewer counts over time
-- [Get Viewer Breakdown](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/viewssdk/README.md#get_data_viewlist_current_views_filter) - Analyze viewers by device, location, and other dimensions
+- [List Video Views](docs/sdks/viewssdk/README.md#list_video_views) - Get comprehensive list of video viewing sessions
+- [Get View Details](docs/sdks/viewssdk/README.md#get_video_view_details) - Retrieve detailed information about specific video views
+- [List Top Content](docs/sdks/viewssdk/README.md#list_by_top_content) - Find your most popular and engaging content
 
 #### Dimensions
-- [List Dimensions](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/dimensions/README.md#list_dimensions) - Get available data dimensions for filtering and analysis
-- [List Filter Values](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/dimensions/README.md#list_filter_values_for_dimension) - Get specific values for a particular dimension
+- [List Dimensions](docs/sdks/dimensions/README.md#list) - Get available data dimensions for filtering and analysis
+- [List Filter Values](docs/sdks/dimensions/README.md#list_filter_values) - Get specific values for a particular dimension
 
+#### Errors
+- [List Errors](docs/sdks/errors/README.md#list) - Retrieve playback errors and issues
 
+### Transformations
 
-### In-Video AI Features 
+Transform and enhance your video content with powerful AI and editing capabilities.
+
+#### In-Video AI Features
+
 Enhance video content with AI-powered features including moderation, summarization, and intelligent categorization.
 
-For detailed documentation, see [Video Moderation Guide](https://docs.fastpix.io/docs/using-nsfw-and-profanity-filter-for-video-moderation).
+- [Update Summary](docs/sdks/invideoaifeatures/README.md#update_summary) - Create AI-generated video summaries
+- [Create Chapters](docs/sdks/invideoai/README.md#update_chapters) - Automatically generate video chapter markers
+- [Extract Entities](docs/sdks/invideoaifeatures/README.md#update_named_entities) - Identify and extract named entities from content
+- [Enable Moderation](docs/sdks/invideoaifeatures/README.md#update_moderation) - Activate content moderation and safety checks
 
-- [Generate Summary](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/invideoaifeatures/README.md#update_media_summary) - Create AI-generated video summaries
-- [Create Chapters](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/invideoaifeatures/README.md#update_media_chapters) - Automatically generate video chapter markers
-- [Extract Entities](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/invideoaifeatures/README.md#update_media_named_entities) - Identify and extract named entities from content
-- [Enable Moderation](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/invideoaifeatures/README.md#update_media_moderation) - Activate content moderation and safety checks
+#### Media Clips
 
+- [Get Media Clips](docs/sdks/videos/README.md#list_clips) - Retrieve all clips associated with a source media
 
-### Error Handling
+#### Subtitles
 
-Handle and manage errors with comprehensive error handling capabilities and detailed error information for all API operations.
+- [Generate Subtitles](docs/sdks/managevideos/README.md#generate_subtitles) - Create automatic subtitles for media
 
-- [List Errors](https://github.com/FastPix/fastpix-python/blob/main/docs/sdks/errors/README.md#list_errors) - Retrieve comprehensive error logs and diagnostics
+#### Media Tracks
 
-<!-- End API Reference [api-reference] -->
+- [Add Track](docs/sdks/mediatracks/README.md#add) - Add audio or subtitle tracks to media
+- [Update Track](docs/sdks/mediatracks/README.md#update) - Modify existing audio or subtitle tracks
+- [Delete Track](docs/sdks/videos/README.md#delete_track) - Remove audio or subtitle tracks
+
+#### Access Control
+
+- [Update Source Access](docs/sdks/managevideos/README.md#update_source_access) - Control access permissions for media source
+
+#### Format Support
+
+- [Update MP4 Support](docs/sdks/managevideos/README.md#update_mp4_support) - Configure MP4 download capabilities
+
+<!-- End Available Resources and Operations [operations] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -382,148 +334,144 @@ Handle and manage errors with comprehensive error handling capabilities and deta
 Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
+
 ```python
+import os
+import sys
+import json
+
+# Add the src directory to the Python path so we can import fastpix_python
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
 
-
 with Fastpix(
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_media(inputs=[
-        {
-            "type": "video",
-            "url": "https://static.fastpix.io/sample.mp4",
-        },
-    ], access_policy="public", metadata={
-        "key1": "value1",
-    }, subtitles={
-        "language_name": "english",
-        "metadata": {
+    res = fastpix.input_video.create_from_url(
+        inputs=[
+            {
+                "type": "video",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
+            },
+        ],
+        metadata={
             "key1": "value1",
         },
-        "language_code": "en",
-    }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-        "generate": True,
-    }, chapters=True, named_entities=True,
-        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
+        retries=RetryConfig(
+            "backoff",
+            BackoffStrategy(1, 50, 1.1, 100),
+            False
+        ),
+    )
 
-    # Handle response
-    print(res)
-
+    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
+
 ```python
+import os
+import sys
+import json
+
+# Add the src directory to the Python path so we can import fastpix_python
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
 
-
 with Fastpix(
-    retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
+    retry_config=RetryConfig(
+        "backoff",
+        BackoffStrategy(1, 50, 1.1, 100),
+        False
+    ),
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_media(inputs=[
-        {
-            "type": "video",
-            "url": "https://static.fastpix.io/sample.mp4",
-        },
-    ], access_policy="public", metadata={
-        "key1": "value1",
-    }, subtitles={
-        "language_name": "english",
-        "metadata": {
+    res = fastpix.input_video.create_from_url(
+        inputs=[
+            {
+                "type": "video",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
+            },
+        ],
+        metadata={
             "key1": "value1",
         },
-        "language_code": "en",
-    }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-        "generate": True,
-    }, chapters=True, named_entities=True)
+    )
 
-    # Handle response
-    print(res)
-
+    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
 ```
 <!-- End Retries [retries] -->
 
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-[`FastpixError`](./src/FastPix/errors/fastpixerror.py) is the base class for all HTTP error responses. It has the following properties:
+[`FastpixError`](./src/fastpix_python/errors/fastpixerror.py) is the base class for all HTTP error responses. It has the following properties:
 
-| Property           | Type             | Description                                                                             |
-| ------------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| `err.message`      | `str`            | Error message                                                                           |
-| `err.status_code`  | `int`            | HTTP response status code eg `404`                                                      |
-| `err.headers`      | `httpx.Headers`  | HTTP response headers                                                                   |
-| `err.body`         | `str`            | HTTP body. Can be empty string if no body is returned.                                  |
-| `err.raw_response` | `httpx.Response` | Raw HTTP response                                                                       |
-| `err.data`         |                  | Optional. Some errors may contain structured data. [See Error Classes](#error-classes). |
+| Property           | Type             | Description                                            |
+| ------------------ | ---------------- | ------------------------------------------------------ |
+| `err.message`      | `str`            | Error message                                          |
+| `err.status_code`  | `int`            | HTTP response status code eg `404`                     |
+| `err.headers`      | `httpx.Headers`  | HTTP response headers                                  |
+| `err.body`         | `str`            | HTTP body. Can be empty string if no body is returned. |
+| `err.raw_response` | `httpx.Response` | Raw HTTP response                                      |
 
 ### Example
-```python
-from fastpix_python import Fastpix, errors, models
 
+```python
+import os
+import sys
+import json
+
+# Add the src directory to the Python path so we can import fastpix_python
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+
+from fastpix_python import Fastpix, errors, models
 
 with Fastpix(
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
-    res = None
     try:
-
-        res = fastpix.input_video.create_media(inputs=[
-            {
-                "type": "video",
-                "url": "https://static.fastpix.io/sample.mp4",
-            },
-        ], access_policy="public", metadata={
-            "key1": "value1",
-        }, subtitles={
-            "language_name": "english",
-            "metadata": {
+        res = fastpix.input_video.create_from_url(
+            inputs=[
+                {
+                    "type": "video",
+                    "url": "https://static.fastpix.io/fp-sample-video.mp4",
+                },
+            ],
+            metadata={
                 "key1": "value1",
             },
-            "language_code": "en",
-        }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-            "generate": True,
-        }, chapters=True, named_entities=True)
+        )
 
-        # Handle response
-        print(res)
-
-
+        print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
     except errors.FastpixError as e:
-        # The base class for HTTP error responses
         print(e.message)
         print(e.status_code)
         print(e.body)
         print(e.headers)
         print(e.raw_response)
-
-        # Depending on the method different errors may be thrown
-        if isinstance(e, errors.BadRequestError):
-            print(e.data.success)  # Optional[bool]
-            print(e.data.error)  # Optional[models.BadRequestError]
 ```
 
 ### Error Classes
-**Primary errors:**
-* [`FastpixError`](./src/Fastpix/errors/fastpixerror.py): The base class for HTTP error responses.
-  * [`InvalidPermissionError`](./src/Fastpix/errors/invalidpermission_error.py): *
-  * [`ValidationErrorResponse`](./src/Fastpix/errors/validationerrorresponse.py): Status code `422`. *
+**Primary error:**
+* [`FastpixError`](./src/fastpix_python/errors/fastpixerror.py): The base class for HTTP error responses.
 
-<details><summary>Less common errors (27)</summary>
+<details><summary>Less common errors (5)</summary>
 
 <br />
 
@@ -533,34 +481,10 @@ with Fastpix(
     * [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
 
 
-**Inherit from [`FastpixError`](./src/Fastpix/errors/fastpixerror.py)**:
-* [`ForbiddenError`](./src/Fastpix/errors/forbidden_error.py): Status code `403`. Applicable to 26 of 66 methods.*
-* [`UnauthorizedError`](./src/Fastpix/errors/unauthorized_error.py): Applicable to 24 of 66 methods.*
-* [`MediaNotFoundError`](./src/Fastpix/errors/medianotfound_error.py): Status code `404`. Applicable to 17 of 66 methods.*
-* [`BadRequestError`](./src/Fastpix/errors/badrequest_error.py): Bad Request. Status code `400`. Applicable to 10 of 66 methods.*
-* [`NotFoundError`](./src/Fastpix/errors/notfounderror.py): Status code `404`. Applicable to 8 of 66 methods.*
-* [`ViewNotFoundError`](./src/Fastpix/errors/viewnotfound_error.py): View Not Found. Status code `404`. Applicable to 7 of 66 methods.*
-* [`LiveNotFoundError`](./src/Fastpix/errors/livenotfounderror.py): Stream Not Found. Status code `404`. Applicable to 6 of 66 methods.*
-* [`InvalidPlaylistIDResponseError`](./src/Fastpix/errors/invalidplaylistidresponse_error.py): Payload Validation Failed. Status code `422`. Applicable to 6 of 66 methods.*
-* [`UnAuthorizedResponseError`](./src/Fastpix/errors/unauthorizedresponse_error.py): response for unauthorized request. Status code `401`. Applicable to 4 of 66 methods.*
-* [`ForbiddenResponseError`](./src/Fastpix/errors/forbiddenresponse_error.py): response for forbidden request. Status code `403`. Applicable to 4 of 66 methods.*
-* [`TrackDuplicateRequestError`](./src/Fastpix/errors/trackduplicaterequest_error.py): Duplicate language name. Status code `400`. Applicable to 3 of 66 methods.*
-* [`NotFoundErrorSimulcast`](./src/Fastpix/errors/notfounderrorsimulcast.py): Stream/Simulcast Not Found. Status code `404`. Applicable to 3 of 66 methods.*
-* [`MediaOrPlaybackNotFoundError`](./src/Fastpix/errors/mediaorplaybacknotfound_error.py): Status code `404`. Applicable to 2 of 66 methods.*
-* [`NotFoundErrorPlaybackID`](./src/Fastpix/errors/notfounderrorplaybackid.py): Status code `404`. Applicable to 2 of 66 methods.*
-* [`SigningKeyNotFoundError`](./src/Fastpix/errors/signingkeynotfounderror.py): Bad Request. Status code `404`. Applicable to 2 of 66 methods.*
-* [`DuplicateMp4SupportError`](./src/Fastpix/errors/duplicatemp4support_error.py): Mp4Support value already exists. Status code `400`. Applicable to 1 of 66 methods.*
-* [`TrialPlanRestrictionError`](./src/Fastpix/errors/trialplanrestrictionerror.py): Bad Request – Stream is either already enabled or cannot be enabled on trial plan. Status code `400`. Applicable to 1 of 66 methods.*
-* [`StreamAlreadyEnabledError`](./src/Fastpix/errors/streamalreadyenablederror.py): Bad Request – Stream is either already enabled or cannot be enabled on trial plan. Status code `400`. Applicable to 1 of 66 methods.*
-* [`StreamAlreadyDisabledError`](./src/Fastpix/errors/streamalreadydisablederror.py): Stream already disabled. Status code `400`. Applicable to 1 of 66 methods.*
-* [`SimulcastUnavailableError`](./src/Fastpix/errors/simulcastunavailable_error.py): Simulcast is not available for trial streams. Status code `400`. Applicable to 1 of 66 methods.*
-* [`MediaClipNotFoundError`](./src/Fastpix/errors/mediaclipnotfound_error.py): media workspace relation not found. Status code `404`. Applicable to 1 of 66 methods.*
-* [`DuplicateReferenceIDErrorResponse`](./src/Fastpix/errors/duplicatereferenceiderrorresponse.py): Displays the result of the request. Status code `409`. Applicable to 1 of 66 methods.*
-* [`ResponseValidationError`](./src/Fastpix/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
+**Inherit from [`FastpixError`](./src/fastpix_python/errors/fastpixerror.py)**:
+* [`ResponseValidationError`](./src/fastpix_python/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
-
-\* Check [the method documentation](https://github.com/FastPix/fastpix-python/blob/main/README.md#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
@@ -569,62 +493,73 @@ with Fastpix(
 ### Override Server URL Per-Client
 
 The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
-```python
-from fastpix_python import Fastpix, models
 
+```python
+import os
+import sys
+import json
+
+# Add the src directory to the Python path so we can import fastpix_python
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
+
+from fastpix_python import Fastpix, models
 
 with Fastpix(
     server_url="https://api.fastpix.io/v1/",
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_media(inputs=[
-        {
-            "type": "video",
-            "url": "https://static.fastpix.io/sample.mp4",
-        },
-    ], access_policy="public", metadata={
-        "key1": "value1",
-    }, subtitles={
-        "language_name": "english",
-        "metadata": {
+    res = fastpix.input_video.create_from_url(
+        inputs=[
+            {
+                "type": "video",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
+            },
+        ],
+        metadata={
             "key1": "value1",
         },
-        "language_code": "en",
-    }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-        "generate": True,
-    }, chapters=True, named_entities=True)
+    )
 
-    # Handle response
-    print(res)
-
+    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
 ```
 <!-- End Server Selection [server] -->
 
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client
 
-The Python SDK makes API calls using the [httpx](https://www.python-httpx.org/) HTTP library.  In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with your own HTTP client instance.
+The Python SDK makes API calls using the [httpx](https://www.python-httpx.org/) HTTP library. In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with your own HTTP client instance.
+
 Depending on whether you are using the sync or async version of the SDK, you can pass an instance of `HttpClient` or `AsyncHttpClient` respectively, which are Protocol's ensuring that the client has the necessary methods to make API calls.
+
 This allows you to wrap the client with your own custom logic, such as adding custom headers, logging, or error handling, or you can just pass an instance of `httpx.Client` or `httpx.AsyncClient` directly.
 
-For example, you could specify a header for every request that this sdk makes as follows:
+For example, you could specify a header for every request that this SDK makes as follows:
+
 ```python
-from fastpix_python import Fastpix
+from fastpix_python import Fastpix, models
 import httpx
 
 http_client = httpx.Client(headers={"x-custom-header": "someValue"})
-s = Fastpix(client=http_client)
+s = Fastpix(
+    client=http_client,
+    security=models.Security(
+        username="your-access-token",
+        password="your-secret-key",
+    ),
+)
 ```
 
-or you could wrap the client with your own custom logic:
+Or you could wrap the client with your own custom logic:
+
 ```python
-from fastpix_python import Fastpix
+from fastpix_python import Fastpix, models
 from fastpix_python.httpclient import AsyncHttpClient
 import httpx
+from typing import Union, Optional, Any
 
 class CustomClient(AsyncHttpClient):
     client: AsyncHttpClient
@@ -681,42 +616,15 @@ class CustomClient(AsyncHttpClient):
             extensions=extensions,
         )
 
-s = Fastpix(async_client=CustomClient(httpx.AsyncClient()))
+s = Fastpix(
+    async_client=CustomClient(httpx.AsyncClient()),
+    security=models.Security(
+        username="your-access-token",
+        password="your-secret-key",
+    ),
+)
 ```
 <!-- End Custom HTTP Client [http-client] -->
-
-<!-- Start Resource Management [resource-management] -->
-## Resource Management
-
-The `Fastpix` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
-
-[context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
-
-```python
-from fastpix_python import Fastpix, models
-def main():
-
-    with Fastpix(
-        security=models.Security(
-            username = "your-access-token",
-            password = "secret-key",
-        ),
-    ) as fastpix:
-        # Rest of application here...
-
-
-# Or when using async:
-async def amain():
-
-    async with Fastpix(
-        security=models.Security(
-            username = "your-access-token",
-            password = "secret-key",
-        ),
-    ) as fastpix:
-        # Rest of application here...
-```
-<!-- End Resource Management [resource-management] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging
@@ -724,26 +632,35 @@ async def amain():
 You can setup your SDK to emit debug logs for SDK requests and responses.
 
 You can pass your own logger class directly into your SDK.
+
+> [!WARNING]
+> Beware that debug logging will reveal secrets, like API tokens in headers, in log messages printed to a console or files. It's recommended to use this feature only during local development and not in production.
+
 ```python
-from fastpix_python import Fastpix
+from fastpix_python import Fastpix, models
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-s = Fastpix(debug_logger=logging.getLogger("fastpix_python"))
+s = Fastpix(
+    debug_logger=logging.getLogger("fastpix_python"),
+    security=models.Security(
+        username="your-access-token",
+        password="your-secret-key",
+    ),
+)
 ```
 
 You can also enable a default debug logger by setting an environment variable `FASTPIX_DEBUG` to true.
 <!-- End Debugging [debug] -->
 
-<!-- Placeholder for Future fastpix SDK Sections -->
-
 # Development
-This SDK is automatically generated from our API specifications. Manual modifications to internal files will be overwritten during the next generation cycle. 
-We welcome community contributions and feedback. Please submit pull requests or open issues with your suggestions and we'll consider them for future releases. 
+
+This Python SDK is programmatically generated from our API specifications. Any manual modifications to internal files will be overwritten during subsequent generation cycles. 
+
+We value community contributions and feedback. Feel free to submit pull requests or open issues with your suggestions, and we'll do our best to include them in future releases.
 
 ## Detailed Usage
 
-For a complete understanding of each API's functionality, including request and response details, parameter descriptions, and additional examples, please refer to the [FastPix API Reference](https://docs.fastpix.io/reference/signingkeys-overview).
+For comprehensive understanding of each API's functionality, including detailed request and response specifications, parameter descriptions, and additional examples, please refer to the [FastPix API Reference](https://docs.fastpix.io/reference/signingkeys-overview).
 
-The API reference provides comprehensive documentation for all available endpoints and features, ensuring developers can integrate and utilize FastPix APIs efficiently.
-
+The API reference offers complete documentation for all available endpoints and features, enabling developers to integrate and leverage FastPix APIs effectively.

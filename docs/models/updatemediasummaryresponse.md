@@ -1,11 +1,17 @@
 # UpdateMediaSummaryResponse
 
-Media details updated successfully with the generated summary
 
+## Supported Types
 
-## Fields
+### `models.UpdateMediaSummaryResponseBody`
 
-| Field                                                            | Type                                                             | Required                                                         | Description                                                      | Example                                                          |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `success`                                                        | *Optional[bool]*                                                 | :heavy_minus_sign:                                               | Indicates if the request was successful or not.                  | true                                                             |
-| `data`                                                           | [Optional[models.SummaryResponse]](../models/summaryresponse.md) | :heavy_minus_sign:                                               | N/A                                                              |                                                                  |
+```python
+value: models.UpdateMediaSummaryResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

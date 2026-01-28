@@ -1,11 +1,17 @@
 # GetPlaybackIDResponse
 
-Successfully retrieved playback ID details
 
+## Supported Types
 
-## Fields
+### `models.GetPlaybackIDResponseBody`
 
-| Field                                                                | Type                                                                 | Required                                                             | Description                                                          | Example                                                              |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `success`                                                            | *Optional[bool]*                                                     | :heavy_minus_sign:                                                   | Indicates if the request was successful or not.                      | true                                                                 |
-| `data`                                                               | [Optional[models.GetPlaybackIDData]](../models/getplaybackiddata.md) | :heavy_minus_sign:                                                   | N/A                                                                  |                                                                      |
+```python
+value: models.GetPlaybackIDResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

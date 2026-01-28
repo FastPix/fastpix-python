@@ -1,11 +1,17 @@
 # UpdateMediaNamedEntitiesResponse
 
-Media details updated successfully with the named entity extraction feature enabled or disabled
 
+## Supported Types
 
-## Fields
+### `models.UpdateMediaNamedEntitiesResponseBody`
 
-| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  | Example                                                                      |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `success`                                                                    | *Optional[bool]*                                                             | :heavy_minus_sign:                                                           | Indicates if the request was successful or not.                              | true                                                                         |
-| `data`                                                                       | [Optional[models.NamedEntitiesResponse]](../models/namedentitiesresponse.md) | :heavy_minus_sign:                                                           | N/A                                                                          |                                                                              |
+```python
+value: models.UpdateMediaNamedEntitiesResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+
