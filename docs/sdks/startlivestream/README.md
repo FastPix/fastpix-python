@@ -20,12 +20,9 @@ Leverage SRT for live streaming in environments with unstable networks, taking a
 
 3. After the live stream is created, FastPix sends a `POST` request to your specified webhook endpoint with the event <a href="https://docs.fastpix.io/docs/live-events#videolive_streamcreated">video.live_stream.created</a>.
 
-
 **Example:**
 
-
   Imagine a gaming platform that allows users to live stream gameplay directly from their dashboard. The API creates a new stream, provides the necessary stream key, and sets it to "private" so that only specific viewers can access it. 
-
 
 Related guide: <a href="https://docs.fastpix.io/docs/how-to-livestream">How to live stream</a>
 
@@ -34,18 +31,14 @@ Related guide: <a href="https://docs.fastpix.io/docs/how-to-livestream">How to l
 <!-- UsageSnippet language="python" operationID="create-new-stream" method="post" path="/live/streams" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 

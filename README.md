@@ -155,11 +155,7 @@ fastpix = Fastpix(
 
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -170,13 +166,14 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(
+    res = fastpix.input_video.create_media(
         inputs=[
             {
                 "type": "video",
                 "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
         ],
+        access_policy="public",
         metadata={
             "key1": "value1",
         },
@@ -338,11 +335,7 @@ To change the default retry strategy for a single API call, simply provide a `Re
 
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
@@ -354,13 +347,14 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(
+    res = fastpix.input_video.create_media(
         inputs=[
             {
                 "type": "video",
                 "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
         ],
+        access_policy="public",
         metadata={
             "key1": "value1",
         },
@@ -378,11 +372,7 @@ If you'd like to override the default retry strategy for all operations that sup
 
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
@@ -399,13 +389,14 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(
+    res = fastpix.input_video.create_media(
         inputs=[
             {
                 "type": "video",
                 "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
         ],
+        access_policy="public",
         metadata={
             "key1": "value1",
         },
@@ -432,11 +423,7 @@ with Fastpix(
 
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, errors, models
 
@@ -447,13 +434,14 @@ with Fastpix(
     ),
 ) as fastpix:
     try:
-        res = fastpix.input_video.create_from_url(
+        res = fastpix.input_video.create_media(
             inputs=[
                 {
                     "type": "video",
                     "url": "https://static.fastpix.io/fp-sample-video.mp4",
                 },
             ],
+            access_policy="public",
             metadata={
                 "key1": "value1",
             },
@@ -497,11 +485,7 @@ The default server can be overridden globally by passing a URL to the `server_ur
 
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -513,13 +497,14 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(
+    res = fastpix.input_video.create_media(
         inputs=[
             {
                 "type": "video",
                 "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
         ],
+        access_policy="public",
         metadata={
             "key1": "value1",
         },

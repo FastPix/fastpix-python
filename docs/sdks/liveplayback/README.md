@@ -23,19 +23,14 @@ Generates a new playback ID for the live stream, allowing viewers to access the 
 <!-- UsageSnippet language="python" operationID="create-playbackId-of-stream" method="post" path="/live/streams/{streamId}/playback-ids" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
-
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -76,11 +71,7 @@ A streaming service wants to prevent new users from joining a live stream that i
 <!-- UsageSnippet language="python" operationID="delete-playbackId-of-stream" method="delete" path="/live/streams/{streamId}/playback-ids" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -131,11 +122,7 @@ A developer needs to confirm the access policy of the playback ID to ensure whet
 <!-- UsageSnippet language="python" operationID="get-live-stream-playback-id" method="get" path="/live/streams/{streamId}/playback-ids/{playbackId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

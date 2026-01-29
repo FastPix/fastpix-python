@@ -11,7 +11,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(inputs=[
+    res = fastpix.input_video.create_media(inputs=[
         {
             "type": "video",
             "url": "https://static.fastpix.io/fp-sample-video.mp4",
@@ -48,7 +48,7 @@ async def main():
         ),
     ) as fastpix:
 
-        res = await fastpix.input_video.create_from_url_async(inputs=[
+        res = await fastpix.input_video.create_media_async(inputs=[
             {
                 "type": "video",
                 "url": "https://static.fastpix.io/fp-sample-video.mp4",

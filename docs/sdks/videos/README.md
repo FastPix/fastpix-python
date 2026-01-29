@@ -12,9 +12,7 @@
 
 This endpoint allows you to permanently delete a a specific video or audio media file along with all associated data. If you wish to remove a media from FastPix storage, use this endpoint with the `mediaId` (either `uploadId` or `id`) received during the media's creation or upload. 
 
-
 #### How it works
-
 
 1. Send a DELETE request to this endpoint. Replace `<mediaId>` with the `uploadId` or the `id` of the media you want to delete. 
 
@@ -25,17 +23,12 @@ This endpoint allows you to permanently delete a a specific video or audio media
 #### Example
 A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="delete-media" method="delete" path="/on-demand/{mediaId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -74,9 +67,7 @@ with Fastpix(
 
 This endpoint allows you to delete an existing audio or subtitle track from a media file. Once deleted, the track must no longer be available for playback.
 
-
 #### How it works
-
 
 1. Send a DELETE request to this endpoint, replacing `{mediaId}` with the media ID, and `{trackId}` with the ID of the track you want to remove.
 
@@ -88,7 +79,6 @@ This endpoint allows you to delete an existing audio or subtitle track from a me
 
 2. Once the media file is updated to reflect the track removal, a <a href="https://docs.fastpix.io/docs/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
 
-
 #### Example
 Suppose you uploaded an audio track in Italian for a video but later realize it's incorrect or no longer needed. By calling this API, you can remove the specific track while keeping the rest of the media file unchanged. This is useful when:
 
@@ -98,17 +88,12 @@ Suppose you uploaded an audio track in Italian for a video but later realize it'
 
 Related guides: <a href="https://docs.fastpix.io/docs/manage-subtitle-tracks">Add own subtitle tracks</a>, <a href="https://docs.fastpix.io/docs/manage-audio-tracks">Add own audio tracks</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="delete-media-track" method="delete" path="/on-demand/{mediaId}/tracks/{trackId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -150,7 +135,6 @@ This endpoint retrieves a list of all media clips associated with a given source
 
 A media clip is a segmented portion of an original media file (source media). Clips are often created for various purposes such as previews, highlights, or customized edits. This API allows you to fetch all such clips linked to a specific source media, making it easier to track and manage clips.
 
-
 #### How it works
 
 - The endpoint returns metadata for all media clips associated with the given `mediaId`.
@@ -158,24 +142,18 @@ A media clip is a segmented portion of an original media file (source media). Cl
 - Each entry includes detailed metadata such as media `id`, `duration`, and `status`.
 - Helps in organizing clips effectively by providing structured information.
 
-
 #### Example
 
 Imagine you’re managing a video editing platform where users upload full-length videos and create short clips for social media sharing. To keep track of all clips linked to a particular video, you call this API with the sourceMediaId. The response provides a list of all associated clips, allowing you to manage, edit, or repurpose them as needed.
 
 Related guide: <a href="https://docs.fastpix.io/docs/create-clips-from-existing-media">Create clips from existing media</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get-media-clips" method="get" path="/on-demand/{mediaId}/media-clips" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

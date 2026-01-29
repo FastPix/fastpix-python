@@ -13,28 +13,17 @@
 
 This endpoint allows you to create a new signing key pair for FastPix. When you call this endpoint, the API generates a 2048-bit RSA key pair. The privateKey is returned in the response, encoded in Base64 format. You also receive a unique key ID to reference the key in future operations. FastPix securely stores the public key to validate signed tokens. 
 
-
 <h4>Instructions</h4> 
-
 
 **Private key handling:** The privateKey you receive is encoded in Base64. To use it, decode the value using Base64 decoding. Make sure to store this private key securely, as it is required for signing tokens. 
 
-
 **Key-ID:** The ID is used to reference this specific key pair in future API requests or configurations.
-
 
 After the key pair is generated, the developer must securely store the private key because FastPix does not save it. The public key is used by FastPix to verify signed tokens and ensure that the client interacting with the system is legitimate.
 
-
-
-
-
 <h4>Use case scenario</h4> 
 
-
-
 **Use case:** A developer building a video subscription service wants to ensure that only authorized users can access premium content. By generating a signing key, the developer can issue signed JSON Web Tokens (JWTs) to authenticate and authorize users. These tokens can be validated by FastPix using the stored public key. 
-
 
 **Detailed example:**  You are building a video-on-demand platform that restricts access based on user subscriptions. To ensure only subscribed users can stream content, you generate a signing key using this API. Each time a user logs in, you create a JWT signed with the private key. When the user attempts to play a video, FastPix uses the public key to verify the token and confirms that the user is authorized.<br/>
 Related guide: <a href="https://docs.fastpix.io/docs/secure-playback-with-jwts">Create and use signing keys</a>
@@ -44,18 +33,14 @@ Related guide: <a href="https://docs.fastpix.io/docs/secure-playback-with-jwts">
 <!-- UsageSnippet language="python" operationID="create_signing_key" method="post" path="/iam/signing-keys" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -86,23 +71,13 @@ password="your-secret-key",
 
 This endpoint returns a list of all the signing keys associated with an organization in FastPix. Each key entry in the response includes metadata such as the key id, creation date, and workspace details. This helps you manage multiple keys, track their usage, and identify which keys are valid for signing API requests. 
 
-
-
-
 <h4>How it works</h4> 
-
 
 The API returns the list in a paginated format, allowing you to audit and track all keys used for your application. Regularly reviewing this list is essential for ensuring that old or compromised keys are promptly revoked and that new keys are properly integrated into workflows. 
 
-
-
-
 <h4>Use case scenario</h4> 
 
-
-
 **Use case:** A security-conscious development team wants to ensure they follow a key rotation policy, rotating signing keys every few months. By retrieving the list of signing keys, they can identify which keys are still in use and which ones need to be rotated. 
-
 
 **Detailed example:**  You manage a multi-region video platform where teams in different regions use their own signing keys. To comply with your organization’s security policies, you regularly review the list of signing keys to verify which ones are still active. You notice that some keys haven’t been used for several months. Based on their creation dates, you decide to rotate those keys.
 
@@ -111,11 +86,7 @@ The API returns the list in a paginated format, allowing you to audit and track 
 <!-- UsageSnippet language="python" operationID="list_signing_keys" method="get" path="/iam/signing-keys" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -157,19 +128,13 @@ This endpoint allows you to delete an existing signing key, and the action is pe
 <h4>Usage</h4> 
 To delete a signing key, provide the unique key ID that you obtained when creating the key. This key id serves as the identifier for the specific signing key you want to remove from your account. 
 
-
-
 <h4>How it works</h4> 
 
 When you specify the keyId, the API removes the signing key from the system. After the key is deleted, any API requests or tokens that rely on it fail. This action is useful when a key is compromised or when rotating keys as part of security policies. 
 
-
-
 <h4>Use case scenario</h4> 
 
-
 **Use case:** A key used by an outdated application version has been compromised, or a developer accidentally leaked it. To prevent unauthorized access, the developer deletes the signing key, revoking its ability to sign requests immediately. 
-
 
 **Detailed example:**  Suppose you have a signing key used for a specific version of your mobile app, and you discover that the key has been compromised due to a security breach. To mitigate the issue, you delete the key to invalidate any tokens generated using it. As soon as the key is deleted, users on the compromised version of the app can no longer make valid requests, thus preventing further exploitation.
 
@@ -178,11 +143,7 @@ When you specify the keyId, the API removes the signing key from the system. Aft
 <!-- UsageSnippet language="python" operationID="delete_signing_key" method="delete" path="/iam/signing-keys/{signingKeyId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -223,15 +184,11 @@ with Fastpix(
 
 This endpoint allows you to retrieve detailed information about a specific signing key using its unique key id. While the private key is not returned for security reasons, You can view the key’s creation date, status, and other associated metadata. This endpoint also returns the workspaceId and publicKey in the response. 
 
-
 <h4>Usage: Generating a JWT token</h4> 
 
 In the response, the API returns the workspaceId and publicKey associated with the signing key. With the publicKey and the privateKey obtained from the "Create a Signing Key" endpoint, you can generate a JSON Web Token (JWT) using the RS256 algorithm. This token can be utilized for accessing private media assets, GIFs, thumbnails, and spritesheets. 
 
-
-
 <h4>Payload:</h4> 
-
 
 ```
 { 
@@ -245,8 +202,6 @@ In the response, the API returns the workspaceId and publicKey associated with t
 } 
 ```
 
-
-
 * **kid:** The key ID of the signing key. 
 * **aud:** The audience for which the token is intended, enter the playbackId here.
 * **iss:**  The issuer of the token (for example, "fastpix.io "). 
@@ -255,17 +210,9 @@ In the response, the API returns the workspaceId and publicKey associated with t
 * **iat:** The issued-at timestamp, indicating when the token was created. 
 * **exp:** The expiration timestamp, indicating when the token will no longer be valid. 
 
-
-
-
-
 <h4>Use case scenario</h4> 
 
-
-
 **Use case:** A developer is unsure about the status of a signing key they created months ago and wants to verify whether it's still in use or has expired. 
-
-
 
 **Detailed example:**  You’re working on a streaming platform and realize you haven’t checked the status of a signing key that was used for playback access several months ago. By fetching the key details using its ID, you can confirm whether it’s still active, when it was created, and if it’s nearing expiration. This allows you to plan a rotation or deactivation if needed.
 
@@ -274,11 +221,7 @@ In the response, the API returns the workspaceId and publicKey associated with t
 <!-- UsageSnippet language="python" operationID="get-signing_key_by_id" method="get" path="/iam/signing-keys/{signingKeyId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

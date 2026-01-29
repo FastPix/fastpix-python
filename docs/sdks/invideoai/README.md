@@ -21,17 +21,12 @@ You can use the <a href="https://docs.fastpix.io/docs/ai-events#videomediaaichap
 
 Related guide: <a href="https://docs.fastpix.io/docs/generate-video-chapters">Video chapters</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-media-chapters" method="patch" path="/on-demand/{mediaId}/chapters" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -47,7 +42,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 

@@ -26,7 +26,6 @@ For more details, see <a href="https://docs.fastpix.io/docs/create-and-manage-pl
  - When you send a `POST` request to this endpoint, FastPix creates a playlist and returns a playlist ID, using which items can be added later in a user-defined sequence.
  - You can create a smart playlist that is auto-populated based on the metadata in the request body.
 
-
 #### Example
 An e-learning platform creates a new playlist titled Beginner Python Series through the API. The response returns a unique playlist ID. The platform uses this ID to add a series of video tutorials to the playlist in a defined order. The playlist appears on the frontend as a structured learning path for learners.
 
@@ -35,15 +34,10 @@ An e-learning platform creates a new playlist titled Beginner Python Series thro
 <!-- UsageSnippet language="python" operationID="create-a-playlist" method="post" path="/on-demand/playlists" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -74,7 +68,6 @@ with Fastpix(
     
     print(json.dumps(to_api_payload(res), indent=2))
 
-
 ```
 
 ### Parameters
@@ -98,7 +91,6 @@ with Fastpix(
 
 This endpoint retrieves detailed information about a specific playlist using its unique `playlistId`. It provides comprehensive metadata about the playlist, including its title, creation mode (manual or smart), media items along with the metadata of each media in the playlist.
 
-
 #### Example
 An e-learning platform requests details for the playlist "Beginner Python Series" by providing its unique `playlistId`. The response includes the playlist"s title, creation mode, and the ordered list of video tutorials contained within, enabling the platform to present the full learning path to users.
 
@@ -107,15 +99,10 @@ An e-learning platform requests details for the playlist "Beginner Python Series
 <!-- UsageSnippet language="python" operationID="get-playlist-by-id" method="get" path="/on-demand/playlists/{playlistId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -161,15 +148,10 @@ An e-learning platform deletes an outdated playlist titled "Old Python Tutorials
 <!-- UsageSnippet language="python" operationID="delete-a-playlist" method="delete" path="/on-demand/playlists/{playlistId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -216,15 +198,10 @@ An e-learning platform adds new video tutorials to the "Beginner Python Series" 
 <!-- UsageSnippet language="python" operationID="add-media-to-playlist" method="patch" path="/on-demand/playlists/{playlistId}/media" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -275,15 +252,10 @@ An e-learning platform removes outdated video tutorials from the "Beginner Pytho
 <!-- UsageSnippet language="python" operationID="delete-media-from-playlist" method="delete" path="/on-demand/playlists/{playlistId}/media" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(

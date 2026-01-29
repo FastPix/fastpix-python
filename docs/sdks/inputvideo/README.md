@@ -4,26 +4,20 @@
 
 ### Available Operations
 
-* [create_from_url](#create_from_url) - Create media from URL
+* [create_media](#create_media) - Create media from URL
 * [direct_upload](#direct_upload) - Upload media from device
 
-## create_from_url
+## create_media
 
 This endpoint allows developers or users to create a new video or audio media in FastPix using a publicly accessible URL. FastPix fetches the media from the provided URL, processes it, and stores it on the platform for use.
 
-
-
 #### Public URL requirement:
 
-
   The provided URL must be publicly accessible and must point to a video stored in one of the following supported formats: .m4v, .ogv, .mpeg, .mov, .3gp, .f4v, .rm, .ts, .wtv, .avi, .mp4, .wmv, .webm, .mts, .vob, .mxf, asf, m2ts 
-
-
 
 #### Supported storage types:
 
 The URL can originate from various cloud storage services or content delivery networks (CDNs) such as: 
-
 
 * **Amazon S3:** URLs from Amazon's Simple Storage Service. 
 
@@ -37,7 +31,6 @@ Upon successful creation, the API returns an `id` that must be retained for futu
 
 #### How it works
 
-
 1. Send a POST request to this endpoint with the media URL (typically a video or audio file) and optional media settings. 
 
 2. FastPix uploads the video from the provided URL to its storage. 
@@ -48,46 +41,55 @@ Upon successful creation, the API returns an `id` that must be retained for futu
 
 FastPix uses webhooks to tell your application about things that happen in the background, outside of the API regular request flow. For instance, after the media file is created (but not yet processed or encoded), FastPix sends a `POST` request to your specified webhook URL with the event <a href="https://docs.fastpix.io/docs/media-events#videomediacreated">video.media.created</a>. 
 
-
 After processing completes, monitor the events <a href="https://docs.fastpix.io/docs/media-events#videomediaready">video.media.ready</a> and <a href="https://docs.fastpix.io/docs/media-events#videomediafailed">video.media.failed</a> to track the status of the media file.
 
 Related guide: <a href="https://docs.fastpix.io/docs/upload-videos-from-url">Upload videos from URL</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="create-media" method="post" path="/on-demand" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_from_url(inputs=[
-        {
-            "type": "video",
-            "url": "https://static.fastpix.io/fp-sample-video.mp4",
-        },
-    ], metadata={
-        "key1": "value1",
-    }, drm_configuration_id="your-drm-id", title="My Video Title", creator_id="creator-id", subtitles={
-        "language_name": "english",
-        "metadata": {
+    res = fastpix.input_video.create_media(
+        inputs=[
+            {
+                "type": "video",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
+            },
+        ],
+        access_policy="public",
+        metadata={
             "key1": "value1",
         },
-        "language_code": "en",
-    }, access_policy="public", mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", media_quality="standard", chapters=True, named_entities=True)
+        drm_configuration_id="your-drm-id",
+        title="My Video Title",
+        creator_id="creator-id",
+        subtitles={
+            "language_name": "english",
+            "metadata": {
+                "key1": "value1",
+            },
+            "language_code": "en",
+        },
+        mp4_support="capped_4k",
+        source_access=True,
+        optimize_audio=True,
+        max_resolution="1080p",
+        media_quality="standard",
+        chapters=True,
+        named_entities=True,
+    )
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -143,15 +145,11 @@ This endpoint enables accelerated uploads of large media files directly from you
 
 3. Upload your video file to the provided url by making a PUT request. The API accepts the media file from your device and uploads it to the FastPix platform. (Refer to <a href="https://docs.fastpix.io/docs/upload-videos-directly#step-3-initiate-the-upload">Step 3: Initiate the upload</a> for complete instructions.)
 
-
 4. Once uploaded, the media undergoes processing and is assigned a unique ID for tracking. Retain this `uploadId` for any future operations related to this upload. 
-
-
 
 After uploading, you can use the <a href="https://docs.fastpix.io/reference/get-media">Get Media by ID</a> endpoint to check the status of the uploaded media asset and see if it has transitioned to a `Ready` status for playback. 
 
 To notify your application about the status of this API request check for the webhooks for <a href="https://docs.fastpix.io/docs/webhooks-collection#media-related-events">media related events</a>.  
-
 
 #### Example
 
@@ -159,24 +157,19 @@ A social media platform allows users to upload video content directly from their
 
 Related guide: <a href="https://docs.fastpix.io/docs/upload-videos-directly">Upload videos directly</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="direct-upload-video-media" method="post" path="/on-demand/upload" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 

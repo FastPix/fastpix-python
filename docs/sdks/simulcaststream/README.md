@@ -27,18 +27,14 @@ Related guide: <a href="https://docs.fastpix.io/docs/simulcast-to-3rd-party-plat
 <!-- UsageSnippet language="python" operationID="create-simulcast-of-stream" method="post" path="/live/streams/{streamId}/simulcast" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -83,19 +79,14 @@ This endpoint can be used to verify the status of the simulcast on external plat
 <!-- UsageSnippet language="python" operationID="get-specific-simulcast-of-stream" method="get" path="/live/streams/{streamId}/simulcast/{simulcastId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
-
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -138,19 +129,14 @@ When a `PATCH` request is made to this endpoint, the API updates the status of t
 <!-- UsageSnippet language="python" operationID="update-specific-simulcast-of-stream" method="put" path="/live/streams/{streamId}/simulcast/{simulcastId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
-
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 

@@ -14,7 +14,6 @@ Operations involving views
 
 Retrieves a list of video views that fall within the specified filters and have been completed within a defined timespan. It lets you to analyse viewer interactions with your video content effectively. 
 
-
 #### How it works
 
   1. Send a `GET` request to this endpoint with the desired query parameters. 
@@ -31,11 +30,9 @@ Retrieves a list of video views that fall within the specified filters and have 
 
 Each view in the response includes a unique `viewId`. You can use this `viewId` with the  <a href="https://docs.fastpix.io/reference/get_video_view_details">Get Video View Details</a> endpoint to retrieve more detailed information about that specific view.
 
-
 #### Example
 
 If you manage a video streaming service and want to analyze content performance across devices and browsers. By calling the List Video Views endpoint with filters such as `browser_name` and `device_type`, you can identify which platforms are most popular with your audience. This information helps optimize content for widely used platforms and troubleshoot playback issues on less common devices.
-
 
   Related guide: <a href="https://docs.fastpix.io/docs/audience-metrics">Audience metrics</a>, <a href="https://docs.fastpix.io/docs/understand-dashboard-ui#1-views-dashboard">Views dashboard</a>
 
@@ -44,11 +41,7 @@ If you manage a video streaming service and want to analyze content performance 
 <!-- UsageSnippet language="python" operationID="list_video_views" method="get" path="/data/viewlist" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -96,11 +89,9 @@ Retrieves detailed information about a specific video view using its unique `vie
 
 To use this endpoint, send `GET` request with the `viewId`. The response includes detailed metrics and attributes related to the specified video view. 
 
-
 #### Example
 
 If a developer receives a report of a poor viewing experience for a specific user. By using this endpoint with the users `viewId`, the developer can retrieve metrics like buffering duration, playback errors, and session length. This data allows the developer to pinpoint issues (such as poor connectivity or a browser-specific problem) and take steps to improve the user experience.
-
 
 Related guide: <a href="https://docs.fastpix.io/page/what-video-data-do-we-capture#/">What Video Data do we capture?</a>
 
@@ -109,11 +100,7 @@ Related guide: <a href="https://docs.fastpix.io/page/what-video-data-do-we-captu
 <!-- UsageSnippet language="python" operationID="get_video_view_details" method="get" path="/data/viewlist/{viewId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -164,20 +151,14 @@ Retrieves a list of the top video views that fall within the specified filters a
 
   5. You receive a response containing the list of top video views matching the specified criteria.
 
-
   Related guide: <a href="https://docs.fastpix.io/page/how-to-get-top-performing-content">Get top-performing content</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list_by_top_content" method="get" path="/data/viewlist/top-content" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

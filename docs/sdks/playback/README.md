@@ -17,8 +17,6 @@ Operations for video playback management
 
 You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href="https://docs.fastpix.io/reference/get-media">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy. 
 
-
-
 If you want to create a private playback ID for a media asset that already has a public playback ID, this endpoint also allows you to do so by specifying the desired access policy. 
 
 #### How it works
@@ -29,28 +27,22 @@ If you want to create a private playback ID for a media asset that already has a
 
 3. You receive a response containing the newly created playback ID with the specified access level.
 
-
 #### Example
 A video streaming service generates playback IDs for each media file when users request to view specific content. The video player then uses the playback ID to stream the video.
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="create-media-playback-id" method="post" path="/on-demand/{mediaId}/playback-ids" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -93,17 +85,12 @@ Retrieves all playback IDs associated with a given media asset, including each p
 **Use case:**
 Useful for validating and managing playback permissions programmatically, reviewing restriction settings, or powering an access control dashboard.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list-playback-ids" method="get" path="/on-demand/{mediaId}/playback-ids" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -142,7 +129,6 @@ with Fastpix(
 
 This endpoint deletes a specific playback ID associated with a media asset. Deleting a `playback ID` revokes access to the media content linked to that ID.
 
-
 #### How it works
 
 1. Make a `DELETE` request to this endpoint, replacing `<mediaId>` with the unique ID of the media asset from which you want to delete the playback ID. 
@@ -153,17 +139,12 @@ This endpoint deletes a specific playback ID associated with a media asset. Dele
 
 Your platform offers limited-time access to premium content. When the subscription expires, you can revoke access to the content by deleting the associated playback ID, preventing users from streaming the video further.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="delete-media-playback-id" method="delete" path="/on-demand/{mediaId}/playback-ids" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -213,17 +194,12 @@ This endpoint retrieves details about a specific playback ID associated with a m
 **Example:**
 A media platform might use this endpoint to verify if a playback ID is public or private before embedding the video in a frontend player or allowing access to a restricted group.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get-playback-id" method="get" path="/on-demand/{mediaId}/playback-ids/{playbackId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -272,17 +248,12 @@ It allows you to restrict playback to specific domains or block known unauthoriz
 **Example:**
 A streaming service can allow playback only from `example.com` and deny all others by setting: `"defaultPolicy": "deny"` and `"allow": ["example.com"]`.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-domain-restrictions" method="patch" path="/on-demand/{mediaId}/playback-ids/{playbackId}/domains" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -292,7 +263,6 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-
 
     res = fastpix.playback.update_domain_restrictions(media_id="your-media-id", playback_id="your-secret-key", default_policy="allow", allow=[
         "yourdomain.com",
@@ -340,17 +310,12 @@ It can be used to allow or deny specific user-agents during playback request eva
 **Example:**
 A developer may configure a playback ID to deny access from known scraping user-agents while allowing all others by default.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-user-agent-restrictions" method="patch" path="/on-demand/{mediaId}/playback-ids/{playbackId}/user-agents" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -369,7 +334,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 

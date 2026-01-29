@@ -80,27 +80,27 @@ class Fastpix(BaseSDK):
     metrics: "Metrics"
     errors: "Errors"
     _sub_sdk_map = {
-        "input_video": ("Fastpix.input_video", "InputVideo"),
-        "manage_videos": ("Fastpix.manage_videos", "ManageVideos"),
+        "input_video": ("fastpix_python.input_video", "InputVideo"),
+        "manage_videos": ("fastpix_python.manage_videos", "ManageVideos"),
         "in_video_ai_features": (
-            "Fastpix.in_video_ai_features",
+            "fastpix_python.in_video_ai_features",
             "InVideoAIFeatures",
         ),
-        "playback": ("Fastpix.playback", "Playback"),
-        "playlist": ("Fastpix.playlist", "Playlist"),
+        "playback": ("fastpix_python.playback", "Playback"),
+        "playlist": ("fastpix_python.playlist", "Playlist"),
         "drm_configurations": (
-            "Fastpix.drm_configurations",
+            "fastpix_python.drm_configurations",
             "DRMConfigurations",
         ),
-        "start_live_stream": ("Fastpix.start_live_stream", "StartLiveStream"),
-        "manage_live_stream": ("Fastpix.manage_live_stream", "ManageLiveStream"),
-        "live_playback": ("Fastpix.live_playback", "LivePlayback"),
-        "simulcast_stream": ("Fastpix.simulcast_stream", "SimulcastStream"),
-        "signing_keys": ("Fastpix.signing_keys", "SigningKeys"),
-        "views": ("Fastpix.views_sdk", "ViewsSDK"),
-        "dimensions": ("Fastpix.dimensions", "Dimensions"),
-        "metrics": ("Fastpix.metrics", "Metrics"),
-        "errors": ("Fastpix.errors", "Errors"),
+        "start_live_stream": ("fastpix_python.start_live_stream", "StartLiveStream"),
+        "manage_live_stream": ("fastpix_python.manage_live_stream", "ManageLiveStream"),
+        "live_playback": ("fastpix_python.live_playback", "LivePlayback"),
+        "simulcast_stream": ("fastpix_python.simulcast_stream", "SimulcastStream"),
+        "signing_keys": ("fastpix_python.signing_keys", "SigningKeys"),
+        "views": ("fastpix_python.views_sdk", "ViewsSDK"),
+        "dimensions": ("fastpix_python.dimensions", "Dimensions"),
+        "metrics": ("fastpix_python.metrics", "Metrics"),
+        "errors": ("fastpix_python.errors", "Errors"),
     }
 
     def __init__(

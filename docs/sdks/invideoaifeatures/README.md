@@ -20,25 +20,16 @@ This endpoint allows you to generate the summary for an existing media.
 
 You can use the <a href="https://docs.fastpix.io/docs/ai-events#videomediaaisummaryready">video.mediaAI.summary.ready</a> webhook event to track and notify about the summary generation.
 
-
-
-
-
 **Use case**: This is particularly useful when a user uploads a video and later chooses to generate a summary without needing to re-upload the video.
 
 Related guide: <a href="https://docs.fastpix.io/docs/generate-video-summary">Video summary</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-media-summary" method="patch" path="/on-demand/{mediaId}/summary" -->
 ```python
 fimport os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -55,7 +46,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 
@@ -93,24 +83,19 @@ You can use the <a href="https://docs.fastpix.io/docs/ai-events#videomediaaimode
 
 Related guide: <a href="https://docs.fastpix.io/docs/using-nsfw-and-profanity-filter-for-video-moderation">Moderate NSFW & Profanity</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-media-moderation" method="patch" path="/on-demand/{mediaId}/moderation" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -161,17 +146,12 @@ You can use the <a href="https://docs.fastpix.io/docs/ai-events#videomediaainame
 
 Related guide: <a href="https://docs.fastpix.io/docs/generate-named-entities">Named entities</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-media-named-entities" method="patch" path="/on-demand/{mediaId}/named-entities" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

@@ -16,7 +16,6 @@ Permanently deletes a specified live stream from the workspace. If the stream is
 
   For an online concert platform, a trial stream was mistakenly made public. The event manager deletes the stream before the concert begins to avoid confusion among viewers. 
 
-
   Related guide: <a href="https://docs.fastpix.io/docs/manage-streams">Manage streams</a>
 
 ### Example Usage
@@ -24,11 +23,7 @@ Permanently deletes a specified live stream from the workspace. If the stream is
 <!-- UsageSnippet language="python" operationID="delete-live-stream" method="delete" path="/live/streams/{streamId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

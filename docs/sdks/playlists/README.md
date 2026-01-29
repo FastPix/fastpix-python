@@ -24,15 +24,10 @@ This endpoint retrieves all playlists in a specified workspace. It allows you to
 <!-- UsageSnippet language="python" operationID="get-all-playlists" method="get" path="/on-demand/playlists" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -80,15 +75,10 @@ An e-learning platform updates the playlist titled "Beginner Python Series" to r
 <!-- UsageSnippet language="python" operationID="update-a-playlist" method="put" path="/on-demand/playlists/{playlistId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -104,7 +94,6 @@ with Fastpix(
 
     
     print(json.dumps(to_api_payload(res), indent=2))
-
 
 ```
 
@@ -142,15 +131,10 @@ An e-learning platform rearranges the "Beginner Python Series" playlist by submi
 <!-- UsageSnippet language="python" operationID="change-media-order-in-playlist" method="put" path="/on-demand/playlists/{playlistId}/media" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 from response_utils import to_api_payload
-
 
 with Fastpix(
     security=models.Security(
@@ -169,7 +153,6 @@ with Fastpix(
 
     
     print(json.dumps(to_api_payload(res), indent=2))
-
 
 ```
 

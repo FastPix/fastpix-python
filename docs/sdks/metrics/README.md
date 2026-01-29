@@ -25,14 +25,11 @@ Retrieves breakdown values for a specified metric and timespan, allowing you to 
 
   4. Upon successful retrieval, the response includes the breakdown values based on the specified parameters. Note that the time values ( `totalWatchTime` and `totalPlayingTime` ) are in milliseconds 
 
-
 #### Example
-
 
 A developer wants to analyze how watch time varies across different device types. By calling this endpoint for the `playing_time` metric and filtering by `device_type`, they can understand how engagement differs between mobile, desktop, and tablet users. This data guides optimization efforts for different platforms.
 
 #### Key fields in response
-
 
   * **views:** The count of views based based on the applied filters.
 
@@ -42,20 +39,14 @@ A developer wants to analyze how watch time varies across different device types
   * **totalPlayTime:** Total time spent playing the video, represented in milliseconds. 
   * **field:** The grouping field value based on the groupBy parameter. 
 
-
 Related guide: <a href="https://docs.fastpix.io/docs/metrics-overview">Understand data definitions</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list_breakdown_values" method="get" path="/data/metrics/{metricId}/breakdown" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -110,13 +101,7 @@ Retrieves overall values for a specified metric, providing summary statistics th
 
   3. You receive a response containing the overall values for the specified metric, which may vary based on the applied filters. 
 
-
-
-
-
-
 #### Key fields in response
-
 
   * **value:** The specific metric value calculated based on the applied filters. 
   * **totalWatchTime:** Total time watched across all views, represented in milliseconds. 
@@ -125,20 +110,14 @@ Retrieves overall values for a specified metric, providing summary statistics th
   * **totalPlayTime:** Total time spent playing the video, represented in milliseconds. 
   * **globalValue:** A global metric value that reflects the overall performance of the specified metric across the entire dataset for the given timespan. This value is not affected by specific filters. 
 
-
   Related guide: <a href="https://docs.fastpix.io/docs/metrics-overview">Understand data definitions</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list_overall_values" method="get" path="/data/metrics/{metricId}/overall" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -186,17 +165,12 @@ This endpoint retrieves timeseries data for a specified metric, providing insigh
 * **metricValue:** The value of the specified metric at the given interval, reflecting the performance or engagement level during that time. 
 * **numberOfViews:** The total number of views recorded during that interval, providing context for the metric value.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get_timeseries_data" method="get" path="/data/metrics/{metricId}/timeseries" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -257,20 +231,14 @@ This endpoint lets you to compare multiple metrics across specified dimensions. 
 
   3. You Receive a response containing the comparison values for the specified metrics across the selected dimensions. 
 
-
   Related guide: <a href="https://docs.fastpix.io/docs/understand-dashboard-ui#compare-metrics">Compare metrics in dashboard</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list_comparison_values" method="get" path="/data/metrics/comparison" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

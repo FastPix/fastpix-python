@@ -9,7 +9,6 @@
 
 ## list
 
-
 This endpoint retrieves the DRM configuration (DRM ID) associated with a workspace. It returns a list of DRM configurations, identified by a unique DRM ID, which is used for creating DRM encrypted asset.
 
 **How it works:**
@@ -22,17 +21,12 @@ A media service provider may retrieve DRM configuration for a workspace to creat
 
 Related guide: <a href="https://docs.fastpix.io/docs/secure-playback-with-drm">Manage DRM configuration</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="getDrmConfiguration" method="get" path="/on-demand/drm-configurations" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -70,7 +64,6 @@ with Fastpix(
 
 ## get_by_id
 
-
 This endpoint retrieves a DRM configuration ID. It is used to fetch the DRM-related ID for a workspace, typically required when validating or applying DRM policies to video assets.
 
 **How it works:**
@@ -79,17 +72,12 @@ This endpoint retrieves a DRM configuration ID. It is used to fetch the DRM-rela
 
 Related guide: <a href="https://docs.fastpix.io/docs/secure-playback-with-drm">Manage DRM configuration</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="getDrmConfigurationById" method="get" path="/on-demand/drm-configurations/{drmConfigurationId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

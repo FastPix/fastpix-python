@@ -13,7 +13,6 @@
 
 Retrieves a list of all live streams associated with the current workspace. It provides an overview of both current and past live streams, including details like `streamId`, `metadata`, `status`, `createdAt` and more.
 
-
 #### How it works
 
 Use the access token and secret key related to the workspace in the request header. When called, the API provides a paginated response containing all the live streams in that specific workspace. This is helpful for retrieving a large volume of streams and managing content in bulk.
@@ -23,11 +22,7 @@ Use the access token and secret key related to the workspace in the request head
 <!-- UsageSnippet language="python" operationID="get-all-streams" method="get" path="/live/streams" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -71,7 +66,6 @@ This endpoint retrieves details about a specific live stream by its unique `stre
 
   Suppose a news agency is broadcasting a live event and wants to track the configurations set for the live stream while also checking the stream's status.
 
-
 Related guide: <a href="https://docs.fastpix.io/docs/manage-streams">Manage streams</a>
 
 ### Example Usage
@@ -79,11 +73,7 @@ Related guide: <a href="https://docs.fastpix.io/docs/manage-streams">Manage stre
 <!-- UsageSnippet language="python" operationID="get-live-stream-by-id" method="get" path="/live/streams/{streamId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -137,18 +127,14 @@ Related guide <a href="https://docs.fastpix.io/docs/manage-streams">Manage strea
 <!-- UsageSnippet language="python" operationID="enable-live-stream" method="put" path="/live/streams/{streamId}/live-enable" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -193,19 +179,14 @@ Related guide <a href="https://docs.fastpix.io/docs/manage-streams">Manage strea
 <!-- UsageSnippet language="python" operationID="disable-live-stream" method="put" path="/live/streams/{streamId}/live-disable" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
-
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 

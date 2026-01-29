@@ -21,20 +21,14 @@ Retrieves a list of all media clips generated from a specific livestream. Each m
 #### Use case
 Suppose you’re hosting a live gaming event and want to showcase key moments from the stream — such as top plays or final match highlights. You can use this endpoint to fetch all clips generated from that livestream, display them in your dashboard, or use them for post-event editing and sharing.
 
-
 Related guide: <a href="https://docs.fastpix.io/docs/instant-live-clipping">Instant live clipping</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list-live-clips" method="get" path="/on-demand/{livestreamId}/live-clips" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -76,8 +70,6 @@ with Fastpix(
 
 By calling this endpoint, you can retrieve detailed information about a specific media item, including its current `status` and a `playbackId`. This is particularly useful for retrieving specific media details when managing large content libraries. 
 
-
-
 #### How it works
 
 1. Send a GET request to this endpoint. Use the `<mediaId>` you received after uploading the media file.
@@ -92,17 +84,12 @@ By calling this endpoint, you can retrieve detailed information about a specific
 
 If your platform provides users with a dashboard to manage uploaded content, a user might want to check whether a video has finished processing and is ready for playback. You can use the media ID to retrieve the information from FastPix and display it in the user’s dashboard.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get-media" method="get" path="/on-demand/{mediaId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -141,7 +128,6 @@ with Fastpix(
 
 This endpoint lets you retrieve detailed information about the media inputs associated with a specific media item. You can use it to verify the media file’s input URL, track its creation status, and check its container format. You must provide the mediaId (either the uploadId or the id) to fetch this information.
 
-
 #### How it works
 
 Upon making a `GET` request with the mediaId, FastPix returns a response with: 
@@ -154,17 +140,12 @@ Upon making a `GET` request with the mediaId, FastPix returns a response with:
 
 This endpoint is particularly useful for ensuring that all necessary tracks (video and audio) have been correctly associated with the media during the upload or media creation process.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="retrieveMediaInputInfo" method="get" path="/on-demand/{mediaId}/input-info" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

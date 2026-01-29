@@ -11,7 +11,6 @@
 
 This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload.
 
-
 #### How it works
 
 1. Send a POST request to this endpoint, replacing `{mediaId}` with the media ID (`uploadId` or `id`).
@@ -19,7 +18,6 @@ This endpoint allows you to add an audio or subtitle track to an existing media 
 2. Provide the necessary details in the request body.
 
 3. Receive a response containing a unique track ID and the details of the newly added track.
-
 
 #### Webhook events
 
@@ -29,30 +27,24 @@ This endpoint allows you to add an audio or subtitle track to an existing media 
 
 3. Finally, an update event <a href="https://docs.fastpix.io/docs/media-events#videomediaupdated">video.media.updated</a> must notify your system about the media's updated status.
 
-
 #### Example
 Suppose you have a video uploaded to the FastPix platform, and you want to add an Italian audio track to it. By calling this API, you can attach an external audio file (https://static.fastpix.io/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
 
 Related guides: <a href="https://docs.fastpix.io/docs/manage-subtitle-tracks">Add own subtitle tracks</a>, <a href="https://docs.fastpix.io/docs/manage-audio-tracks">Add own audio tracks</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="Add-media-track" method="post" path="/on-demand/{mediaId}/tracks" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-username="your-access-token",
-password="your-secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
@@ -85,7 +77,6 @@ password="your-secret-key",
 
 This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new track `url`, `languageName`, and `languageCode`, ensuring all three parameters are included in the request.
 
-
 #### How it works
 
 1. Send a PATCH request to this endpoint, replacing `{mediaId}` with the media ID, and `{trackId}` with the ID of the track you want to update.
@@ -104,7 +95,6 @@ After updating a track, your system must receive webhook notifications:
 
 3. Once the media file is updated with the new track details, a <a href="https://docs.fastpix.io/docs/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
 
-
 #### Example
 Suppose you previously added a French subtitle track to a video but now need to update it with a different file. By calling this API, you can replace the existing subtitle file (.vtt) with a new one while keeping the same track ID. This is useful when:
 
@@ -113,17 +103,12 @@ Suppose you previously added a French subtitle track to a video but now need to 
 
 Related guides: <a href="https://docs.fastpix.io/docs/manage-subtitle-tracks">Add own subtitle tracks</a>, <a href="https://docs.fastpix.io/docs/manage-audio-tracks">Add own audio tracks</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="update-media-track" method="patch" path="/on-demand/{mediaId}/tracks/{trackId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -140,7 +125,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 

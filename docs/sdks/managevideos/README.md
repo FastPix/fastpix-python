@@ -17,27 +17,19 @@
 
 This endpoint returns a list of all media files uploaded to FastPix within a specific workspace. Each media entry contains data such as the media `id`, `createdAt`, `status`, `type` and more. It allows you to retrieve an overview of your media assets, making it easier to manage and review them. 
 
-
 #### How it works
 
 Use the access token and secret key related to the workspace in the request header. When called, the API provides a paginated response containing all the media items in that specific workspace. This is helpful for retrieving a large volume of media and managing content in bulk. 
 
-
-
 #### Example
 If you manage a video platform and need to review all uploaded media in your library to ensure that outdated or low-quality content isn’t being served, you can use this endpoint to retrieve a complete list of media. You can then filter, sort, or update items as needed.
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list-media" method="get" path="/on-demand" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -78,7 +70,6 @@ with Fastpix(
 
 This endpoint allows you to update specific parameters of an existing media file. You can modify the key-value pairs of the metadata that were provided in the payload during the creation of media from a URL or when uploading the media directly from device. 
 
-
 #### How it works
 
 1. Make a PATCH request to this endpoint. Replace `<mediaId>` with the unique ID (`uploadId` or `id`) of the media you received after uploading to FastPix
@@ -92,17 +83,12 @@ This endpoint allows you to update specific parameters of an existing media file
 #### Example
 If a user uploads a video and later needs to change the title, add a new description, or update tags, you can use this endpoint to update the media metadata without re-uploading the entire video.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="updated-media" method="patch" path="/on-demand/{mediaId}" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -161,17 +147,12 @@ Once the upload is cancelled, you must receive the webhook event <a href="https:
 
 Suppose a user starts uploading a large video file but decides to cancel before completion. By calling this API, you can immediately stop the upload and free up resources.
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="cancel-upload" method="put" path="/on-demand/upload/{uploadId}/cancel" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -182,13 +163,11 @@ with Fastpix(
     ),
 ) as fastpix:
 
-
     
     res = fastpix.manage_videos.cancel_upload(upload_id="your-upload-id")
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 
@@ -229,17 +208,12 @@ This endpoint allows you to generate subtitles for an existing audio track in a 
 
 </br> Related guide: <a href="https://docs.fastpix.io/docs/add-auto-generated-subtitles-to-videos">Add auto-generated subtitles</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="Generate-subtitle-track" method="post" path="/on-demand/{mediaId}/tracks/{trackId}/generate-subtitles" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -250,7 +224,6 @@ with Fastpix(
     ),
 ) as fastpix:
 
-
     
     res = fastpix.manage_videos.generate_subtitles(media_id="your-media-id", track_id="your-track0-id", language_name="Italian", metadata={
         "key1": "value1",
@@ -258,7 +231,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 
@@ -298,17 +270,12 @@ Typical use cases include:
 
 If the summary has not been generated or the feature is disabled for the requested media, the endpoint returns an error indicating that the summary is unavailable. 
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get-media-summary" method="get" path="/on-demand/{mediaId}/summary" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -356,17 +323,12 @@ This endpoint allows you to update the `sourceAccess` setting of an existing med
 3. You receive a response confirming the update to the media’s source access status.
 4. Webhook events: <a href="https://docs.fastpix.io/docs/transform-media-events#videomediasourceready">video.media.source.ready</a>, <a href="https://docs.fastpix.io/docs/transform-media-events#videomediasourcedeleted">video.media.source.deleted</a>
 
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="updated-source-access" method="patch" path="/on-demand/{mediaId}/source-access" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -382,7 +344,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 
@@ -433,20 +394,14 @@ This endpoint allows you to update the `mp4Support` setting of an existing media
 #### Example
 Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting "mp4Support": "capped_4k", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.io/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set "mp4Support": "audioOnly". This provides an audio-only stream URL that allows users to listen to the media without video. By setting "mp4Support": "audioOnly,capped_4k", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media. 
 
-
 Related guide: <a href="https://docs.fastpix.io/docs/mp4-support-for-offline-viewing">Use MP4 support for offline viewing</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="updated-mp4Support" method="patch" path="/on-demand/{mediaId}/update-mp4Support" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
@@ -461,7 +416,6 @@ with Fastpix(
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
-
 
 ```
 
@@ -496,23 +450,16 @@ An unused upload URL is a signed URL that gets generated when an user initiates 
  - Signed URLs expire after 24 hours from creation.
  - Each entry includes full metadata about the unused upload.
 
-
-
 #### Example
 
 A video management team at a media organization regularly uploads content but often forgets to delete or use unused uploads. These unused uploads have signed URLs that expire after 24 hours and need to be managed efficiently. By using this API, the team can retrieve metadata for all unused uploads, identify expired signed URLs, and decide whether to regenerate URLs, reuse the uploads, or delete them.
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list-uploads" method="get" path="/on-demand/uploads" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 

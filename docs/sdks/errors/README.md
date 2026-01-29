@@ -12,7 +12,6 @@ Operations involving errors
 
 This endpoint returns the total number of playback errors that occurred, along with the total number of views captured, based on the specified timespan and filters. It provides insights into the overall playback quality and helps identify potential issues that may impact viewer experience. 
 
-
 #### Key fields in response
 
 * **percentage:** The percentage of views affected by the specific error. 
@@ -25,20 +24,14 @@ This endpoint returns the total number of playback errors that occurred, along w
 * **count:** The number of occurrences of the specific error. 
 * **code:** The error code associated with the specific error. 
 
-
 Related guide: <a href="https://docs.fastpix.io/docs/track-playback-errors">Troubleshoot errors</a>
-
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list_errors" method="get" path="/data/errors" -->
 ```python
 import os
-import sys
 import json
-
-# Add the src directory to the Python path so we can import fastpix_python
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from fastpix_python import Fastpix, models
 
