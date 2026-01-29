@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.1]
+
+### Fixed
+- Fixed SDK import paths in `_sub_sdk_map` - changed from `Fastpix.*` to `fastpix_python.*` to resolve `ModuleNotFoundError` for end users
+- Fixed all documentation examples - removed unnecessary `sys.path.append()` statements
+- Updated method name from `create_from_url` to `create_media` in examples
+
+### Improved
+- All SDK documentation examples now work out-of-the-box without workarounds
+- Consistent import statements across all documentation files
+
 ## [1.1.0]
 
 ### Fixed
