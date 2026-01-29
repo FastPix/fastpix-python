@@ -196,45 +196,46 @@ Upload, manage, and transform video content with comprehensive media management 
 For detailed documentation, see [FastPix Video on Demand Overview](https://docs.fastpix.io/docs/video-on-demand-overview).
 
 #### Input Video
-- [Create from URL](docs/sdks/inputvideo/README.md#create_from_url) - Upload video content from external URL
-- [Upload from Device](docs/sdks/inputvideo/README.md#direct_upload) - Upload video files directly from device
+- [Create from URL](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/inputvideo/README.md#create_from_url) - Upload video content from external URL
+- [Upload from Device](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/inputvideo/README.md#direct_upload) - Upload video files directly from device
 
 #### Manage Videos
-- [List All Media](docs/sdks/managevideos/README.md#list_media) - Retrieve complete list of all media files
-- [Get Media by ID](docs/sdks/mediasdk/README.md#get) - Get detailed information for specific media
-- [Update Media](docs/sdks/managevideos/README.md#update_media) - Modify media metadata and settings
-- [Delete Media](docs/sdks/videos/README.md#delete) - Remove media files from library
-- [Cancel Upload](docs/sdks/managevideos/README.md#cancel_upload) - Stop ongoing media upload process
-- [Get Input Info](docs/sdks/managevideos/README.md#retrievemediainputinfo) - Retrieve detailed input information
-- [List Uploads](docs/sdks/managevideos/README.md#list_unused_upload_urls) - Get all available upload URLs
+- [List All Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#list_media) - Retrieve complete list of all media files
+- [Get Media by ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/mediasdk/README.md#get) - Get detailed information for specific media
+- [Update Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#update_media) - Modify media metadata and settings
+- [Delete Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/videos/README.md#delete) - Remove media files from library
+- [Cancel Upload](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#cancel_upload) - Stop ongoing media upload process
+- [Get Input Info](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#retrievemediainputinfo) - Retrieve detailed input information
+- [Get Summary](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#get_summary) - Retrieve AI-generated video summary
+- [List Uploads](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#list_unused_upload_urls) - Get all available upload URLs
 
 #### Playback
-- [Create Playback ID](docs/sdks/playback/README.md#create) - Generate secure playback identifier
-- [Delete Playback ID](docs/sdks/playback/README.md#delete) - Remove playback access
-- [Get Playback ID](docs/sdks/playback/README.md#get_by_id) - Retrieve playback configuration details
-- [List Playback IDs](docs/sdks/playback/README.md#list_playback_ids) - Get all playback IDs for a media
-- [Update Domain Restrictions](docs/sdks/playback/README.md#update_domain_restrictions) - Configure domain-based access control
-- [Update User-Agent Restrictions](docs/sdks/playback/README.md#update_user_agent_restrictions) - Configure user-agent-based access control
+- [Create Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#create) - Generate secure playback identifier
+- [Delete Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#delete) - Remove playback access
+- [Get Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#get_by_id) - Retrieve playback configuration details
+- [List Playback IDs](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#list_playback_ids) - Get all playback IDs for a media
+- [Update Domain Restrictions](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#update_domain_restrictions) - Configure domain-based access control
+- [Update User-Agent Restrictions](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playback/README.md#update_user_agent_restrictions) - Configure user-agent-based access control
 
 #### Playlist
-- [Create Playlist](docs/sdks/playlist/README.md#create) - Create new video playlist
-- [List Playlists](docs/sdks/playlists/README.md#get_all) - Get all available playlists
-- [Get Playlist](docs/sdks/playlist/README.md#get) - Retrieve specific playlist details
-- [Update Playlist](docs/sdks/playlists/README.md#update) - Modify playlist settings and metadata
-- [Delete Playlist](docs/sdks/playlist/README.md#delete) - Remove playlist from library
-- [Add Media](docs/sdks/playlist/README.md#add_media) - Add media items to playlist
-- [Reorder Media](docs/sdks/playlists/README.md#change_media_order) - Change order of media in playlist
-- [Remove Media](docs/sdks/playlist/README.md#delete_media) - Remove media from playlist
+- [Create Playlist](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlist/README.md#create) - Create new video playlist
+- [List Playlists](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlists/README.md#get_all) - Get all available playlists
+- [Get Playlist](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlist/README.md#get) - Retrieve specific playlist details
+- [Update Playlist](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlists/README.md#update) - Modify playlist settings and metadata
+- [Delete Playlist](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlist/README.md#delete) - Remove playlist from library
+- [Add Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlist/README.md#add_media) - Add media items to playlist
+- [Reorder Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlists/README.md#change_media_order) - Change order of media in playlist
+- [Remove Media](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/playlist/README.md#delete_media) - Remove media from playlist
 
 #### Signing Keys
-- [Create Key](docs/sdks/signingkeys/README.md#create) - Generate new signing key pair
-- [List Keys](docs/sdks/signingkeys/README.md#list_signing_keys) - Get all available signing keys
-- [Delete Key](docs/sdks/signingkeys/README.md#delete_signing_key) - Remove signing key from system
-- [Get Key](docs/sdks/signingkeys/README.md#get_signing_key_by_id) - Retrieve specific signing key details
+- [Create Key](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/signingkeys/README.md#create) - Generate new signing key pair
+- [List Keys](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/signingkeys/README.md#list_signing_keys) - Get all available signing keys
+- [Delete Key](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/signingkeys/README.md#delete_signing_key) - Remove signing key from system
+- [Get Key](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/signingkeys/README.md#get_signing_key_by_id) - Retrieve specific signing key details
 
 #### DRM Configurations
-- [List DRM Configs](docs/sdks/drmconfigurations/README.md#list) - Get all DRM configuration options
-- [Get DRM Config](docs/sdks/drmconfigurations/README.md#get_by_id) - Retrieve specific DRM configuration
+- [List DRM Configs](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/drmconfigurations/README.md#list) - Get all DRM configuration options
+- [Get DRM Config](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/drmconfigurations/README.md#get_by_id) - Retrieve specific DRM configuration
 
 ### Live API
 
@@ -243,29 +244,29 @@ Stream, manage, and transform live video content with real-time broadcasting cap
 For detailed documentation, see [FastPix Live Stream Overview](https://docs.fastpix.io/docs/live-stream-overview).
 
 #### Start Live Stream
-- [Create Stream](docs/sdks/startlivestream/README.md#create_stream) - Initialize new live streaming session with DVR mode support
+- [Create Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/startlivestream/README.md#create_stream) - Initialize new live streaming session with DVR mode support
 
 #### Manage Live Stream
-- [List Streams](docs/sdks/livestreams/README.md#list) - Retrieve all active live streams
-- [Get Viewer Count](docs/sdks/managelivestream/README.md#get_viewer_count) - Get real-time viewer statistics
-- [Get Stream](docs/sdks/livestreams/README.md#get_by_id) - Retrieve detailed stream information
-- [Delete Stream](docs/sdks/streams/README.md#delete) - Terminate and remove live stream
-- [Update Stream](docs/sdks/managelivestream/README.md#update) - Modify stream settings and configuration
-- [Enable Stream](docs/sdks/livestreams/README.md#enable) - Activate live streaming
-- [Disable Stream](docs/sdks/livestreams/README.md#disable) - Pause live streaming
-- [Complete Stream](docs/sdks/managelivestream/README.md#complete) - Finalize and archive stream
-- [List Live Clips](docs/sdks/mediasdk/README.md#list_live_clips) - Get all clips of a live stream
+- [List Streams](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/livestreams/README.md#list) - Retrieve all active live streams
+- [Get Viewer Count](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managelivestream/README.md#get_viewer_count) - Get real-time viewer statistics
+- [Get Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/livestreams/README.md#get_by_id) - Retrieve detailed stream information
+- [Delete Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/streams/README.md#delete) - Terminate and remove live stream
+- [Update Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managelivestream/README.md#update) - Modify stream settings and configuration
+- [Enable Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/livestreams/README.md#enable) - Activate live streaming
+- [Disable Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/livestreams/README.md#disable) - Pause live streaming
+- [Complete Stream](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managelivestream/README.md#complete) - Finalize and archive stream
+- [List Live Clips](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/mediasdk/README.md#list_live_clips) - Get all clips of a live stream
 
 #### Live Playback
-- [Create Playback ID](docs/sdks/liveplayback/README.md#create_playback_id) - Generate secure live playback access
-- [Delete Playback ID](docs/sdks/liveplayback/README.md#delete_playback_id) - Revoke live playback access
-- [Get Playback ID](docs/sdks/liveplayback/README.md#get_playback_id_details) - Retrieve live playback configuration
+- [Create Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#create_playback_id) - Generate secure live playback access
+- [Delete Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#delete_playback_id) - Revoke live playback access
+- [Get Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#get_playback_id_details) - Retrieve live playback configuration
 
 #### Simulcast Stream
-- [Create Simulcast](docs/sdks/simulcaststream/README.md#create) - Set up multi-platform streaming
-- [Delete Simulcast](docs/sdks/simulcast/README.md#delete) - Remove simulcast configuration
-- [Get Simulcast](docs/sdks/simulcaststream/README.md#get_simulcast) - Retrieve simulcast settings
-- [Update Simulcast](docs/sdks/simulcaststream/README.md#update_simulcast) - Modify simulcast parameters
+- [Create Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#create) - Set up multi-platform streaming
+- [Delete Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcast/README.md#delete) - Remove simulcast configuration
+- [Get Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#get_simulcast) - Retrieve simulcast settings
+- [Update Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#update_simulcast) - Modify simulcast parameters
 
 ### Video Data API
 
@@ -274,22 +275,22 @@ Monitor video performance and quality with comprehensive analytics and real-time
 For detailed documentation, see [FastPix Video Data Overview](https://docs.fastpix.io/docs/video-data-overview).
 
 #### Metrics
-- [List Breakdown Values](docs/sdks/metrics/README.md#list_breakdown_values) - Get detailed breakdown of metrics by dimension
-- [List Overall Values](docs/sdks/metrics/README.md#list_overall_values) - Get aggregated metric values across all content
-- [Get Timeseries Data](docs/sdks/metrics/README.md#get_timeseries_data) - Retrieve time-based metric trends and patterns
-- [List Comparison Values](docs/sdks/metrics/README.md#list_comparison_values) - Compare metrics across different time periods
+- [List Breakdown Values](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/metrics/README.md#list_breakdown_values) - Get detailed breakdown of metrics by dimension
+- [List Overall Values](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/metrics/README.md#list_overall_values) - Get aggregated metric values across all content
+- [Get Timeseries Data](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/metrics/README.md#get_timeseries_data) - Retrieve time-based metric trends and patterns
+- [List Comparison Values](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/metrics/README.md#list_comparison_values) - Compare metrics across different time periods
 
 #### Views
-- [List Video Views](docs/sdks/viewssdk/README.md#list_video_views) - Get comprehensive list of video viewing sessions
-- [Get View Details](docs/sdks/viewssdk/README.md#get_video_view_details) - Retrieve detailed information about specific video views
-- [List Top Content](docs/sdks/viewssdk/README.md#list_by_top_content) - Find your most popular and engaging content
+- [List Video Views](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/viewssdk/README.md#list_video_views) - Get comprehensive list of video viewing sessions
+- [Get View Details](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/viewssdk/README.md#get_video_view_details) - Retrieve detailed information about specific video views
+- [List Top Content](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/viewssdk/README.md#list_by_top_content) - Find your most popular and engaging content
 
 #### Dimensions
-- [List Dimensions](docs/sdks/dimensions/README.md#list) - Get available data dimensions for filtering and analysis
-- [List Filter Values](docs/sdks/dimensions/README.md#list_filter_values) - Get specific values for a particular dimension
+- [List Dimensions](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/dimensions/README.md#list) - Get available data dimensions for filtering and analysis
+- [List Filter Values](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/dimensions/README.md#list_filter_values) - Get specific values for a particular dimension
 
 #### Errors
-- [List Errors](docs/sdks/errors/README.md#list) - Retrieve playback errors and issues
+- [List Errors](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/errors/README.md#list) - Retrieve playback errors and issues
 
 ### Transformations
 
@@ -299,32 +300,32 @@ Transform and enhance your video content with powerful AI and editing capabiliti
 
 Enhance video content with AI-powered features including moderation, summarization, and intelligent categorization.
 
-- [Update Summary](docs/sdks/invideoaifeatures/README.md#update_summary) - Create AI-generated video summaries
-- [Create Chapters](docs/sdks/invideoai/README.md#update_chapters) - Automatically generate video chapter markers
-- [Extract Entities](docs/sdks/invideoaifeatures/README.md#update_named_entities) - Identify and extract named entities from content
-- [Enable Moderation](docs/sdks/invideoaifeatures/README.md#update_moderation) - Activate content moderation and safety checks
+- [Update Summary](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/invideoaifeatures/README.md#update_summary) - Create AI-generated video summaries
+- [Create Chapters](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/invideoai/README.md#update_chapters) - Automatically generate video chapter markers
+- [Extract Entities](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/invideoaifeatures/README.md#update_named_entities) - Identify and extract named entities from content
+- [Enable Moderation](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/invideoaifeatures/README.md#update_moderation) - Activate content moderation and safety checks
 
 #### Media Clips
 
-- [Get Media Clips](docs/sdks/videos/README.md#list_clips) - Retrieve all clips associated with a source media
+- [Get Media Clips](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/videos/README.md#list_clips) - Retrieve all clips associated with a source media
 
 #### Subtitles
 
-- [Generate Subtitles](docs/sdks/managevideos/README.md#generate_subtitles) - Create automatic subtitles for media
+- [Generate Subtitles](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#generate_subtitles) - Create automatic subtitles for media
 
 #### Media Tracks
 
-- [Add Track](docs/sdks/mediatracks/README.md#add) - Add audio or subtitle tracks to media
-- [Update Track](docs/sdks/mediatracks/README.md#update) - Modify existing audio or subtitle tracks
-- [Delete Track](docs/sdks/videos/README.md#delete_track) - Remove audio or subtitle tracks
+- [Add Track](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/mediatracks/README.md#add) - Add audio or subtitle tracks to media
+- [Update Track](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/mediatracks/README.md#update) - Modify existing audio or subtitle tracks
+- [Delete Track](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/videos/README.md#delete_track) - Remove audio or subtitle tracks
 
 #### Access Control
 
-- [Update Source Access](docs/sdks/managevideos/README.md#update_source_access) - Control access permissions for media source
+- [Update Source Access](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#update_source_access) - Control access permissions for media source
 
 #### Format Support
 
-- [Update MP4 Support](docs/sdks/managevideos/README.md#update_mp4_support) - Configure MP4 download capabilities
+- [Update MP4 Support](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#update_mp4_support) - Configure MP4 download capabilities
 
 <!-- End Available Resources and Operations [operations] -->
 
