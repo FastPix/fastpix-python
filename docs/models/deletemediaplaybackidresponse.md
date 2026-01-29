@@ -1,10 +1,17 @@
 # DeleteMediaPlaybackIDResponse
 
-Deleted a Playback Id successfully
 
+## Supported Types
 
-## Fields
+### `models.DeleteMediaPlaybackIDResponseBody`
 
-| Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `success`                                              | *Optional[bool]*                                       | :heavy_minus_sign:                                     | Demonstrates whether the request is successful or not. | true                                                   |
+```python
+value: models.DeleteMediaPlaybackIDResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

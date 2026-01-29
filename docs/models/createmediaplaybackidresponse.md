@@ -1,11 +1,17 @@
 # CreateMediaPlaybackIDResponse
 
-Playback id for an media
 
+## Supported Types
 
-## Fields
+### `models.CreateMediaPlaybackIDResponseBody`
 
-| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *Optional[bool]*                                                                     | :heavy_minus_sign:                                                                   | Demonstrates whether the request is successful or not.                               | true                                                                                 |
-| `data`                                                                               | [Optional[models.CreateMediaPlaybackIDData]](../models/createmediaplaybackiddata.md) | :heavy_minus_sign:                                                                   | Displays the result of the request.                                                  |                                                                                      |
+```python
+value: models.CreateMediaPlaybackIDResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

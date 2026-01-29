@@ -1,13 +1,17 @@
 # ListVideoViewsResponse
 
-Get the list of Views
 
+## Supported Types
 
-## Fields
+### `models.ListVideoViewsResponseBody`
 
-| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `success`                                                                          | *Optional[bool]*                                                                   | :heavy_minus_sign:                                                                 | It demonstrates whether the request is successful or not.                          |                                                                                    |
-| `data`                                                                             | List[[models.ViewsList](../models/viewslist.md)]                                   | :heavy_minus_sign:                                                                 | Displays the result of the request.                                                |                                                                                    |
-| `pagination`                                                                       | [Optional[models.DataPagination]](../models/datapagination.md)                     | :heavy_minus_sign:                                                                 | Pagination organizes content into pages for better readability and navigation.     |                                                                                    |
-| `timespan`                                                                         | List[*int*]                                                                        | :heavy_minus_sign:                                                                 | The timeframe from and to details displayed in the form of unix epoch timestamps.<br/> | {<br/>"availableValue": [<br/>1610025789,<br/>1610025947<br/>]<br/>}               |
+```python
+value: models.ListVideoViewsResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

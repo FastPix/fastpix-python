@@ -1,13 +1,17 @@
 # ListOverallValuesResponse
 
-Get filter/ dimension value details by dimension name.
 
+## Supported Types
 
-## Fields
+### `models.ListOverallValuesResponseBody`
 
-| Field                                                                                        | Type                                                                                         | Required                                                                                     | Description                                                                                  | Example                                                                                      |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `success`                                                                                    | *Optional[bool]*                                                                             | :heavy_minus_sign:                                                                           | It demonstrates whether the request is successful or not.                                    |                                                                                              |
-| `meta_data`                                                                                  | [Optional[models.MetricsOverallMetaDataDetails]](../models/metricsoverallmetadatadetails.md) | :heavy_minus_sign:                                                                           | Metadata that has to be paased for metric calculations.                                      |                                                                                              |
-| `data`                                                                                       | [Optional[models.MetricsOverallDataDetails]](../models/metricsoveralldatadetails.md)         | :heavy_minus_sign:                                                                           | Retrieves overall values for a specified metric                                              |                                                                                              |
-| `timespan`                                                                                   | List[*int*]                                                                                  | :heavy_minus_sign:                                                                           | The timeframe from and to details displayed in the form of unix epoch timestamps.<br/>       | {<br/>"availableValue": [<br/>1610025789,<br/>1610025947<br/>]<br/>}                         |
+```python
+value: models.ListOverallValuesResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

@@ -6,27 +6,25 @@ from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-        username = "your-access-token",
-        password = "secret-key",
+        username="your-access-token",
+        password="your-secret-key",
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.create_media(inputs=[
+    res = fastpix.input_video.create_from_url(inputs=[
         {
             "type": "video",
-            "url": "https://static.fastpix.io/sample.mp4",
+            "url": "https://static.fastpix.io/fp-sample-video.mp4",
         },
-    ], access_policy="public", metadata={
+    ], metadata={
         "key1": "value1",
-    }, subtitles={
+    }, drm_configuration_id="your-drm-configuration-id", title="My Video Title", creator_id="your-creator-id", subtitles={
         "language_name": "english",
         "metadata": {
             "key1": "value1",
         },
         "language_code": "en",
-    }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-        "generate": True,
-    }, chapters=True, named_entities=True)
+    }, access_policy="public", mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", media_quality="standard", chapters=True, named_entities=True)
 
     # Handle response
     print(res)
@@ -45,27 +43,25 @@ async def main():
 
     async with Fastpix(
         security=models.Security(
-            username = "your-access-token",
-            password = "secret-key",
+            username="your-access-token",
+            password="your-secret-key",
         ),
     ) as fastpix:
 
-        res = await fastpix.input_video.create_media_async(inputs=[
+        res = await fastpix.input_video.create_from_url_async(inputs=[
             {
                 "type": "video",
-                "url": "https://static.fastpix.io/sample.mp4",
+                "url": "https://static.fastpix.io/fp-sample-video.mp4",
             },
-        ], access_policy="public", metadata={
+        ], metadata={
             "key1": "value1",
-        }, subtitles={
+        }, drm_configuration_id="your-drm-configuration-id", title="My Video Title", creator_id="your-creator-id", subtitles={
             "language_name": "english",
             "metadata": {
                 "key1": "value1",
             },
             "language_code": "en",
-        }, mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", summary={
-            "generate": True,
-        }, chapters=True, named_entities=True)
+        }, access_policy="public", mp4_support="capped_4k", source_access=True, optimize_audio=True, max_resolution="1080p", media_quality="standard", chapters=True, named_entities=True)
 
         # Handle response
         print(res)

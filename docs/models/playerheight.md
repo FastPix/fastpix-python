@@ -12,9 +12,9 @@ Player Height refers to the vertical dimension, measured in pixels, of the video
 value: str = /* values here */
 ```
 
-### `float`
+### `int`
 
 ```python
-value: float = /* values here */
+value: int = /* values here */
 ```
 

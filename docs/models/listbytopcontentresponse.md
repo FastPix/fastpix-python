@@ -1,11 +1,17 @@
 # ListByTopContentResponse
 
-Get the list of Views
 
+## Supported Types
 
-## Fields
+### `models.ListByTopContentResponseBody`
 
-| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `success`                                                                      | *Optional[bool]*                                                               | :heavy_minus_sign:                                                             | It demonstrates whether the request is successful or not.                      |
-| `data`                                                                         | List[[models.ViewsByTopContentDetails](../models/viewsbytopcontentdetails.md)] | :heavy_minus_sign:                                                             | Displays the result of the request.                                            |
+```python
+value: models.ListByTopContentResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

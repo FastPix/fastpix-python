@@ -1,11 +1,17 @@
 # GetDrmConfigurationByIDResponse
 
-DRM configuration retrieved successfully
 
+## Supported Types
 
-## Fields
+### `models.GetDrmConfigurationByIDResponseBody`
 
-| Field                                                        | Type                                                         | Required                                                     | Description                                                  | Example                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `success`                                                    | *Optional[bool]*                                             | :heavy_minus_sign:                                           | N/A                                                          | true                                                         |
-| `data`                                                       | [Optional[models.DrmIDResponse]](../models/drmidresponse.md) | :heavy_minus_sign:                                           | N/A                                                          |                                                              |
+```python
+value: models.GetDrmConfigurationByIDResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+

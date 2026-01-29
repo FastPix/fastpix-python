@@ -1,11 +1,17 @@
 # CancelUploadResponse
 
-Upload cancelled successfully
 
+## Supported Types
 
-## Fields
+### `models.CancelUploadResponseBody`
 
-| Field                                                                    | Type                                                                     | Required                                                                 | Description                                                              | Example                                                                  |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `success`                                                                | *Optional[bool]*                                                         | :heavy_minus_sign:                                                       | Demonstrates whether the request is successful or not.                   | true                                                                     |
-| `data`                                                                   | [Optional[models.MediaCancelResponse]](../models/mediacancelresponse.md) | :heavy_minus_sign:                                                       | Response returned when an upload is cancelled.                           |                                                                          |
+```python
+value: models.CancelUploadResponseBody = /* values here */
+```
+
+### `models.DefaultError`
+
+```python
+value: models.DefaultError = /* values here */
+```
+
