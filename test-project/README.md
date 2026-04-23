@@ -7,7 +7,7 @@ This folder is a tiny runnable project that installs the SDK from the parent fol
 From `fastpix-python/test-project`:
 
 ```bash
-cd "/Users/sravanimaramreddy/Desktop/Dec-speakeasy/new sdk/fastpix-python/test-project"
+cd fastpix-python/test-project
 chmod +x run.sh
 ```
 
