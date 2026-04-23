@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.2]
+
+### Fixed
+- Fixed `events` field in `get_video_view_details` response returning empty objects — added `validation_alias` mappings for abbreviated API keys (`pt`, `e`, `vt`, `d`) to full camelCase names (`playerPlayheadTime`, `eventName`, `viewerTime`, `eventDetails`)
+- Fixed `eventDetails` nested object returning raw abbreviated keys — introduced `EventDetails` model with proper field mappings (`host`→`hostName`, `txt`→`text`, `c`→`code`, `err`→`error`, `t`→`type`, `u`→`url`, `br`→`bitrate`, `h`→`height`, `fps`→`fps`, `cd`→`codec`, `w`→`width`)
+- Fixed `fpSDK` and `fpSDKVersion` fields missing from response — added `AliasChoices` to accept both `fpSdk` and `fpSDK` variants from the API
+- Fixed `experimentName` null value being excluded from serialized output
+- Added missing `custom` field to `Views` model to capture user-defined metadata object
+
+### Improved
+- Response models for video view details now fully conform to the OpenAPI spec field names
+
+---
+
 ## [1.1.1]
 
 ### Fixed

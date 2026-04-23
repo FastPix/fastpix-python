@@ -9,8 +9,8 @@ from ..types import (
     UNSET_SENTINEL,
 )
 import pydantic
-from pydantic import model_serializer
-from typing import List, Optional, Union
+from pydantic import AliasChoices, model_serializer
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -46,12 +46,16 @@ class DetailsTypedDict(TypedDict):
 
 
 class Details(BaseModel):
-    player_source_bitrate: OptionalNullable[int] = UNSET
+    player_source_bitrate: Annotated[
+        OptionalNullable[int], pydantic.Field(alias="playerSourceBitrate")
+    ] = UNSET
     r"""The player_source_bitrate represents the bitrate of the video stream that is being played, measured in bits per second (bps). This value indicates the quality of the video being streamed, with higher bitrates typically corresponding to better video quality but requiring more bandwidth.
 
     """
 
-    player_source_codec: OptionalNullable[str] = UNSET
+    player_source_codec: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="playerSourceCodec")
+    ] = UNSET
     r"""The player_source_codec represents the video or audio codec being used to decode and play the media. A codec is a technology used to compress and decompress digital media files, enabling efficient transmission and storage while maintaining quality.
 
     """
@@ -73,14 +77,14 @@ class Details(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "player_source_bitrate",
-            "player_source_codec",
+            "playerSourceBitrate",
+            "playerSourceCodec",
             "playerSourceHeight",
             "playerSourceWidth",
         ]
         nullable_fields = [
-            "player_source_bitrate",
-            "player_source_codec",
+            "playerSourceBitrate",
+            "playerSourceCodec",
             "playerSourceHeight",
             "playerSourceWidth",
         ]
@@ -131,43 +135,131 @@ class EventTypedDict(TypedDict):
     details: NotRequired[DetailsTypedDict]
 
 
-class Event(BaseModel):
-    event_name: OptionalNullable[str] = UNSET
-    r"""Name of the event.
-
-    """
-
-    event_time: OptionalNullable[EventTime] = UNSET
-    r"""The unix epoch timestamp when the event was captured.
-
-    """
-
-    viewer_time: OptionalNullable[int] = UNSET
-    r"""The unix epoch timestamp which represents the actual time the event has occured.
-
-    """
-
-    player_playhead_time: OptionalNullable[int] = UNSET
-    r"""The player_playhead_time represents the current position of the playhead (the point in the video that is being watched) on the video seekbar, measured in milliseconds. This value indicates how far into the video playback has progressed at any given moment.
-
-    """
-
-    details: Optional[Details] = None
+class EventDetails(BaseModel):
+    host_name: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="hostName", validation_alias=AliasChoices("host", "hostName")),
+    ] = UNSET
+    text: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="text", validation_alias=AliasChoices("txt", "text")),
+    ] = UNSET
+    code: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="code", validation_alias=AliasChoices("c", "code")),
+    ] = UNSET
+    error: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="error", validation_alias=AliasChoices("err", "error")),
+    ] = UNSET
+    type: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="type", validation_alias=AliasChoices("t", "type")),
+    ] = UNSET
+    url: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="url", validation_alias=AliasChoices("u", "url")),
+    ] = UNSET
+    bitrate: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="bitrate", validation_alias=AliasChoices("br", "bitrate")),
+    ] = UNSET
+    height: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="height", validation_alias=AliasChoices("h", "height")),
+    ] = UNSET
+    fps: OptionalNullable[Union[str, int, float]] = UNSET
+    codec: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="codec", validation_alias=AliasChoices("cd", "codec")),
+    ] = UNSET
+    width: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="width", validation_alias=AliasChoices("w", "width")),
+    ] = UNSET
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "event_name",
-            "event_time",
-            "viewer_time",
-            "player_playhead_time",
-            "details",
+            "hostName", "text", "code", "error", "type", "url",
+            "bitrate", "height", "fps", "codec", "width",
         ]
         nullable_fields = [
-            "event_name",
-            "event_time",
-            "viewer_time",
-            "player_playhead_time",
+            "hostName", "text", "code", "error", "type", "url",
+            "bitrate", "height", "fps", "codec", "width",
+        ]
+        null_default_fields: List[str] = []
+        serialized = handler(self)
+        m = {}
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+        return m
+
+
+class Event(BaseModel):
+    event_name: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="eventName", validation_alias=AliasChoices("e", "eventName")),
+    ] = UNSET
+    r"""Name of the event.
+
+    """
+
+    event_time: Annotated[
+        OptionalNullable[EventTime], pydantic.Field(alias="eventTime")
+    ] = UNSET
+    r"""The unix epoch timestamp when the event was captured.
+
+    """
+
+    viewer_time: Annotated[
+        OptionalNullable[int],
+        pydantic.Field(alias="viewerTime", validation_alias=AliasChoices("vt", "viewerTime")),
+    ] = UNSET
+    r"""The unix epoch timestamp which represents the actual time the event has occured.
+
+    """
+
+    player_playhead_time: Annotated[
+        OptionalNullable[int],
+        pydantic.Field(alias="playerPlayheadTime", validation_alias=AliasChoices("pt", "playerPlayheadTime")),
+    ] = UNSET
+    r"""The player_playhead_time represents the current position of the playhead (the point in the video that is being watched) on the video seekbar, measured in milliseconds. This value indicates how far into the video playback has progressed at any given moment.
+
+    """
+
+    event_details: Annotated[
+        Optional[EventDetails],
+        pydantic.Field(alias="eventDetails", validation_alias=AliasChoices("d", "eventDetails")),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "eventName",
+            "eventTime",
+            "viewerTime",
+            "playerPlayheadTime",
+            "eventDetails",
+        ]
+        nullable_fields = [
+            "eventName",
+            "eventTime",
+            "viewerTime",
+            "playerPlayheadTime",
         ]
         null_default_fields = []
 
@@ -307,6 +399,8 @@ class ViewsTypedDict(TypedDict):
     r"""User defined metadata. Only accessible once it is enabled in the organization settings.
 
     """
+    custom: NotRequired[Dict[str, Any]]
+    r"""User defined custom metadata object."""
     workspace_id: NotRequired[str]
     r"""It is a unique identifier associated with a specific workspace within the FastPix platform.
 
@@ -706,7 +800,7 @@ class Views(BaseModel):
     """
 
     buffer_frequency: Annotated[
-        OptionalNullable[float], pydantic.Field(alias="BufferFrequency")
+        OptionalNullable[float], pydantic.Field(alias="bufferFrequency")
     ] = UNSET
     r"""Buffer Frequency measures the rate at which rebuffering events occur, expressed as events per millisecond.
 
@@ -788,6 +882,9 @@ class Views(BaseModel):
     r"""User defined metadata. Only accessible once it is enabled in the organization settings.
 
     """
+
+    custom: Annotated[Optional[Dict[str, Any]], pydantic.Field(alias="custom")] = None
+    r"""User defined custom metadata object."""
 
     workspace_id: Annotated[Optional[str], pydantic.Field(alias="workspaceId")] = None
     r"""It is a unique identifier associated with a specific workspace within the FastPix platform.
@@ -921,13 +1018,17 @@ class Views(BaseModel):
 
     """
 
-    fp_sdk: Annotated[OptionalNullable[str], pydantic.Field(alias="fpSdk")] = UNSET
+    fp_sdk: Annotated[
+        OptionalNullable[str],
+        pydantic.Field(alias="fpSDK", validation_alias=AliasChoices("fpSdk", "fpSDK")),
+    ] = UNSET
     r"""FastPix SDK Name identifies the name of the FastPix Player SDK utilized within the player workspace.
 
     """
 
     fp_sdk_version: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="fpSdkVersion")
+        OptionalNullable[str],
+        pydantic.Field(alias="fpSDKVersion", validation_alias=AliasChoices("fpSdkVersion", "fpSDKVersion")),
     ] = UNSET
     r"""FastPix SDK Version specifies the version of the FastPix Player SDK integrated into the player.
 
@@ -1299,7 +1400,9 @@ class Views(BaseModel):
 
     """
 
-    connectiontype: OptionalNullable[str] = UNSET
+    connectiontype: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="connectionType")
+    ] = UNSET
     r"""Connection Type signifies the type of network connection utilized by the viewer's device
 
     """
@@ -1364,7 +1467,7 @@ class Views(BaseModel):
     """
 
     total_watch_time: Annotated[
-        OptionalNullable[int], pydantic.Field(alias="totalWatchTime")
+        OptionalNullable[int], pydantic.Field(alias="watchTime")
     ] = UNSET
     r"""Total Watch Time denotes the total duration of video content watched by the viewer, encompassing startup time, playing time, and potential rebuffering time, measured in milliseconds.
 
@@ -1398,6 +1501,84 @@ class Views(BaseModel):
 
     """
 
+    beacon_domain: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="beaconDomain")
+    ] = UNSET
+
+    browser_engine: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="browserEngine")
+    ] = UNSET
+
+    error_context: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="errorContext")
+    ] = UNSET
+
+    error_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="errorId")
+    ] = UNSET
+
+    fp_api_version: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="fpApiVersion")
+    ] = UNSET
+
+    fp_embed: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="fpEmbed")
+    ] = UNSET
+
+    fp_embed_version: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="fpEmbedVersion")
+    ] = UNSET
+
+    fp_viewer_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="fpViewerId")
+    ] = UNSET
+
+    ip_address: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="ipAddress")
+    ] = UNSET
+
+    player_source_domain: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="playerSourceDomain")
+    ] = UNSET
+
+    player_view_count: Annotated[
+        OptionalNullable[Union[str, int]], pydantic.Field(alias="playerViewCount")
+    ] = UNSET
+
+    property_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="propertyId")
+    ] = UNSET
+
+    sign: OptionalNullable[str] = UNSET
+
+    total_startup_time: Annotated[
+        OptionalNullable[int], pydantic.Field(alias="totalStartupTime")
+    ] = UNSET
+
+    video_encoding_variant: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="videoEncodingVariant")
+    ] = UNSET
+
+    video_producer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="videoProducer")
+    ] = UNSET
+
+    video_variant_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="videoVariantId")
+    ] = UNSET
+
+    video_variant_name: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="videoVariantName")
+    ] = UNSET
+
+    view_has_error: Annotated[
+        Optional[bool], pydantic.Field(alias="viewHasError")
+    ] = None
+
+    view_session_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="viewSessionId")
+    ] = UNSET
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -1406,7 +1587,7 @@ class Views(BaseModel):
             "mediaId",
             "bufferCount",
             "bufferFill",
-            "BufferFrequency",
+            "bufferFrequency",
             "cdn",
             "city",
             "continent",
@@ -1422,6 +1603,7 @@ class Views(BaseModel):
             "custom8",
             "custom9",
             "custom10",
+            "custom",
             "workspaceId",
             "events",
             "exitBeforeVideoStart",
@@ -1442,8 +1624,8 @@ class Views(BaseModel):
             "playerHeight",
             "playerInstanceId",
             "playerLanguage",
-            "fpSdk",
-            "fpSdkVersion",
+            "fpSDK",
+            "fpSDKVersion",
             "playerName",
             "playerPoster",
             "playerPreloadOn",
@@ -1498,7 +1680,7 @@ class Views(BaseModel):
             "avgUpscaling",
             "browserName",
             "browserVersion",
-            "connectiontype",
+            "connectionType",
             "deviceType",
             "deviceManufacturer",
             "deviceModel",
@@ -1508,11 +1690,31 @@ class Views(BaseModel):
             "osVersion",
             "userAgent",
             "viewerId",
-            "totalWatchTime",
+            "watchTime",
             "averageBitrate",
             "jumpLatency",
             "playerResolution",
             "videoResolution",
+            "beaconDomain",
+            "browserEngine",
+            "errorContext",
+            "errorId",
+            "fpApiVersion",
+            "fpEmbed",
+            "fpEmbedVersion",
+            "fpViewerId",
+            "ipAddress",
+            "playerSourceDomain",
+            "playerViewCount",
+            "propertyId",
+            "sign",
+            "totalStartupTime",
+            "videoEncodingVariant",
+            "videoProducer",
+            "videoVariantId",
+            "videoVariantName",
+            "viewHasError",
+            "viewSessionId",
         ]
         nullable_fields = [
             "asnName",
@@ -1520,11 +1722,12 @@ class Views(BaseModel):
             "mediaId",
             "bufferCount",
             "bufferFill",
-            "BufferFrequency",
+            "bufferFrequency",
             "cdn",
             "city",
             "continent",
             "countryCode",
+            "experimentName",
             "country",
             "custom1",
             "custom2",
@@ -1550,8 +1753,8 @@ class Views(BaseModel):
             "playerHeight",
             "playerInstanceId",
             "playerLanguage",
-            "fpSdk",
-            "fpSdkVersion",
+            "fpSDK",
+            "fpSDKVersion",
             "playerName",
             "playerPoster",
             "playerSoftwareVersion",
@@ -1600,7 +1803,7 @@ class Views(BaseModel):
             "avgUpscaling",
             "browserName",
             "browserVersion",
-            "connectiontype",
+            "connectionType",
             "deviceType",
             "deviceManufacturer",
             "deviceModel",
@@ -1609,11 +1812,30 @@ class Views(BaseModel):
             "osName",
             "userAgent",
             "viewerId",
-            "totalWatchTime",
+            "watchTime",
             "averageBitrate",
             "jumpLatency",
             "playerResolution",
             "videoResolution",
+            "beaconDomain",
+            "browserEngine",
+            "errorContext",
+            "errorId",
+            "fpApiVersion",
+            "fpEmbed",
+            "fpEmbedVersion",
+            "fpViewerId",
+            "ipAddress",
+            "playerSourceDomain",
+            "playerViewCount",
+            "propertyId",
+            "sign",
+            "totalStartupTime",
+            "videoEncodingVariant",
+            "videoProducer",
+            "videoVariantId",
+            "videoVariantName",
+            "viewSessionId",
         ]
         null_default_fields = []
 
