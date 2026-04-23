@@ -3,7 +3,6 @@
 # Synchronous Example
 from fastpix_python import Fastpix, models
 
-
 with Fastpix(
     security=models.Security(
         username="your-access-token",
