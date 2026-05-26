@@ -114,7 +114,7 @@ class PullVideoInput(BaseModel):
 
     """
 
-    url: Optional[str] = "https://static.fastpix.io/fp-sample-video.mp4"
+    url: Optional[str] = "https://static.fastpix.com/fp-sample-video.mp4"
     r"""The URL hosts the media file for FastPix, which needs to be downloaded to use further. It supports formats like MP3, MP4, MOV, MKV, or TS, and includes text tracks for subtitles or closed captions (SRT/VTT files). The URL must be valid, publicly accessible, and downloadable to ensure FastPix can fetch the file successfully.
 
     While FastPix can handle various audio and video formats and codecs, using standard and widely supported formats helps achieve optimal processing speed.

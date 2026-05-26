@@ -36,7 +36,7 @@ class Playback(BaseSDK):
     ) -> models.CreateMediaPlaybackIDResponse:
         r"""Create a playback ID
 
-        You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://docs.fastpix.io/reference/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
+        You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
 
 
 
@@ -174,7 +174,7 @@ class Playback(BaseSDK):
     ) -> models.CreateMediaPlaybackIDResponse:
         r"""Create a playback ID
 
-        You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://docs.fastpix.io/reference/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
+        You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
 
 
 

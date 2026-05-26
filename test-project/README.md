@@ -27,7 +27,7 @@ cp env.example .env
 Then edit `.env` and set your values.
 
 Optional:
-- `FASTPIX_SERVER_URL` (defaults to `https://api.fastpix.io/v1/`)
+- `FASTPIX_SERVER_URL` (defaults to `https://api.fastpix.com/v1/`)
 
 ### 3) Run examples
 

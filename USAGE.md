@@ -13,7 +13,7 @@ with Fastpix(
     res = fastpix.input_video.create_media(inputs=[
         {
             "type": "video",
-            "url": "https://static.fastpix.io/fp-sample-video.mp4",
+            "url": "https://static.fastpix.com/fp-sample-video.mp4",
         },
     ], metadata={
         "key1": "value1",
@@ -50,7 +50,7 @@ async def main():
         res = await fastpix.input_video.create_media_async(inputs=[
             {
                 "type": "video",
-                "url": "https://static.fastpix.io/fp-sample-video.mp4",
+                "url": "https://static.fastpix.com/fp-sample-video.mp4",
             },
         ], metadata={
             "key1": "value1",

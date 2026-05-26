@@ -15,7 +15,7 @@ npm install
 export FASTPIX_USERNAME="your-username"
 export FASTPIX_PASSWORD="your-password"
 # optional:
-# export FASTPIX_BASE_URL="https://api.fastpix.io/v1/"
+# export FASTPIX_BASE_URL="https://api.fastpix.com/v1/"
 ```
 
 3. Run:

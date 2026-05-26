@@ -1069,7 +1069,7 @@ async function main(): Promise<void> {
 
   const baseUrl: string =
     process.env.FASTPIX_BASE_URL
-    ?? ((spec.servers?.[0]?.url as string | undefined) ?? "https://api.fastpix.io/v1/");
+    ?? ((spec.servers?.[0]?.url as string | undefined) ?? "https://api.fastpix.com/v1/");
 
   const username = process.env.FASTPIX_USERNAME ?? "";
   const password = process.env.FASTPIX_PASSWORD ?? "";

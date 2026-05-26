@@ -233,7 +233,7 @@ class LiveStreams(BaseSDK):
         Suppose a news agency is broadcasting a live event and wants to track the configurations set for the live stream while also checking the stream's status.
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -329,7 +329,7 @@ class LiveStreams(BaseSDK):
         Suppose a news agency is broadcasting a live event and wants to track the configurations set for the live stream while also checking the stream's status.
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -429,7 +429,7 @@ class LiveStreams(BaseSDK):
 
         A creator disables a livestream to pause it temporarily. Later, they decide to continue the session. By calling this endpoint with the stream's ID, they can re-enable and restart the same livestream.
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -529,7 +529,7 @@ class LiveStreams(BaseSDK):
 
         A creator disables a livestream to pause it temporarily. Later, they decide to continue the session. By calling this endpoint with the stream's ID, they can re-enable and restart the same livestream.
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -627,7 +627,7 @@ class LiveStreams(BaseSDK):
 
         A speaker finishes their live session and wants to prevent the stream from being mistakenly started again. By calling this endpoint, the stream is transitioned to a `disabled` state, ensuring it's permanently stopped (unless re-enabled on a paid plan).
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -725,7 +725,7 @@ class LiveStreams(BaseSDK):
 
         A speaker finishes their live session and wants to prevent the stream from being mistakenly started again. By calling this endpoint, the stream is transitioned to a `disabled` state, ensuring it's permanently stopped (unless re-enabled on a paid plan).
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method

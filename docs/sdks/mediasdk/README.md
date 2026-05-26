@@ -21,7 +21,7 @@ Retrieves a list of all media clips generated from a specific livestream. Each m
 #### Use case
 Suppose you’re hosting a live gaming event and want to showcase key moments from the stream — such as top plays or final match highlights. You can use this endpoint to fetch all clips generated from that livestream, display them in your dashboard, or use them for post-event editing and sharing.
 
-Related guide: <a href="https://docs.fastpix.io/docs/instant-live-clipping">Instant live clipping</a>
+Related guide: <a href="https://fastpix.com/docs/edit-and-transform-live-stream/clip-moments-from-a-live-stream">Instant live clipping</a>
 
 ### Example Usage
 
@@ -78,7 +78,7 @@ By calling this endpoint, you can retrieve detailed information about a specific
    - **status** – Indicates whether the media is still *Processing* or has transitioned to *Ready*.
    - **playbackId** – A unique identifier that allows you to stream the media once it is *Ready*.  
      You can construct the stream URL as follows:  
-     `https://stream.fastpix.io/<playbackId>.m3u8`
+     `https://stream.fastpix.com/<playbackId>.m3u8`
 
 #### Example
 

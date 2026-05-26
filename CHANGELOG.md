@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.3]
+
+### ⚠️ Important — FastPix is migrating from `.io` to `.com`
+
+All FastPix-owned hosts, API endpoints, and documentation links are being moved from the `.io` TLD to `.com`. The `.io` hosts continue to serve traffic during the transition window, **but they are slated for deprecation soon** — please update any hard-coded references in your application as part of your next deploy.
+
+| Old (`.io`) | New (`.com`) |
+|---|---|
+| `api.fastpix.io` | `api.fastpix.com` |
+| `stream.fastpix.io` | `stream.fastpix.com` |
+| `images.fastpix.io` | `images.fastpix.com` |
+| `dashboard.fastpix.io` | `dashboard.fastpix.com` |
+| `www.fastpix.io` | `www.fastpix.com` |
+| `docs.fastpix.io/...` | `fastpix.com/docs/...` |
+
+What this means for users of `fastpix_python`:
+
+- **If you rely on SDK defaults**, no code change is required. The default `server_url` in this release points at `https://api.fastpix.com/v1/`, so bumping to `1.1.3` and re-running `pip install --upgrade fastpix_python` is enough.
+- **If you have an explicit `server_url` override** (e.g. `Fastpixpython(server_url="https://api.fastpix.io/v1/")`), change it to `https://api.fastpix.com/v1/`.
+- **If your application code references FastPix asset URLs directly** — playback URLs (`stream.fastpix.io/...`), image CDN (`images.fastpix.io/...`), dashboard deep links, or doc links in your own README — update them to the `.com` equivalents before the `.io` hosts are decommissioned.
+- We strongly recommend upgrading **every official FastPix SDK** in your stack to its latest release as part of the same change — every SDK is being rolled out with the same migration.
+
+### Changed
+
+- All README, USAGE, and per-SDK documentation pages updated end-to-end from `dashboard.fastpix.io` / `docs.fastpix.io/...` to `dashboard.fastpix.com` / `fastpix.com/docs/...` so every link in the package points at the post-migration host structure.
+- Reference links (Homepage, Dashboard, API Reference, "Detailed Usage") repointed to `fastpix.com`.
+- Sample playback URLs in code examples updated from `stream.fastpix.io` to `stream.fastpix.com`.
+
+### Docs
+
+- 173 documentation links across 70 markdown files verified reachable after migration; zero `fastpix.com/docs/*` URLs are broken. The handful of remaining broken links in the link-check report are expired example assets / placeholder thumbnails inside API response snippets, not navigation targets.
+
+---
+
 ## [1.1.2]
 
 ### Fixed

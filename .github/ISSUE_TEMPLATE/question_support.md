@@ -137,7 +137,6 @@ Before submitting, please ensure:
 **We'll do our best to help you get unstuck! 🚀**
 
 **For urgent issues, please also consider:**
-- [FastPix Documentation](https://docs.fastpix.io/)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/fastpix)
-- [GitHub Discussions](https://github.com/FastPix/python-language-sdk/discussions)
+- [FastPix Documentation](https://fastpix.com/docs)
+- [GitHub Discussions](https://github.com/FastPix/fastpix-python/issues)
 

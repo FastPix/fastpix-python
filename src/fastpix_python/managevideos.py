@@ -253,7 +253,7 @@ class ManageVideos(BaseSDK):
 
         3. The response returns the updated media data, confirming the changes.
 
-        4. Monitor the <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> webhook event to track the update status in your system.
+        4. Monitor the <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> webhook event to track the update status in your system.
 
         #### Example
         If a user uploads a video and later needs to change the title, add a new description, or update tags, you can use this endpoint to update the media metadata without re-uploading the entire video.
@@ -372,7 +372,7 @@ class ManageVideos(BaseSDK):
 
         3. The response returns the updated media data, confirming the changes.
 
-        4. Monitor the <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> webhook event to track the update status in your system.
+        4. Monitor the <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> webhook event to track the update status in your system.
 
         #### Example
         If a user uploads a video and later needs to change the title, add a new description, or update tags, you can use this endpoint to update the media metadata without re-uploading the entire video.
@@ -486,7 +486,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        Once the upload is cancelled, you must receive the webhook event <a href=\"https://docs.fastpix.io/docs/media-events#videomediauploadcancelled\">video.media.upload.cancelled</a>.
+        Once the upload is cancelled, you must receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled\">video.media.upload.cancelled</a>.
 
         #### Example
 
@@ -590,7 +590,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        Once the upload is cancelled, you must receive the webhook event <a href=\"https://docs.fastpix.io/docs/media-events#videomediauploadcancelled\">video.media.upload.cancelled</a>.
+        Once the upload is cancelled, you must receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled\">video.media.upload.cancelled</a>.
 
         #### Example
 
@@ -701,11 +701,11 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        1. After the subtitle track is generated and ready, you receive the webhook event <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
+        1. After the subtitle track is generated and ready, you receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
 
-        2. Finally the <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> event notifies your system about the media’s updated status.
+        2. Finally the <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event notifies your system about the media’s updated status.
 
-        </br> Related guide: <a href=\"https://docs.fastpix.io/docs/add-auto-generated-subtitles-to-videos\">Add auto-generated subtitles</a>
+        </br> Related guide: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically\">Add auto-generated subtitles</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -828,11 +828,11 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        1. After the subtitle track is generated and ready, you receive the webhook event <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
+        1. After the subtitle track is generated and ready, you receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
 
-        2. Finally the <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> event notifies your system about the media’s updated status.
+        2. Finally the <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event notifies your system about the media’s updated status.
 
-        </br> Related guide: <a href=\"https://docs.fastpix.io/docs/add-auto-generated-subtitles-to-videos\">Add auto-generated subtitles</a>
+        </br> Related guide: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically\">Add auto-generated subtitles</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -1153,7 +1153,7 @@ class ManageVideos(BaseSDK):
         2. Include the updated `sourceAccess` parameter in the request body.
 
         3. You receive a response confirming the update to the media’s source access status.
-        4. Webhook events: <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
+        4. Webhook events: <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -1268,7 +1268,7 @@ class ManageVideos(BaseSDK):
         2. Include the updated `sourceAccess` parameter in the request body.
 
         3. You receive a response confirming the update to the media’s source access status.
-        4. Webhook events: <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
+        4. Webhook events: <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -1396,13 +1396,13 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        - <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+        - <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
         #### Example
-        Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.io/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set \"mp4Support\": \"audioOnly\". This provides an audio-only stream URL that allows users to listen to the media without video. By setting \"mp4Support\": \"audioOnly,capped_4k\", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media.
+        Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set \"mp4Support\": \"audioOnly\". This provides an audio-only stream URL that allows users to listen to the media without video. By setting \"mp4Support\": \"audioOnly,capped_4k\", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media.
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/mp4-support-for-offline-viewing\">Use MP4 support for offline viewing</a>
+        Related guide: <a href=\"https://fastpix.com/docs/playback-and-delivery/enable-mp4-support-for-offline-viewing\">Use MP4 support for offline viewing</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -1527,13 +1527,13 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        - <a href=\"https://docs.fastpix.io/docs/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+        - <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
         #### Example
-        Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.io/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set \"mp4Support\": \"audioOnly\". This provides an audio-only stream URL that allows users to listen to the media without video. By setting \"mp4Support\": \"audioOnly,capped_4k\", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media.
+        Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set \"mp4Support\": \"audioOnly\". This provides an audio-only stream URL that allows users to listen to the media without video. By setting \"mp4Support\": \"audioOnly,capped_4k\", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media.
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/mp4-support-for-offline-viewing\">Use MP4 support for offline viewing</a>
+        Related guide: <a href=\"https://fastpix.com/docs/playback-and-delivery/enable-mp4-support-for-offline-viewing\">Use MP4 support for offline viewing</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.

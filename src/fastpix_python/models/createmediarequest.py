@@ -396,7 +396,7 @@ class CreateMediaRequestAccessRestrictions(BaseModel):
 class CreateMediaRequestTypedDict(TypedDict):
     inputs: List[CreateMediaRequestInputTypedDict]
     r"""Add one input object at a time. For example, first add a **VideoInput** object.   If you also need a watermark, click **Add item** again and select **WatermarkInput**.   Repeat this process for **AudioInput** or **SubtitleInput** as needed. For a complete explanation of how media uploads from URL and processing work, refer to the
-    <a href=\"https://docs.fastpix.io/docs/video-on-demand-overview\" target=\"_blank\">FastPix Video on Demand Overview</a>.
+    <a href=\"https://fastpix.com/docs/get-started/overview\" target=\"_blank\">FastPix Video on Demand Overview</a>.
 
     """
     metadata: NotRequired[Dict[str, str]]
@@ -449,7 +449,7 @@ class CreateMediaRequestTypedDict(TypedDict):
 class CreateMediaRequest(BaseModel):
     inputs: List[CreateMediaRequestInput]
     r"""Add one input object at a time. For example, first add a **VideoInput** object.   If you also need a watermark, click **Add item** again and select **WatermarkInput**.   Repeat this process for **AudioInput** or **SubtitleInput** as needed. For a complete explanation of how media uploads from URL and processing work, refer to the
-    <a href=\"https://docs.fastpix.io/docs/video-on-demand-overview\" target=\"_blank\">FastPix Video on Demand Overview</a>.
+    <a href=\"https://fastpix.com/docs/get-started/overview\" target=\"_blank\">FastPix Video on Demand Overview</a>.
 
     """
 

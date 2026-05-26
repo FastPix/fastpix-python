@@ -528,7 +528,7 @@ class ViewsTypedDict(TypedDict):
 
     """
     player_source_domain: NotRequired[Nullable[str]]
-    r"""Specifies the domain or source from which the player was loaded or embedded (for example, stream.fastpix.io or a customer’s custom domain). This helps identify the playback origin and differentiate between various deployment environments.
+    r"""Specifies the domain or source from which the player was loaded or embedded (for example, stream.fastpix.com or a customer’s custom domain). This helps identify the playback origin and differentiate between various deployment environments.
 
     """
     player_source_height: NotRequired[Nullable[int]]
@@ -1198,7 +1198,7 @@ class Views(BaseModel):
     player_source_domain: Annotated[
         OptionalNullable[str], pydantic.Field(alias="playerSourceDomain")
     ] = UNSET
-    r"""Specifies the domain or source from which the player was loaded or embedded (for example, stream.fastpix.io or a customer’s custom domain). This helps identify the playback origin and differentiate between various deployment environments.
+    r"""Specifies the domain or source from which the player was loaded or embedded (for example, stream.fastpix.com or a customer’s custom domain). This helps identify the playback origin and differentiate between various deployment environments.
 
     """
 

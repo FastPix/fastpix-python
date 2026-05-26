@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
  
 setup(
     name="fastpix_python",
-    version="1.1.2",
+    version="1.1.3",
     packages=find_packages(),
     install_requires=[
         "httpcore>=1.0.9",
@@ -16,12 +16,12 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="FastPix",
-    author_email="devs@fastpix.io",
+    author_email="devs@fastpix.com",
     url="https://github.com/FastPix/fastpix-python",
     project_urls={
         "GitHub": "https://github.com/FastPix/fastpix-python",
-        "Website": "https://fastpix.io",
-        "Dashboard": "https://dashboard.fastpix.io",
+        "Website": "https://fastpix.com",
+        "Dashboard": "https://dashboard.fastpix.com",
     },
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -35,7 +35,7 @@ class Videos(BaseSDK):
 
         2. This action is irreversible. Make sure you no longer need the media before proceeding. Once deleted, the media can’t be retrieved or played back.
 
-        3. Monitor the following webhook event: <a href=\"https://docs.fastpix.io/docs/media-events#videomediadeleted\">video.media.deleted</a>
+        3. Monitor the following webhook event: <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediadeleted\">video.media.deleted</a>
 
         #### Example
         A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
@@ -139,7 +139,7 @@ class Videos(BaseSDK):
 
         2. This action is irreversible. Make sure you no longer need the media before proceeding. Once deleted, the media can’t be retrieved or played back.
 
-        3. Monitor the following webhook event: <a href=\"https://docs.fastpix.io/docs/media-events#videomediadeleted\">video.media.deleted</a>
+        3. Monitor the following webhook event: <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediadeleted\">video.media.deleted</a>
 
         #### Example
         A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
@@ -248,7 +248,7 @@ class Videos(BaseSDK):
 
         1. After successfully deleting a track, your system must receive the webhook event **video.media.track.deleted**.
 
-        2. Once the media file is updated to reflect the track removal, a <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> event must be triggered.
+        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event must be triggered.
 
 
         #### Example
@@ -258,7 +258,7 @@ class Videos(BaseSDK):
         - The content owner requests the removal of a specific subtitle or audio track.
         - A new version of the track gets uploaded to replace the existing one.
 
-        Related guides: <a href=\"https://docs.fastpix.io/docs/manage-subtitle-tracks\">Add own subtitle tracks</a>, <a href=\"https://docs.fastpix.io/docs/manage-audio-tracks\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -368,7 +368,7 @@ class Videos(BaseSDK):
 
         1. After successfully deleting a track, your system must receive the webhook event **video.media.track.deleted**.
 
-        2. Once the media file is updated to reflect the track removal, a <a href=\"https://docs.fastpix.io/docs/media-events#videomediaupdated\">video.media.updated</a> event must be triggered.
+        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event must be triggered.
 
 
         #### Example
@@ -378,7 +378,7 @@ class Videos(BaseSDK):
         - The content owner requests the removal of a specific subtitle or audio track.
         - A new version of the track gets uploaded to replace the existing one.
 
-        Related guides: <a href=\"https://docs.fastpix.io/docs/manage-subtitle-tracks\">Add own subtitle tracks</a>, <a href=\"https://docs.fastpix.io/docs/manage-audio-tracks\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -493,7 +493,7 @@ class Videos(BaseSDK):
 
         Imagine you’re managing a video editing platform where users upload full-length videos and create short clips for social media sharing. To keep track of all clips linked to a particular video, you call this API with the sourceMediaId. The response provides a list of all associated clips, allowing you to manage, edit, or repurpose them as needed.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/create-clips-from-existing-media\">Create clips from existing media</a>
+        Related guide: <a href=\"https://fastpix.com/docs/edit-and-transform-videos/clip-and-trim-videos\">Create clips from existing media</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -610,7 +610,7 @@ class Videos(BaseSDK):
 
         Imagine you’re managing a video editing platform where users upload full-length videos and create short clips for social media sharing. To keep track of all clips linked to a particular video, you call this API with the sourceMediaId. The response provides a list of all associated clips, allowing you to manage, edit, or repurpose them as needed.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/create-clips-from-existing-media\">Create clips from existing media</a>
+        Related guide: <a href=\"https://fastpix.com/docs/edit-and-transform-videos/clip-and-trim-videos\">Create clips from existing media</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.

@@ -33,7 +33,7 @@ class ManageLiveStream(BaseSDK):
 
         Suppose a content creator is hosting a live concert and wants to display the number of live viewers on their dashboard. This endpoint can be queried to show up-to-date viewer statistics.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -131,7 +131,7 @@ class ManageLiveStream(BaseSDK):
 
         Suppose a content creator is hosting a live concert and wants to display the number of live viewers on their dashboard. This endpoint can be queried to show up-to-date viewer statistics.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -226,7 +226,7 @@ class ManageLiveStream(BaseSDK):
         This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. After the live stream is disabled, you cannot update a stream.
 
 
-        The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href=\"https://docs.fastpix.io/docs/live-events#videolive_streamupdated\">video.live_stream.updated</a> webhook event notifies your system.
+        The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href=\"https://fastpix.com/docs/live-stream-events/live-events#videolive_streamupdated\">video.live_stream.updated</a> webhook event notifies your system.
 
         #### Example
 
@@ -234,7 +234,7 @@ class ManageLiveStream(BaseSDK):
 
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param metadata: You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\":\"value\"s pairs. Dynamic metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
@@ -338,7 +338,7 @@ class ManageLiveStream(BaseSDK):
         This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. After the live stream is disabled, you cannot update a stream.
 
 
-        The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href=\"https://docs.fastpix.io/docs/live-events#videolive_streamupdated\">video.live_stream.updated</a> webhook event notifies your system.
+        The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href=\"https://fastpix.com/docs/live-stream-events/live-events#videolive_streamupdated\">video.live_stream.updated</a> webhook event notifies your system.
 
         #### Example
 
@@ -346,7 +346,7 @@ class ManageLiveStream(BaseSDK):
 
 
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide: <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: After creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param metadata: You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\":\"value\"s pairs. Dynamic metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
@@ -455,7 +455,7 @@ class ManageLiveStream(BaseSDK):
 
         A virtual event ends, and the system or host needs to close the livestream to prevent further streaming. This endpoint ensures the livestream status is changed from `active` to `idle`, indicating it's officially completed.
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method
@@ -555,7 +555,7 @@ class ManageLiveStream(BaseSDK):
 
         A virtual event ends, and the system or host needs to close the livestream to prevent further streaming. This endpoint ensures the livestream status is changed from `active` to `idle`, indicating it's officially completed.
 
-        Related guide <a href=\"https://docs.fastpix.io/docs/manage-streams\">Manage streams</a>
+        Related guide <a href=\"https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams\">Manage streams</a>
 
         :param stream_id: Upon creating a new live stream, FastPix assigns a unique identifier to the stream.
         :param retries: Override the default retry configuration for this method

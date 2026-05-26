@@ -33,11 +33,11 @@ class InVideoAI(BaseSDK):
         2. Include the `chapters` parameter in the request body to enable.
         3. The response contains the updated media data, confirming the changes made.
 
-        You can use the <a href=\"https://docs.fastpix.io/docs/ai-events#videomediaaichaptersready\">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
+        You can use the <a href=\"https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaichaptersready\">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
 
         **Use case:** This is particularly useful when a user uploads a video and later decides to enable chapters without re-uploading the entire video.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/generate-video-chapters\">Video chapters</a>
+        Related guide: <a href=\"https://fastpix.com/docs/video-intelligence/generate-video-chapters\">Video chapters</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
@@ -151,11 +151,11 @@ class InVideoAI(BaseSDK):
         2. Include the `chapters` parameter in the request body to enable.
         3. The response contains the updated media data, confirming the changes made.
 
-        You can use the <a href=\"https://docs.fastpix.io/docs/ai-events#videomediaaichaptersready\">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
+        You can use the <a href=\"https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaichaptersready\">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
 
         **Use case:** This is particularly useful when a user uploads a video and later decides to enable chapters without re-uploading the entire video.
 
-        Related guide: <a href=\"https://docs.fastpix.io/docs/generate-video-chapters\">Video chapters</a>
+        Related guide: <a href=\"https://fastpix.com/docs/video-intelligence/generate-video-chapters\">Video chapters</a>
 
 
         :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.

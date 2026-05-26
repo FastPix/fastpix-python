@@ -161,7 +161,7 @@ def implement_secure_playback(media_id, signing_key_id):
         # 3. Validate the token on the client side
         
         print(f"🔗 Secure playback URL structure:")
-        print(f"   https://playback.fastpix.io/{playback.id}?token=<JWT_TOKEN>")
+        print(f"   https://playback.fastpix.com/{playback.id}?token=<JWT_TOKEN>")
         
         return playback.id
 

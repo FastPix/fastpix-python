@@ -20,7 +20,7 @@ from typing import Callable, Dict, Optional, Tuple, Union
 
 
 SERVERS = [
-    "https://api.fastpix.io/v1/",
+    "https://api.fastpix.com/v1/",
     # FastPix Video APIs
 ]
 """Contains the list of servers available to the SDK"""

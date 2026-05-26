@@ -1,0 +1,35 @@
+include README.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include LICENSE
+include USAGE.md
+include py.typed
+include requirements.txt
+
+recursive-include fastpix_python *.py *.typed *.yaml
+
+# Exclusions: keep developer-only and validation artifacts out of the sdist
+exclude pyproject.toml.bak
+exclude package.json
+exclude package-lock.json
+exclude pylintrc
+exclude *.csv
+exclude *.xlsx
+exclude *.docx
+exclude generate_feature_matrix.py
+exclude fixed.yaml
+exclude old-yaml.yaml
+
+prune tests
+prune test-project
+prune samples
+prune docs
+prune scripts
+prune src
+prune .github
+prune .git
+prune __pycache__
+prune .venv
+prune dist
+prune build
+prune temp

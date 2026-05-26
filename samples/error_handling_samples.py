@@ -171,7 +171,7 @@ def handle_network_errors():
     # Simulate network issues by using invalid server URL
     try:
         network_client = Fastpix(
-            server_url="https://invalid-server.fastpix.io",
+            server_url="https://invalid-server.fastpix.com",
             security=models.Security(
                 username=os.getenv("FASTPIX_ACCESS_TOKEN"),
                 password=os.getenv("FASTPIX_SECRET_KEY"),

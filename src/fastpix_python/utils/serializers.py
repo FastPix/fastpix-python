@@ -219,7 +219,7 @@ def _contains_pydantic_model(data: Any) -> bool:
 def _get_typing_objects_by_name_of(name: str) -> Tuple[Any, ...]:
     """
     Get typing objects by name from typing and typing_extensions.
-    Reference: https://typing-extensions.readthedocs.io/en/latest/#runtime-use-of-types
+    Reference: https://typing-extensions.readthedocs.com/en/latest/#runtime-use-of-types
     """
     result = tuple(
         getattr(module, name)
