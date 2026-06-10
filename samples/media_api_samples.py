@@ -71,7 +71,7 @@ def create_and_manage_playlist(media_id):
             playlist_id=playlist.id,
             media_id=media_id
         )
-        print(f"✅ Media added to playlist")
+        print("✅ Media added to playlist")
         
         # List all playlists
         playlists = fastpix.playlist.get_all_playlists()
@@ -153,7 +153,7 @@ def complete_media_workflow():
         # Step 4: Manage tracks
         manage_media_tracks(media_id)
         
-        print(f"\n🎉 Workflow completed successfully!")
+        print("\n🎉 Workflow completed successfully!")
         print(f"📹 Media ID: {media_id}")
         print(f"📋 Playlist ID: {playlist_id}")
         print(f"▶️ Playback ID: {playback_id}")

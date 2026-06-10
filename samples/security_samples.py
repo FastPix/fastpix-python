@@ -74,7 +74,7 @@ def configure_drm_settings():
             config_details = fastpix.drm_configurations.get_drm_configuration_by_id(
                 config_id=drm_configs.data[0].id
             )
-            print(f"\n🔍 DRM Configuration Details:")
+            print("\n🔍 DRM Configuration Details:")
             print(f"   ID: {config_details.id}")
             print(f"   Name: {config_details.name}")
             print(f"   Type: {config_details.type}")
@@ -85,10 +85,10 @@ def configure_drm_settings():
 def create_secure_token(signing_key_id, media_id, expiration_hours=24):
     """Create a secure JWT token for media access."""
     with setup_client() as fastpix:
-        print(f"\n=== Creating Secure Token ===")
+        print("\n=== Creating Secure Token ===")
         
         # Get signing key details
-        key_details = fastpix.signing_keys.get_signing_key_by_id(
+        fastpix.signing_keys.get_signing_key_by_id(
             signing_key_id=signing_key_id
         )
         
@@ -118,7 +118,7 @@ def create_secure_token(signing_key_id, media_id, expiration_hours=24):
 
 def demonstrate_access_control():
     """Demonstrate access control features."""
-    with setup_client() as fastpix:
+    with setup_client():
         print("\n=== Access Control Features ===")
         
         print("🛡️ Security Features Available:")
@@ -143,10 +143,10 @@ def demonstrate_access_control():
 def implement_secure_playback(media_id, signing_key_id):
     """Implement secure playback with token-based access."""
     with setup_client() as fastpix:
-        print(f"\n=== Implementing Secure Playback ===")
+        print("\n=== Implementing Secure Playback ===")
         
         # Create secure token
-        token_payload = create_secure_token(signing_key_id, media_id)
+        create_secure_token(signing_key_id, media_id)
         
         # Create playback ID with security
         playback = fastpix.playback.create_media_playback_id(
@@ -160,7 +160,7 @@ def implement_secure_playback(media_id, signing_key_id):
         # 2. Include the token in the playback URL
         # 3. Validate the token on the client side
         
-        print(f"🔗 Secure playback URL structure:")
+        print("🔗 Secure playback URL structure:")
         print(f"   https://playback.fastpix.com/{playback.id}?token=<JWT_TOKEN>")
         
         return playback.id
@@ -168,7 +168,7 @@ def implement_secure_playback(media_id, signing_key_id):
 
 def manage_security_lifecycle():
     """Manage the complete security lifecycle."""
-    with setup_client() as fastpix:
+    with setup_client():
         print("\n=== Security Lifecycle Management ===")
         
         # Create signing key
@@ -186,7 +186,7 @@ def manage_security_lifecycle():
         # Implement secure playback
         playback_id = implement_secure_playback(media_id, signing_key_id)
         
-        print(f"\n🎉 Security setup completed!")
+        print("\n🎉 Security setup completed!")
         print(f"🔑 Signing Key ID: {signing_key_id}")
         print(f"🔐 DRM Config ID: {drm_config_id}")
         print(f"▶️ Playback ID: {playback_id}")
@@ -201,7 +201,7 @@ def manage_security_lifecycle():
 def cleanup_security_resources(signing_key_id):
     """Clean up security resources."""
     with setup_client() as fastpix:
-        print(f"\n=== Cleaning Up Security Resources ===")
+        print("\n=== Cleaning Up Security Resources ===")
         
         try:
             # Delete signing key
@@ -220,16 +220,16 @@ def complete_security_workflow():
         print("🚀 Starting FastPix Security Workflow\n")
         
         # Step 1: Manage security lifecycle
-        security_resources = manage_security_lifecycle()
+        manage_security_lifecycle()
         
-        print(f"\n💡 Security Implementation Tips:")
-        print(f"   1. Store private keys securely (use environment variables)")
-        print(f"   2. Implement token refresh mechanisms")
-        print(f"   3. Monitor key usage and rotation")
-        print(f"   4. Use HTTPS for all token transmission")
-        print(f"   5. Implement proper error handling for expired tokens")
+        print("\n💡 Security Implementation Tips:")
+        print("   1. Store private keys securely (use environment variables)")
+        print("   2. Implement token refresh mechanisms")
+        print("   3. Monitor key usage and rotation")
+        print("   4. Use HTTPS for all token transmission")
+        print("   5. Implement proper error handling for expired tokens")
         
-        print(f"\n🎉 Security workflow completed successfully!")
+        print("\n🎉 Security workflow completed successfully!")
         
         # Uncomment to test cleanup
         # cleanup_security_resources(security_resources["signing_key_id"])

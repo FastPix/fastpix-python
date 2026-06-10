@@ -58,7 +58,7 @@ class ListPlaybackIdsDomains(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -97,7 +97,7 @@ class ListPlaybackIdsUserAgents(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -130,7 +130,7 @@ class ListPlaybackIdsAccessRestrictions(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["domains", "userAgents"])
+        optional_fields = {"domains", "userAgents"}
         serialized = handler(self)
         m = {}
 
@@ -171,7 +171,7 @@ class ListPlaybackIdsData(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["id", "accessPolicy", "accessRestrictions"])
+        optional_fields = {"id", "accessPolicy", "accessRestrictions"}
         serialized = handler(self)
         m = {}
 
@@ -204,7 +204,7 @@ class ListPlaybackIdsResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data"])
+        optional_fields = {"success", "data"}
         serialized = handler(self)
         m = {}
 

@@ -33,7 +33,7 @@ def enable_content_moderation(media_id):
             type="video"
         )
         print(f"✅ Content moderation enabled for media: {media_id}")
-        print(f"🔍 Moderation will analyze for NSFW content, violence, and other safety issues")
+        print("🔍 Moderation will analyze for NSFW content, violence, and other safety issues")
         
         return moderation_result
 
@@ -49,7 +49,7 @@ def generate_video_summary(media_id):
             generate=True
         )
         print(f"✅ Video summary generation initiated for media: {media_id}")
-        print(f"📝 AI will analyze the content and generate a comprehensive summary")
+        print("📝 AI will analyze the content and generate a comprehensive summary")
         
         return summary_result
 
@@ -65,7 +65,7 @@ def create_video_chapters(media_id):
             generate=True
         )
         print(f"✅ Chapter generation initiated for media: {media_id}")
-        print(f"📑 AI will analyze the content and create chapter markers")
+        print("📑 AI will analyze the content and create chapter markers")
         
         return chapters_result
 
@@ -81,7 +81,7 @@ def extract_named_entities(media_id):
             generate=True
         )
         print(f"✅ Named entity extraction initiated for media: {media_id}")
-        print(f"🏷️ AI will identify and categorize people, places, organizations, and other entities")
+        print("🏷️ AI will identify and categorize people, places, organizations, and other entities")
         
         return entities_result
 
@@ -139,7 +139,7 @@ def process_ai_features_batch(media_ids):
 
 def demonstrate_content_safety():
     """Demonstrate content safety and moderation features."""
-    with setup_client() as fastpix:
+    with setup_client():
         print("\n=== Content Safety Demonstration ===")
         
         # This would typically be done with actual media
@@ -159,7 +159,7 @@ def demonstrate_content_safety():
 
 def demonstrate_content_enhancement():
     """Demonstrate content enhancement features."""
-    with setup_client() as fastpix:
+    with setup_client():
         print("\n=== Content Enhancement Demonstration ===")
         
         print("🤖 AI-Powered Content Enhancement:")
@@ -197,8 +197,8 @@ def complete_ai_features_workflow(media_id):
         demonstrate_content_enhancement()
         
         print(f"\n🎉 AI Features workflow completed for media: {media_id}")
-        print(f"💡 Check your FastPix dashboard to see the AI-generated content")
-        print(f"⏱️ Processing may take a few minutes depending on video length")
+        print("💡 Check your FastPix dashboard to see the AI-generated content")
+        print("⏱️ Processing may take a few minutes depending on video length")
         
     except Exception as e:
         print(f"❌ Error in AI features workflow: {str(e)}")
@@ -211,14 +211,14 @@ def batch_process_ai_features(media_ids):
         
         results = process_ai_features_batch(media_ids)
         
-        print(f"\n📊 Batch Processing Results:")
+        print("\n📊 Batch Processing Results:")
         for media_id, result in results.items():
             if "error" in result:
                 print(f"   ❌ {media_id}: {result['error']}")
             else:
                 print(f"   ✅ {media_id}: All features processed")
         
-        print(f"\n🎉 Batch processing completed!")
+        print("\n🎉 Batch processing completed!")
         
     except Exception as e:
         print(f"❌ Error in batch processing: {str(e)}")

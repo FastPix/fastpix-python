@@ -35,41 +35,48 @@ class ValidationErrorResponse(Exception):
     def __init__(self, response_data: ValidationErrorResponseData, http_res):
         self.response_data = response_data
         self.http_res = http_res
-        self.code: Optional[int] = None
-        self.fields: List[Dict[str, Any]] = []
 
         # 1) error.fields — field-level (e.g. "drmConfigurationId: is invalid")
         err = response_data.get("error") if isinstance(response_data, dict) else None
-        api_message = None
-        if isinstance(err, dict):
-            self.code = err.get("code") if isinstance(err.get("code"), int) else None
-            fields = err.get("fields")
-            if isinstance(fields, list):
-                self.fields = fields
-            api_message = err.get("message")
+        self.code, self.fields, api_message = self._parse_error(err)
 
+        # 2/3/4/5) resolve the most detailed message available
+        message = self._resolve_message(response_data, api_message)
+
+        super().__init__(self._format(message))
+
+    @staticmethod
+    def _parse_error(err: Any) -> tuple:
+        """Extract (code, fields, message) from the wrapped ``error`` object."""
+        if not isinstance(err, dict):
+            return None, [], None
+        code = err.get("code") if isinstance(err.get("code"), int) else None
+        fields = err.get("fields")
+        return code, fields if isinstance(fields, list) else [], err.get("message")
+
+    @staticmethod
+    def _resolve_message(
+        response_data: ValidationErrorResponseData, api_message: Optional[str]
+    ) -> str:
         # 2/3) top-level message / error.message
         message = api_message or response_data.get("message")
+        if message:
+            return message
 
         # 4) errors[] (legacy shape)
-        if not message:
-            errors = response_data.get("errors")
-            if isinstance(errors, list) and errors:
-                first = errors[0]
-                if isinstance(first, dict):
-                    message = first.get("message")
+        errors = response_data.get("errors")
+        if isinstance(errors, list) and errors and isinstance(errors[0], dict):
+            message = errors[0].get("message")
 
         # 5) last resort
-        if not message:
-            message = "Unknown validation error"
+        return message or "Unknown validation error"
 
-        # Append field-level details when present, for a useful one-liner
-        if self.fields:
-            details = "; ".join(
-                f"{f.get('field', '?')}: {f.get('message', '?')}"
-                for f in self.fields if isinstance(f, dict)
-            )
-            full = f"Validation error: {message} ({details})"
-        else:
-            full = f"Validation error: {message}"
-        super().__init__(full)
+    def _format(self, message: str) -> str:
+        """Append field-level details when present, for a useful one-liner."""
+        if not self.fields:
+            return f"Validation error: {message}"
+        details = "; ".join(
+            f"{f.get('field', '?')}: {f.get('message', '?')}"
+            for f in self.fields if isinstance(f, dict)
+        )
+        return f"Validation error: {message} ({details})"

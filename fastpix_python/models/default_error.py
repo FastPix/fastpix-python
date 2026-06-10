@@ -40,7 +40,7 @@ class Error(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["code", "message", "description"])
+        optional_fields = {"code", "message", "description"}
         serialized = handler(self)
         m = {}
 
@@ -71,7 +71,7 @@ class DefaultError(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "error"])
+        optional_fields = {"success", "error"}
         serialized = handler(self)
         m = {}
 

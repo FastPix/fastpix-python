@@ -23,7 +23,7 @@ All FastPix-owned hosts, API endpoints, and documentation links are being moved 
 What this means for users of `fastpix_python`:
 
 - **If you rely on SDK defaults**, no code change is required. The default `server_url` in this release points at `https://api.fastpix.com/v1/`, so bumping to `1.1.3` and re-running `pip install --upgrade fastpix_python` is enough.
-- **If you have an explicit `server_url` override** (e.g. `Fastpixpython(server_url="https://api.fastpix.io/v1/")`), change it to `https://api.fastpix.com/v1/`.
+- **If you have an explicit `server_url` override** (e.g. `Fastpix(server_url="https://api.fastpix.io/v1/")`), change it to `https://api.fastpix.com/v1/`.
 - **If your application code references FastPix asset URLs directly** — playback URLs (`stream.fastpix.io/...`), image CDN (`images.fastpix.io/...`), dashboard deep links, or doc links in your own README — update them to the `.com` equivalents before the `.io` hosts are decommissioned.
 - We strongly recommend upgrading **every official FastPix SDK** in your stack to its latest release as part of the same change — every SDK is being rolled out with the same migration.
 

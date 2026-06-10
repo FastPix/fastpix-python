@@ -8,9 +8,41 @@ from ._hooks import (
     BeforeRequestContext,
 )
 from .utils import RetryConfig, SerializedRequestBody, get_body_content
+from dataclasses import dataclass
 import httpx
-from typing import Callable, List, Mapping, Optional, Tuple
+from typing import Any, Callable, List, Mapping, Optional, Tuple
 from urllib.parse import parse_qs, urlparse
+
+
+_LOG_REQUEST_EXCEPTION = "Request Exception"
+
+
+@dataclass
+class BuildRequestData:
+    """Bundles the inputs used to build an HTTP request.
+
+    Grouping these into a single object keeps the request-builder method
+    signatures compact while preserving the exact same set of inputs.
+    """
+
+    method: str
+    path: str
+    base_url: Optional[str]
+    url_variables: Any
+    request: Any
+    request_body_required: bool
+    request_has_path_params: bool
+    request_has_query_params: bool
+    user_agent_header: str
+    accept_header_value: str
+    _globals: Any = None
+    security: Any = None
+    timeout_ms: Optional[int] = None
+    get_serialized_body: Optional[
+        Callable[[], Optional[SerializedRequestBody]]
+    ] = None
+    url_override: Optional[str] = None
+    http_headers: Optional[Mapping[str, str]] = None
 
 
 class BaseSDK:
@@ -40,155 +72,93 @@ class BaseSDK:
 
         return utils.template_url(base_url, url_variables)
 
-    def _build_request_async(
-        self,
-        method,
-        path,
-        base_url,
-        url_variables,
-        request,
-        request_body_required,
-        request_has_path_params,
-        request_has_query_params,
-        user_agent_header,
-        accept_header_value,
-        _globals=None,
-        security=None,
-        timeout_ms: Optional[int] = None,
-        get_serialized_body: Optional[
-            Callable[[], Optional[SerializedRequestBody]]
-        ] = None,
-        url_override: Optional[str] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> httpx.Request:
+    def _build_request_async(self, data: BuildRequestData) -> httpx.Request:
         client = self.sdk_configuration.async_client
-        return self._build_request_with_client(
-            client,
-            method,
-            path,
-            base_url,
-            url_variables,
-            request,
-            request_body_required,
-            request_has_path_params,
-            request_has_query_params,
-            user_agent_header,
-            accept_header_value,
-            _globals,
-            security,
-            timeout_ms,
-            get_serialized_body,
-            url_override,
-            http_headers,
-        )
+        return self._build_request_with_client(client, data)
 
-    def _build_request(
-        self,
-        method,
-        path,
-        base_url,
-        url_variables,
-        request,
-        request_body_required,
-        request_has_path_params,
-        request_has_query_params,
-        user_agent_header,
-        accept_header_value,
-        _globals=None,
-        security=None,
-        timeout_ms: Optional[int] = None,
-        get_serialized_body: Optional[
-            Callable[[], Optional[SerializedRequestBody]]
-        ] = None,
-        url_override: Optional[str] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> httpx.Request:
+    def _build_request(self, data: BuildRequestData) -> httpx.Request:
         client = self.sdk_configuration.client
-        return self._build_request_with_client(
-            client,
-            method,
-            path,
-            base_url,
-            url_variables,
-            request,
-            request_body_required,
-            request_has_path_params,
-            request_has_query_params,
-            user_agent_header,
-            accept_header_value,
-            _globals,
-            security,
-            timeout_ms,
-            get_serialized_body,
-            url_override,
-            http_headers,
-        )
+        return self._build_request_with_client(client, data)
 
-    def _build_request_with_client(
+    def _build_url_and_query(
         self,
-        client,
-        method,
-        path,
+        url_override,
         base_url,
         url_variables,
+        path,
         request,
-        request_body_required,
+        _globals,
         request_has_path_params,
         request_has_query_params,
-        user_agent_header,
-        accept_header_value,
-        _globals=None,
-        security=None,
-        timeout_ms: Optional[int] = None,
-        get_serialized_body: Optional[
-            Callable[[], Optional[SerializedRequestBody]]
-        ] = None,
-        url_override: Optional[str] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> httpx.Request:
-        query_params = {}
-
-        url = url_override
-        if url is None:
-            url = utils.generate_url(
-                self._get_url(base_url, url_variables),
-                path,
-                request if request_has_path_params else None,
-                _globals if request_has_path_params else None,
-            )
-
-            query_params = utils.get_query_params(
-                request if request_has_query_params else None,
-                _globals if request_has_query_params else None,
-            )
-        else:
+    ):
+        if url_override is not None:
             # Pick up the query parameter from the override so they can be
             # preserved when building the request later on (necessary as of
             # httpx 0.28).
             parsed_override = urlparse(str(url_override))
-            query_params = parse_qs(parsed_override.query, keep_blank_values=True)
+            return url_override, parse_qs(
+                parsed_override.query, keep_blank_values=True
+            )
 
-        headers = utils.get_headers(request, _globals)
-        headers["Accept"] = accept_header_value
-        headers[user_agent_header] = self.sdk_configuration.user_agent
+        url = utils.generate_url(
+            self._get_url(base_url, url_variables),
+            path,
+            request if request_has_path_params else None,
+            _globals if request_has_path_params else None,
+        )
+        query_params = utils.get_query_params(
+            request if request_has_query_params else None,
+            _globals if request_has_query_params else None,
+        )
+        return url, query_params
 
-        if security is not None:
-            if callable(security):
-                security = security()
+    def _apply_security(self, headers, query_params, security):
+        if security is not None and callable(security):
+            security = security()
         security = utils.get_security_from_env(security, models.Security)
         if security is not None:
             security_headers, security_query_params = utils.get_security(security)
             headers = {**headers, **security_headers}
             query_params = {**query_params, **security_query_params}
+        return headers, query_params
 
+    def _serialize_request_body(self, get_serialized_body, request_body_required):
         serialized_request_body = SerializedRequestBody()
-        if get_serialized_body is not None:
-            rb = get_serialized_body()
-            if request_body_required and rb is None:
-                raise ValueError("request body is required")
+        if get_serialized_body is None:
+            return serialized_request_body
 
-            if rb is not None:
-                serialized_request_body = rb
+        rb = get_serialized_body()
+        if request_body_required and rb is None:
+            raise ValueError("request body is required")
+        if rb is not None:
+            serialized_request_body = rb
+        return serialized_request_body
+
+    def _build_request_with_client(
+        self, client, data: BuildRequestData
+    ) -> httpx.Request:
+        url, query_params = self._build_url_and_query(
+            data.url_override,
+            data.base_url,
+            data.url_variables,
+            data.path,
+            data.request,
+            data._globals,
+            data.request_has_path_params,
+            data.request_has_query_params,
+        )
+
+        headers = utils.get_headers(data.request, data._globals)
+        headers["Accept"] = data.accept_header_value
+        headers[data.user_agent_header] = self.sdk_configuration.user_agent
+
+        headers, query_params = self._apply_security(
+            headers, query_params, data.security
+        )
+
+        serialized_request_body = self._serialize_request_body(
+            data.get_serialized_body, data.request_body_required
+        )
 
         if (
             serialized_request_body.media_type is not None
@@ -200,14 +170,14 @@ class BaseSDK:
         ):
             headers["content-type"] = serialized_request_body.media_type
 
-        if http_headers is not None:
-            for header, value in http_headers.items():
+        if data.http_headers is not None:
+            for header, value in data.http_headers.items():
                 headers[header] = value
 
-        timeout = timeout_ms / 1000 if timeout_ms is not None else None
+        timeout = data.timeout_ms / 1000 if data.timeout_ms is not None else None
 
         return client.build_request(
-            method,
+            data.method,
             url,
             params=query_params,
             content=serialized_request_body.content,
@@ -216,6 +186,44 @@ class BaseSDK:
             headers=headers,
             timeout=timeout,
         )
+
+    @staticmethod
+    def _log_request(logger, req):
+        logger.debug(
+            "Request:\nMethod: %s\nURL: %s\nHeaders: %s\nBody: %s",
+            req.method,
+            req.url,
+            req.headers,
+            get_body_content(req),
+        )
+
+    def _handle_response(
+        self, http_res, hook_ctx, error_status_codes, stream, hooks, logger
+    ):
+        if http_res is None:
+            logger.debug("Raising no response SDK error")
+            raise errors.NoResponseError("No response received")
+
+        logger.debug(
+            "Response:\nStatus Code: %s\nURL: %s\nHeaders: %s\nBody: %s",
+            http_res.status_code,
+            http_res.url,
+            http_res.headers,
+            "<streaming response>" if stream else http_res.text,
+        )
+
+        if not utils.match_status_codes(error_status_codes, http_res.status_code):
+            return http_res
+
+        result, err = hooks.after_error(AfterErrorContext(hook_ctx), http_res, None)
+        if err is not None:
+            logger.debug(_LOG_REQUEST_EXCEPTION, exc_info=True)
+            raise err
+        if result is not None:
+            return result
+
+        logger.debug("Raising unexpected SDK error")
+        raise errors.FastpixDefaultError("Unexpected error occurred", http_res)
 
     def do_request(
         self,
@@ -234,13 +242,7 @@ class BaseSDK:
             http_res = None
             try:
                 req = hooks.before_request(BeforeRequestContext(hook_ctx), request)
-                logger.debug(
-                    "Request:\nMethod: %s\nURL: %s\nHeaders: %s\nBody: %s",
-                    req.method,
-                    req.url,
-                    req.headers,
-                    get_body_content(req),
-                )
+                self._log_request(logger, req)
 
                 if client is None:
                     raise ValueError("client is required")
@@ -249,37 +251,12 @@ class BaseSDK:
             except Exception as e:
                 _, e = hooks.after_error(AfterErrorContext(hook_ctx), None, e)
                 if e is not None:
-                    logger.debug("Request Exception", exc_info=True)
+                    logger.debug(_LOG_REQUEST_EXCEPTION, exc_info=True)
                     raise e
 
-            if http_res is None:
-                logger.debug("Raising no response SDK error")
-                raise errors.NoResponseError("No response received")
-
-            logger.debug(
-                "Response:\nStatus Code: %s\nURL: %s\nHeaders: %s\nBody: %s",
-                http_res.status_code,
-                http_res.url,
-                http_res.headers,
-                "<streaming response>" if stream else http_res.text,
+            return self._handle_response(
+                http_res, hook_ctx, error_status_codes, stream, hooks, logger
             )
-
-            if utils.match_status_codes(error_status_codes, http_res.status_code):
-                result, err = hooks.after_error(
-                    AfterErrorContext(hook_ctx), http_res, None
-                )
-                if err is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise err
-                if result is not None:
-                    http_res = result
-                else:
-                    logger.debug("Raising unexpected SDK error")
-                    raise errors.FastpixDefaultError(
-                        "Unexpected error occurred", http_res
-                    )
-
-            return http_res
 
         if retry_config is not None:
             http_res = utils.retry(do, utils.Retries(retry_config[0], retry_config[1]))
@@ -308,13 +285,7 @@ class BaseSDK:
             http_res = None
             try:
                 req = hooks.before_request(BeforeRequestContext(hook_ctx), request)
-                logger.debug(
-                    "Request:\nMethod: %s\nURL: %s\nHeaders: %s\nBody: %s",
-                    req.method,
-                    req.url,
-                    req.headers,
-                    get_body_content(req),
-                )
+                self._log_request(logger, req)
 
                 if client is None:
                     raise ValueError("client is required")
@@ -323,37 +294,12 @@ class BaseSDK:
             except Exception as e:
                 _, e = hooks.after_error(AfterErrorContext(hook_ctx), None, e)
                 if e is not None:
-                    logger.debug("Request Exception", exc_info=True)
+                    logger.debug(_LOG_REQUEST_EXCEPTION, exc_info=True)
                     raise e
 
-            if http_res is None:
-                logger.debug("Raising no response SDK error")
-                raise errors.NoResponseError("No response received")
-
-            logger.debug(
-                "Response:\nStatus Code: %s\nURL: %s\nHeaders: %s\nBody: %s",
-                http_res.status_code,
-                http_res.url,
-                http_res.headers,
-                "<streaming response>" if stream else http_res.text,
+            return self._handle_response(
+                http_res, hook_ctx, error_status_codes, stream, hooks, logger
             )
-
-            if utils.match_status_codes(error_status_codes, http_res.status_code):
-                result, err = hooks.after_error(
-                    AfterErrorContext(hook_ctx), http_res, None
-                )
-                if err is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise err
-                if result is not None:
-                    http_res = result
-                else:
-                    logger.debug("Raising unexpected SDK error")
-                    raise errors.FastpixDefaultError(
-                        "Unexpected error occurred", http_res
-                    )
-
-            return http_res
 
         if retry_config is not None:
             http_res = await utils.retry_async(
