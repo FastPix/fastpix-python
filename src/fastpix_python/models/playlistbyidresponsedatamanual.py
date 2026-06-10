@@ -119,8 +119,9 @@ class PlaylistByIDResponseDataManual(BaseModel):
                 python_field_name = alias_to_field[api_field_name]
                 # handler returns dict with Python field names, not aliases
                 val = serialized.get(python_field_name)
-                if val != UNSET_SENTINEL:
-                    if val is not None or api_field_name not in optional_fields:
-                        m[api_field_name] = val
+                if val != UNSET_SENTINEL and (
+                    val is not None or api_field_name not in optional_fields
+                ):
+                    m[api_field_name] = val
 
         return m

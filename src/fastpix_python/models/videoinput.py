@@ -102,7 +102,7 @@ class VideoInput(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["introUrl", "outroUrl", "expungeSegments", "segments"])
+        optional_fields = {"introUrl", "outroUrl", "expungeSegments", "segments"}
         serialized = handler(self)
         m = {}
 
@@ -110,8 +110,9 @@ class VideoInput(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

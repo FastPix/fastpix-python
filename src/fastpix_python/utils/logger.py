@@ -11,13 +11,13 @@ from typing import Any, Protocol
 
 
 class Logger(Protocol):
-    def debug(self, msg: str, *args: Any, **kwargs: Any) -> None:
-        pass
+    def debug(self, msg: str, *args: Any, **kwargs: Any) -> None: ...
 
 
 class NoOpLogger:
     def debug(self, msg: str, *args: Any, **kwargs: Any) -> None:
-        pass
+        # Intentionally does nothing — discards all debug output.
+        ...
 
 
 def get_body_content(req: httpx.Request) -> str:

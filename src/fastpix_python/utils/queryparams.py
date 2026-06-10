@@ -60,59 +60,94 @@ def _populate_query_params(
         if name in skip_fields:
             continue
 
-        field = param_fields[name]
-
-        metadata = find_field_metadata(field, QueryParamMetadata)
-        if not metadata:
-            continue
-
-        value = getattr(query_params, name) if _is_set(query_params) else None
-
-        value, global_found = _populate_from_globals(
-            name, value, QueryParamMetadata, gbls
-        )
-        if global_found:
+        if _populate_query_param_field(
+            name,
+            query_params,
+            gbls,
+            param_fields,
+            param_field_types,
+            query_param_values,
+            allow_empty_value,
+        ):
             globals_already_populated.append(name)
 
-        f_name = field.alias if field.alias is not None else name
-
-        allow_empty_set = set(allow_empty_value or [])
-        should_include_empty = f_name in allow_empty_set and (
-            value is None or value == [] or value == ""
-        )
-
-        if should_include_empty:
-            query_param_values[f_name] = [""]
-            continue
-
-        serialization = metadata.serialization
-        if serialization is not None:
-            serialized_parms = _get_serialized_params(
-                metadata, f_name, value, param_field_types[name]
-            )
-            for key, value in serialized_parms.items():
-                if key in query_param_values:
-                    query_param_values[key].extend(value)
-                else:
-                    query_param_values[key] = [value]
-        else:
-            style = metadata.style
-            if style == "deepObject":
-                _populate_deep_object_query_params(f_name, value, query_param_values)
-            elif style == "form":
-                _populate_delimited_query_params(
-                    metadata, f_name, value, ",", query_param_values
-                )
-            elif style == "pipeDelimited":
-                _populate_delimited_query_params(
-                    metadata, f_name, value, "|", query_param_values
-                )
-            else:
-                raise NotImplementedError(
-                    f"query param style {style} not yet supported"
-                )
-
     return globals_already_populated
+
+
+def _populate_query_param_field(
+    name: str,
+    query_params: Any,
+    gbls: Any,
+    param_fields: Dict[str, FieldInfo],
+    param_field_types: Dict[str, Any],
+    query_param_values: Dict[str, List[str]],
+    allow_empty_value: Optional[List[str]],
+) -> bool:
+    """Populate a single query param field. Returns True if it came from globals."""
+    field = param_fields[name]
+
+    metadata = find_field_metadata(field, QueryParamMetadata)
+    if not metadata:
+        return False
+
+    value = getattr(query_params, name) if _is_set(query_params) else None
+    value, global_found = _populate_from_globals(
+        name, value, QueryParamMetadata, gbls
+    )
+
+    f_name = field.alias if field.alias is not None else name
+
+    allow_empty_set = set(allow_empty_value or [])
+    should_include_empty = f_name in allow_empty_set and (
+        value is None or value == [] or value == ""
+    )
+
+    if should_include_empty:
+        query_param_values[f_name] = [""]
+    elif metadata.serialization is not None:
+        _populate_serialized_query_param(
+            metadata, f_name, value, param_field_types[name], query_param_values
+        )
+    else:
+        _populate_styled_query_param(metadata, f_name, value, query_param_values)
+
+    return global_found
+
+
+def _populate_serialized_query_param(
+    metadata: QueryParamMetadata,
+    f_name: str,
+    value: Any,
+    field_type: Any,
+    query_param_values: Dict[str, List[str]],
+):
+    serialized_parms = _get_serialized_params(metadata, f_name, value, field_type)
+    for key, val in serialized_parms.items():
+        if key in query_param_values:
+            query_param_values[key].extend(val)
+        else:
+            query_param_values[key] = [val]
+
+
+def _populate_styled_query_param(
+    metadata: QueryParamMetadata,
+    f_name: str,
+    value: Any,
+    query_param_values: Dict[str, List[str]],
+):
+    style = metadata.style
+    if style == "deepObject":
+        _populate_deep_object_query_params(f_name, value, query_param_values)
+    elif style == "form":
+        _populate_delimited_query_params(
+            metadata, f_name, value, ",", query_param_values
+        )
+    elif style == "pipeDelimited":
+        _populate_delimited_query_params(
+            metadata, f_name, value, "|", query_param_values
+        )
+    else:
+        raise NotImplementedError(f"query param style {style} not yet supported")
 
 
 def _populate_deep_object_query_params(

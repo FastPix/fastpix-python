@@ -86,7 +86,7 @@ class Subtitles(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["languageName", "metadata", "languageCode"])
+        optional_fields = {"languageName", "metadata", "languageCode"}
         serialized = handler(self)
         m = {}
 
@@ -94,9 +94,10 @@ class Subtitles(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -171,7 +172,7 @@ class Summary(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["generate", "summaryLength"])
+        optional_fields = {"generate", "summaryLength"}
         serialized = handler(self)
         m = {}
 
@@ -179,9 +180,10 @@ class Summary(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -211,7 +213,7 @@ class Moderation(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["type"])
+        optional_fields = {"type"}
         serialized = handler(self)
         m = {}
 
@@ -219,9 +221,10 @@ class Moderation(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -280,7 +283,7 @@ class CreateMediaRequestDomains(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -288,9 +291,10 @@ class CreateMediaRequestDomains(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -349,7 +353,7 @@ class CreateMediaRequestUserAgents(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -357,9 +361,10 @@ class CreateMediaRequestUserAgents(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -378,7 +383,7 @@ class CreateMediaRequestAccessRestrictions(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["domains", "userAgents"])
+        optional_fields = {"domains", "userAgents"}
         serialized = handler(self)
         m = {}
 
@@ -386,9 +391,10 @@ class CreateMediaRequestAccessRestrictions(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -535,8 +541,8 @@ class CreateMediaRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "metadata",
                 "drmConfigurationId",
                 "title",
@@ -553,8 +559,8 @@ class CreateMediaRequest(BaseModel):
                 "namedEntities",
                 "moderation",
                 "accessRestrictions",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -562,8 +568,9 @@ class CreateMediaRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

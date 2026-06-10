@@ -47,9 +47,9 @@ class SimulcastResponseData(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["simulcastId", "url", "streamKey", "isEnabled", "metadata"]
-        )
+        optional_fields = {
+            "simulcastId", "url", "streamKey", "isEnabled", "metadata"
+        }
         serialized = handler(self)
         m = {}
 
@@ -57,9 +57,10 @@ class SimulcastResponseData(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -84,7 +85,7 @@ class SimulcastResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data"])
+        optional_fields = {"success", "data"}
         serialized = handler(self)
         m = {}
 
@@ -92,8 +93,9 @@ class SimulcastResponse(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

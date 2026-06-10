@@ -47,7 +47,7 @@ class PlaybackIDDomains(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -55,9 +55,10 @@ class PlaybackIDDomains(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -89,7 +90,7 @@ class PlaybackIDUserAgents(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -97,9 +98,10 @@ class PlaybackIDUserAgents(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -126,7 +128,7 @@ class PlaybackIDAccessRestrictions(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["domains", "userAgents"])
+        optional_fields = {"domains", "userAgents"}
         serialized = handler(self)
         m = {}
 
@@ -134,9 +136,10 @@ class PlaybackIDAccessRestrictions(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -171,8 +174,8 @@ class PlaybackID(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["id", "accessPolicy", "accessRestrictions"])
-        nullable_fields = set(["id"])
+        optional_fields = {"id", "accessPolicy", "accessRestrictions"}
+        nullable_fields = {"id"}
         serialized = handler(self)
         m = {}
 
@@ -184,12 +187,11 @@ class PlaybackID(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

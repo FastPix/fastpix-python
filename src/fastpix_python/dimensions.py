@@ -12,6 +12,10 @@ from fastpix_python.utils import get_security_from_env
 from fastpix_python.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Mapping, Optional
 
+CONTENT_TYPE_JSON = "application/json"
+API_ERROR_MESSAGE = "API error occurred"
+UNEXPECTED_RESPONSE_MESSAGE = "Unexpected response received"
+
 
 class Dimensions(BaseSDK):
     r"""Operations involving dimensions"""
@@ -57,16 +61,15 @@ class Dimensions(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -87,22 +90,22 @@ class Dimensions(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListDimensionsResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def list_async(
         self,
@@ -145,16 +148,15 @@ class Dimensions(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -175,22 +177,22 @@ class Dimensions(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListDimensionsResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def list_filter_values(
         self,
@@ -264,16 +266,15 @@ class Dimensions(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -294,24 +295,24 @@ class Dimensions(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.ListFilterValuesForDimensionResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def list_filter_values_async(
         self,
@@ -385,16 +386,15 @@ class Dimensions(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -415,21 +415,21 @@ class Dimensions(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.ListFilterValuesForDimensionResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)

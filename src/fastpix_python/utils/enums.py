@@ -11,6 +11,52 @@ from typing import Any
 from pydantic_core import core_schema
 
 
+def _enum_base_schema(cls_inner: Any) -> core_schema.CoreSchema:
+    """Return the base (int or str) schema for an enum class."""
+    is_int_enum = False
+    for base in cls_inner.__mro__:
+        if base is int:
+            is_int_enum = True
+            break
+        if base is str:
+            break
+    return core_schema.int_schema() if is_int_enum else core_schema.str_schema()
+
+
+def _open_enum_core_schema(
+    cls_inner: Any, _source_type: Any, _handler: Any
+) -> core_schema.CoreSchema:
+    """Build the pydantic core schema for an open enum.
+
+    In strict mode (used by Pydantic for unions) only known enum values match;
+    in lax mode unknown values are accepted and returned raw.
+    """
+
+    def validate_strict(v: Any) -> Any:
+        if isinstance(v, cls_inner):
+            return v
+        # Parent EnumMeta.__call__ raises ValueError for unknown values
+        return enum.EnumMeta.__call__(cls_inner, v)
+
+    def validate_lax(v: Any) -> Any:
+        if isinstance(v, cls_inner):
+            return v
+        try:
+            return enum.EnumMeta.__call__(cls_inner, v)
+        except ValueError:
+            return v  # unknown enum value — pass through raw
+
+    base_schema = _enum_base_schema(cls_inner)
+    return core_schema.lax_or_strict_schema(
+        lax_schema=core_schema.chain_schema(
+            [base_schema, core_schema.no_info_plain_validator_function(validate_lax)]
+        ),
+        strict_schema=core_schema.chain_schema(
+            [base_schema, core_schema.no_info_plain_validator_function(validate_strict)]
+        ),
+    )
+
+
 class OpenEnumMeta(enum.EnumMeta):
     # The __call__ method `boundary` kwarg was added in 3.11 and must be present
     # for pyright. Refer also: https://github.com/pylint-dev/pylint/issues/9622
@@ -85,54 +131,10 @@ class OpenEnumMeta(enum.EnumMeta):
         cls = super().__new__(mcs, name, bases, namespace, **kwargs)
 
         # Add __get_pydantic_core_schema__ to make open enums work correctly
-        # in union discrimination. In strict mode (used by Pydantic for unions),
-        # only known enum values match. In lax mode, unknown values are accepted.
-        def __get_pydantic_core_schema__(
-            cls_inner: Any, _source_type: Any, _handler: Any
-        ) -> core_schema.CoreSchema:
-            # Create a validator that only accepts known enum values (for strict mode)
-            def validate_strict(v: Any) -> Any:
-                if isinstance(v, cls_inner):
-                    return v
-                # Use the parent EnumMeta's __call__ which raises ValueError for unknown values
-                return enum.EnumMeta.__call__(cls_inner, v)
-
-            # Create a lax validator that accepts unknown values
-            def validate_lax(v: Any) -> Any:
-                if isinstance(v, cls_inner):
-                    return v
-                try:
-                    return enum.EnumMeta.__call__(cls_inner, v)
-                except ValueError:
-                    # Return the raw value for unknown enum values
-                    return v
-
-            # Determine the base type schema (str or int)
-            is_int_enum = False
-            for base in cls_inner.__mro__:
-                if base is int:
-                    is_int_enum = True
-                    break
-                if base is str:
-                    break
-
-            base_schema = (
-                core_schema.int_schema()
-                if is_int_enum
-                else core_schema.str_schema()
-            )
-
-            # Use lax_or_strict_schema:
-            # - strict mode: only known enum values match (raises ValueError for unknown)
-            # - lax mode: accept any value, return enum member or raw value
-            return core_schema.lax_or_strict_schema(
-                lax_schema=core_schema.chain_schema(
-                    [base_schema, core_schema.no_info_plain_validator_function(validate_lax)]
-                ),
-                strict_schema=core_schema.chain_schema(
-                    [base_schema, core_schema.no_info_plain_validator_function(validate_strict)]
-                ),
-            )
-
-        setattr(cls, "__get_pydantic_core_schema__", classmethod(__get_pydantic_core_schema__))
+        # in union discrimination (see _open_enum_core_schema for details).
+        setattr(
+            cls,
+            "__get_pydantic_core_schema__",
+            classmethod(_open_enum_core_schema),
+        )
         return cls

@@ -53,9 +53,10 @@ class UpdateUserAgentRestrictionsRequestBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -116,9 +117,10 @@ class UpdateUserAgentRestrictionsData(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -149,9 +151,10 @@ class UpdateUserAgentRestrictionsResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

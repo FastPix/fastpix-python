@@ -126,9 +126,9 @@ class GenerateTrackResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["id", "type", "languageCode", "languageName", "metadata"]
-        )
+        optional_fields = {
+            "id", "type", "languageCode", "languageName", "metadata"
+        }
         serialized = handler(self)
         m = {}
 
@@ -136,8 +136,9 @@ class GenerateTrackResponse(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

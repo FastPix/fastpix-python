@@ -96,6 +96,68 @@ MESSAGE_BOUNDARIES = [
 ]
 
 
+def _match_boundary(
+    position: int, buffer: bytearray, char: bytes
+) -> Optional[bytes]:
+    """Return the message-boundary byte sequence at ``position``, else None."""
+    if char not in (b"\r", b"\n"):
+        return None
+    for boundary in MESSAGE_BOUNDARIES:
+        seq = _peek_sequence(position, buffer, boundary)
+        if seq is not None:
+            return seq
+    return None
+
+
+def _parse_sse_line(line: str) -> Optional[Tuple[str, str]]:
+    """Split an SSE line into ``(field, value)``, or None when it should skip."""
+    if not line:
+        return None
+    delim = line.find(":")
+    if delim <= 0:
+        return None
+    field = line[0:delim]
+    value = line[delim + 1 :] if delim < len(line) - 1 else ""
+    if value and value[0] == " ":
+        value = value[1:]
+    return field, value
+
+
+def _apply_sse_field(event: "ServerEvent", field: str, value: str) -> Optional[str]:
+    """Apply one SSE field to ``event``.
+
+    Returns the data fragment to append (``""`` for non-data fields), or None
+    when the field is not a recognized SSE field.
+    """
+    if field == "event":
+        event.event = value
+        return ""
+    if field == "data":
+        return value + "\n"
+    if field == "id":
+        event.id = value
+        return ""
+    if field == "retry":
+        event.retry = int(value) if value.isdigit() else None
+        return ""
+    return None
+
+
+def _maybe_decode_json_data(data: str) -> object:
+    """Return parsed JSON when ``data`` looks like JSON/a primitive, else raw."""
+    looks_decodable = (
+        data.isnumeric()
+        or data in ("true", "false", "null")
+        or data.startswith(("{", "[", '"'))
+    )
+    if looks_decodable:
+        try:
+            return json.loads(data)
+        except Exception:
+            pass
+    return data
+
+
 async def stream_events_async(
     response: httpx.Response,
     decoder: Callable[[str], T],
@@ -114,12 +176,7 @@ async def stream_events_async(
         buffer += chunk
         for i in range(position, len(buffer)):
             char = buffer[i : i + 1]
-            seq: Optional[bytes] = None
-            if char in [b"\r", b"\n"]:
-                for boundary in MESSAGE_BOUNDARIES:
-                    seq = _peek_sequence(i, buffer, boundary)
-                    if seq is not None:
-                        break
+            seq = _match_boundary(i, buffer, char)
             if seq is None:
                 continue
 
@@ -156,12 +213,7 @@ def stream_events(
         buffer += chunk
         for i in range(position, len(buffer)):
             char = buffer[i : i + 1]
-            seq: Optional[bytes] = None
-            if char in [b"\r", b"\n"]:
-                for boundary in MESSAGE_BOUNDARIES:
-                    seq = _peek_sequence(i, buffer, boundary)
-                    if seq is not None:
-                        break
+            seq = _match_boundary(i, buffer, char)
             if seq is None:
                 continue
 
@@ -189,50 +241,20 @@ def _parse_event(
     event = ServerEvent()
     data = ""
     for line in lines:
-        if not line:
+        parsed = _parse_sse_line(line)
+        if parsed is None:
             continue
-
-        delim = line.find(":")
-        if delim <= 0:
-            continue
-
-        field = line[0:delim]
-        value = line[delim + 1 :] if delim < len(line) - 1 else ""
-        if len(value) and value[0] == " ":
-            value = value[1:]
-
-        if field == "event":
-            event.event = value
+        field, value = parsed
+        fragment = _apply_sse_field(event, field, value)
+        if fragment is not None:
             publish = True
-        elif field == "data":
-            data += value + "\n"
-            publish = True
-        elif field == "id":
-            event.id = value
-            publish = True
-        elif field == "retry":
-            event.retry = int(value) if value.isdigit() else None
-            publish = True
+            data += fragment
 
     if sentinel and data == f"{sentinel}\n":
         return None, True
 
     if data:
-        data = data[:-1]
-        event.data = data
-
-        data_is_primitive = (
-            data.isnumeric() or data == "true" or data == "false" or data == "null"
-        )
-        data_is_json = (
-            data.startswith("{") or data.startswith("[") or data.startswith('"')
-        )
-
-        if data_is_primitive or data_is_json:
-            try:
-                event.data = json.loads(data)
-            except Exception:
-                pass
+        event.data = _maybe_decode_json_data(data[:-1])
 
     out = None
     if publish:

@@ -99,7 +99,7 @@ class ListErrorsRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["timespan[]", "filterby[]", "limit"])
+        optional_fields = {"timespan[]", "filterby[]", "limit"}
         serialized = handler(self)
         m = {}
 
@@ -107,9 +107,10 @@ class ListErrorsRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -136,7 +137,7 @@ class ListErrorsData(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["errors", "topErrors"])
+        optional_fields = {"errors", "topErrors"}
         serialized = handler(self)
         m = {}
 
@@ -144,9 +145,10 @@ class ListErrorsData(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -180,7 +182,7 @@ class ListErrorsResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data", "timespan"])
+        optional_fields = {"success", "data", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -188,9 +190,10 @@ class ListErrorsResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

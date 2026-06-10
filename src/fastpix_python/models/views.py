@@ -53,7 +53,7 @@ class Custom1(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["dimensionName", "displayName", "value"])
+        optional_fields = {"dimensionName", "displayName", "value"}
         serialized = handler(self)
         m = {}
 
@@ -61,9 +61,10 @@ class Custom1(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -85,8 +86,8 @@ class Custom2(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["Custom"])
-        nullable_fields = set(["Custom"])
+        optional_fields = {"Custom"}
+        nullable_fields = {"Custom"}
         serialized = handler(self)
         m = {}
 
@@ -98,13 +99,12 @@ class Custom2(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m
 
@@ -214,18 +214,18 @@ class Event(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "player_playhead_time",
                 "event_name",
                 "event_details",
                 "viewer_time",
                 "event_time",
-            ]
-        )
-        nullable_fields = set(
-            ["player_playhead_time", "event_name", "viewer_time", "event_time"]
-        )
+            
+        }
+        nullable_fields = {
+            "player_playhead_time", "event_name", "viewer_time", "event_time"
+        }
         serialized = handler(self)
         m = {}
 
@@ -237,13 +237,12 @@ class Event(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m
 
@@ -1559,8 +1558,8 @@ class Views(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "asnId",
                 "asnName",
                 "averageBitrate",
@@ -1684,10 +1683,10 @@ class Views(BaseModel):
                 "watchTime",
                 "workspaceId",
                 "events",
-            ]
-        )
-        nullable_fields = set(
-            [
+            
+        }
+        nullable_fields = {
+            
                 "asnId",
                 "asnName",
                 "averageBitrate",
@@ -1795,8 +1794,8 @@ class Views(BaseModel):
                 "viewTotalContentPlaybackTime",
                 "viewerId",
                 "watchTime",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -1808,12 +1807,11 @@ class Views(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

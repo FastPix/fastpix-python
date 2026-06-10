@@ -63,5 +63,4 @@ def __getattr__(attr_name: str) -> object:
 
 
 def __dir__():
-    lazy_attrs = builtins.list(_dynamic_imports.keys())
-    return builtins.sorted(lazy_attrs)
+    return builtins.sorted(_dynamic_imports.keys())

@@ -35,7 +35,7 @@ class GetAllSigningKeysResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data", "pagination"])
+        optional_fields = {"success", "data", "pagination"}
         serialized = handler(self)
         m = {}
 
@@ -43,8 +43,9 @@ class GetAllSigningKeysResponse(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

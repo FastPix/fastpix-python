@@ -33,8 +33,8 @@ class TracksSubtitles(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["status", "url"])
-        nullable_fields = set(["url"])
+        optional_fields = {"status", "url"}
+        nullable_fields = {"url"}
         serialized = handler(self)
         m = {}
 
@@ -46,12 +46,11 @@ class TracksSubtitles(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

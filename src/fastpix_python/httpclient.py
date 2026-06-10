@@ -24,8 +24,7 @@ class HttpClient(Protocol):
         follow_redirects: Union[
             bool, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
-    ) -> httpx.Response:
-        pass
+    ) -> httpx.Response: ...
 
     def build_request(
         self,
@@ -43,11 +42,9 @@ class HttpClient(Protocol):
             httpx._types.TimeoutTypes, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
         extensions: Optional[httpx._types.RequestExtensions] = None,
-    ) -> httpx.Request:
-        pass
+    ) -> httpx.Request: ...
 
-    def close(self) -> None:
-        pass
+    def close(self) -> None: ...
 
 
 @runtime_checkable
@@ -63,8 +60,7 @@ class AsyncHttpClient(Protocol):
         follow_redirects: Union[
             bool, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
-    ) -> httpx.Response:
-        pass
+    ) -> httpx.Response: ...
 
     def build_request(
         self,
@@ -82,11 +78,9 @@ class AsyncHttpClient(Protocol):
             httpx._types.TimeoutTypes, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
         extensions: Optional[httpx._types.RequestExtensions] = None,
-    ) -> httpx.Request:
-        pass
+    ) -> httpx.Request: ...
 
-    async def aclose(self) -> None:
-        pass
+    async def aclose(self) -> None: ...
 
 
 class ClientOwner(Protocol):

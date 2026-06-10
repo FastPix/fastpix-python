@@ -34,9 +34,8 @@ def match_content_type(content_type: str, pattern: str) -> bool:
         return True
 
     parts = media_type.split("/")
-    if len(parts) == 2:
-        if pattern in (f"{parts[0]}/*", f"*/{parts[1]}"):
-            return True
+    if len(parts) == 2 and pattern in (f"{parts[0]}/*", f"*/{parts[1]}"):
+        return True
 
     return False
 

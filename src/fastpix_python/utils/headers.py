@@ -70,70 +70,68 @@ def _populate_headers(
     return globals_already_populated
 
 
+def _serialize_header_basemodel(explode: bool, obj: BaseModel) -> str:
+    items: List[str] = []
+    obj_fields: Dict[str, FieldInfo] = obj.__class__.model_fields
+    for name in obj_fields:
+        obj_field = obj_fields[name]
+        obj_param_metadata = find_field_metadata(obj_field, HeaderMetadata)
+
+        if not obj_param_metadata:
+            continue
+
+        f_name = obj_field.alias if obj_field.alias is not None else name
+
+        val = getattr(obj, name)
+        if not _is_set(val):
+            continue
+
+        if explode:
+            items.append(f"{f_name}={_val_to_string(val)}")
+        else:
+            items.append(f_name)
+            items.append(_val_to_string(val))
+
+    return ",".join(items)
+
+
+def _serialize_header_dict(explode: bool, obj: Dict) -> str:
+    items: List[str] = []
+    for key, value in obj.items():
+        if not _is_set(value):
+            continue
+
+        if explode:
+            items.append(f"{key}={_val_to_string(value)}")
+        else:
+            items.append(key)
+            items.append(_val_to_string(value))
+
+    return ",".join(str(item) for item in items)
+
+
+def _serialize_header_list(obj: List) -> str:
+    items = [_val_to_string(value) for value in obj if _is_set(value)]
+    return ",".join(items)
+
+
 def _serialize_header(explode: bool, obj: Any) -> str:
     if not _is_set(obj):
         return ""
 
     if isinstance(obj, BaseModel):
-        items = []
-        obj_fields: Dict[str, FieldInfo] = obj.__class__.model_fields
-        for name in obj_fields:
-            obj_field = obj_fields[name]
-            obj_param_metadata = find_field_metadata(obj_field, HeaderMetadata)
-
-            if not obj_param_metadata:
-                continue
-
-            f_name = obj_field.alias if obj_field.alias is not None else name
-
-            val = getattr(obj, name)
-            if not _is_set(val):
-                continue
-
-            if explode:
-                items.append(f"{f_name}={_val_to_string(val)}")
-            else:
-                items.append(f_name)
-                items.append(_val_to_string(val))
-
-        if len(items) > 0:
-            return ",".join(items)
-    elif isinstance(obj, Dict):
-        items = []
-
-        for key, value in obj.items():
-            if not _is_set(value):
-                continue
-
-            if explode:
-                items.append(f"{key}={_val_to_string(value)}")
-            else:
-                items.append(key)
-                items.append(_val_to_string(value))
-
-        if len(items) > 0:
-            return ",".join([str(item) for item in items])
-    elif isinstance(obj, List):
-        items = []
-
-        for value in obj:
-            if not _is_set(value):
-                continue
-
-            items.append(_val_to_string(value))
-
-        if len(items) > 0:
-            return ",".join(items)
-    elif _is_set(obj):
-        return f"{_val_to_string(obj)}"
-
-    return ""
+        return _serialize_header_basemodel(explode, obj)
+    if isinstance(obj, Dict):
+        return _serialize_header_dict(explode, obj)
+    if isinstance(obj, List):
+        return _serialize_header_list(obj)
+    return f"{_val_to_string(obj)}"
 
 
 def get_response_headers(headers: Headers) -> Dict[str, List[str]]:
     res: Dict[str, List[str]] = {}
     for k, v in headers.items():
-        if not k in res:
+        if k not in res:
             res[k] = []
 
         res[k].append(v)

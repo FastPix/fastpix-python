@@ -23,6 +23,37 @@ from .metadata import (
 import os
 
 
+def _parse_security_field(
+    headers: Dict[str, str],
+    query_params: Dict[str, List[str]],
+    security: Any,
+    name: str,
+    sec_field: FieldInfo,
+) -> bool:
+    """Parse a single security field. Returns True when parsing is complete
+    (an option matched and the caller should stop iterating)."""
+    value = getattr(security, name)
+    if value is None:
+        return False
+
+    metadata = find_field_metadata(sec_field, SecurityMetadata)
+    if metadata is None:
+        return False
+    if metadata.option:
+        _parse_security_option(headers, query_params, value)
+        return True
+    if metadata.scheme:
+        # Special case for basic auth or custom auth which could be a flattened model
+        if metadata.sub_type in ["basic", "custom"] and not isinstance(
+            value, BaseModel
+        ):
+            _parse_security_scheme(headers, query_params, metadata, name, security)
+        else:
+            _parse_security_scheme(headers, query_params, metadata, name, value)
+
+    return False
+
+
 def get_security(security: Any) -> Tuple[Dict[str, str], Dict[str, List[str]]]:
     headers: Dict[str, str] = {}
     query_params: Dict[str, List[str]] = {}
@@ -35,26 +66,10 @@ def get_security(security: Any) -> Tuple[Dict[str, str], Dict[str, List[str]]]:
 
     sec_fields: Dict[str, FieldInfo] = security.__class__.model_fields
     for name in sec_fields:
-        sec_field = sec_fields[name]
-
-        value = getattr(security, name)
-        if value is None:
-            continue
-
-        metadata = find_field_metadata(sec_field, SecurityMetadata)
-        if metadata is None:
-            continue
-        if metadata.option:
-            _parse_security_option(headers, query_params, value)
+        if _parse_security_field(
+            headers, query_params, security, name, sec_fields[name]
+        ):
             return headers, query_params
-        if metadata.scheme:
-            # Special case for basic auth or custom auth which could be a flattened model
-            if metadata.sub_type in ["basic", "custom"] and not isinstance(
-                value, BaseModel
-            ):
-                _parse_security_scheme(headers, query_params, metadata, name, security)
-            else:
-                _parse_security_scheme(headers, query_params, metadata, name, value)
 
     return headers, query_params
 
@@ -113,22 +128,31 @@ def _parse_security_scheme(
             if sub_type == "custom":
                 return
 
-        scheme_fields: Dict[str, FieldInfo] = scheme.__class__.model_fields
-        for name in scheme_fields:
-            scheme_field = scheme_fields[name]
-
-            metadata = find_field_metadata(scheme_field, SecurityMetadata)
-            if metadata is None or metadata.field_name is None:
-                continue
-
-            value = getattr(scheme, name)
-
-            _parse_security_scheme_value(
-                headers, query_params, scheme_metadata, metadata, name, value
-            )
+        _parse_security_scheme_fields(headers, query_params, scheme_metadata, scheme)
     else:
         _parse_security_scheme_value(
             headers, query_params, scheme_metadata, scheme_metadata, field_name, scheme
+        )
+
+
+def _parse_security_scheme_fields(
+    headers: Dict[str, str],
+    query_params: Dict[str, List[str]],
+    scheme_metadata: SecurityMetadata,
+    scheme: Any,
+):
+    scheme_fields: Dict[str, FieldInfo] = scheme.__class__.model_fields
+    for name in scheme_fields:
+        scheme_field = scheme_fields[name]
+
+        metadata = find_field_metadata(scheme_field, SecurityMetadata)
+        if metadata is None or metadata.field_name is None:
+            continue
+
+        value = getattr(scheme, name)
+
+        _parse_security_scheme_value(
+            headers, query_params, scheme_metadata, metadata, name, value
         )
 
 

@@ -153,7 +153,7 @@ class ListOverallValuesRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["measurement", "timespan[]", "filterby[]"])
+        optional_fields = {"measurement", "timespan[]", "filterby[]"}
         serialized = handler(self)
         m = {}
 
@@ -161,9 +161,10 @@ class ListOverallValuesRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -202,7 +203,7 @@ class ListOverallValuesResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "metadata", "data", "timespan"])
+        optional_fields = {"success", "metadata", "data", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -210,9 +211,10 @@ class ListOverallValuesResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
