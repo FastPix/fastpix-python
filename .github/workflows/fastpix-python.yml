@@ -31,7 +31,8 @@ jobs:
           python-version: '3.x'
 
       - name: Install build tools
-        run: python -m pip install --upgrade build twine
+        # Pin exact versions so publishes are reproducible (locked dependencies).
+        run: python -m pip install build==1.5.0 twine==6.2.0
 
       - name: Build package
         run: python -m build
