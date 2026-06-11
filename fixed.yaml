@@ -7545,12 +7545,14 @@ components:
                   description: A list of specific user agents that are blocked.
         resolution:
           type: string
+          nullable: true
           enum:
             - 480p
             - 720p
             - 1080p
             - 1440p
             - 2160p
+            - null
           description: The maximum resolution for the playback ID.
           example: 1080p
 
