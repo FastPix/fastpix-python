@@ -45,6 +45,48 @@ def _get_field_order(model_cls) -> Any:
     return fields or None
 
 
+def _collect_model_fields(obj: Any, model_fields) -> Dict[str, Any]:
+    """Collect the fields the API actually returned, keyed by their API name."""
+    collected: Dict[str, Any] = {}
+    for field_name, field_info in model_fields.items():
+        api_name = field_info.alias or field_name
+        if not hasattr(obj, field_name):
+            continue
+
+        value = getattr(obj, field_name)
+        if _is_unset(value):
+            # Do not expose optional fields unless the API actually sent them
+            continue
+
+        collected[api_name] = _to_plain(value)
+
+    return collected
+
+
+def _apply_field_order(collected: Dict[str, Any], field_order: Any) -> Dict[str, Any]:
+    """Reorder collected fields using the model's explicit field_order, if any."""
+    if not field_order:
+        return collected
+
+    ordered: Dict[str, Any] = {}
+    for name in field_order:
+        if name in collected:
+            ordered[name] = collected[name]
+
+    # Append any extra fields that weren't listed in field_order
+    for name, value in collected.items():
+        if name not in ordered:
+            ordered[name] = value
+
+    return ordered
+
+
+def _model_to_plain(obj: Any, cls: Any, model_fields) -> Dict[str, Any]:
+    """Convert a single SDK model instance to a plain, ordered dict."""
+    collected = _collect_model_fields(obj, model_fields)
+    return _apply_field_order(collected, _get_field_order(cls))
+
+
 def _to_plain(obj: Any) -> Any:
     """
     Convert SDK models into plain Python types suitable for json.dumps,
@@ -69,36 +111,7 @@ def _to_plain(obj: Any) -> Any:
     if model_fields is None:
         return obj
 
-    # First collect all present fields
-    collected: Dict[str, Any] = {}
-    for field_name, field_info in model_fields.items():
-        api_name = field_info.alias or field_name
-        if not hasattr(obj, field_name):
-            continue
-
-        value = getattr(obj, field_name)
-        if _is_unset(value):
-            # Do not expose optional fields unless the API actually sent them
-            continue
-
-        collected[api_name] = _to_plain(value)
-
-    # Then reorder using any explicit field_order the model defines
-    field_order = _get_field_order(cls)
-    if not field_order:
-        return collected
-
-    ordered: Dict[str, Any] = {}
-    for name in field_order:
-        if name in collected:
-            ordered[name] = collected[name]
-
-    # Append any extra fields that weren't listed in field_order
-    for name, value in collected.items():
-        if name not in ordered:
-            ordered[name] = value
-
-    return ordered
+    return _model_to_plain(obj, cls, model_fields)
 
 
 def to_api_payload(res: Any) -> Dict[str, Any]:

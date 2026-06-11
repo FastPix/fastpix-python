@@ -69,6 +69,9 @@ NOT_READY_RETRY_TIMEOUT_S = 120
 NOT_READY_RETRY_INTERVAL_S = 5
 NOT_READY_SUBSTR = "not ready for updates"
 
+_DATA_ID_PATH = "data.id"
+_DATA_PLAYBACK_ID0_PATH = "data.playbackIds.0.id"
+
 # ---------------------------------------------------------------------------
 # Declarative lifecycle steps
 # ---------------------------------------------------------------------------
@@ -149,43 +152,43 @@ _DIRECT_UPLOAD_BODY = {
 
 
 def _capture_signing_key(v, c):
-    c["signing_key_id"] = _get(v, "data.id")
+    c["signing_key_id"] = _get(v, _DATA_ID_PATH)
 
 
 def _capture_playlist(v, c):
-    c["playlist_id"] = _get(v, "data.id")
+    c["playlist_id"] = _get(v, _DATA_ID_PATH)
 
 
 def _capture_stream(v, c):
-    c["stream_id"] = _get(v, "data.streamId") or _get(v, "data.id")
+    c["stream_id"] = _get(v, "data.streamId") or _get(v, _DATA_ID_PATH)
     # Stream's first playback ID is created automatically with the stream
-    c["stream_playback_id_from_create"] = _get(v, "data.playbackIds.0.id")
+    c["stream_playback_id_from_create"] = _get(v, _DATA_PLAYBACK_ID0_PATH)
 
 
 def _capture_media(v, c):
-    c["media_id"] = _get(v, "data.id")
-    c["media_playback_id"] = _get(v, "data.playbackIds.0.id")
+    c["media_id"] = _get(v, _DATA_ID_PATH)
+    c["media_playback_id"] = _get(v, _DATA_PLAYBACK_ID0_PATH)
 
 
 def _capture_media_playback_id(v, c):
     # API can return either the new playback id directly or nested under playbackIds[0]
-    c["created_playback_id"] = _get(v, "data.id") or _get(v, "data.playbackIds.0.id")
+    c["created_playback_id"] = _get(v, _DATA_ID_PATH) or _get(v, _DATA_PLAYBACK_ID0_PATH)
 
 
 def _capture_track(v, c):
-    c["track_id"] = _get(v, "data.id")
+    c["track_id"] = _get(v, _DATA_ID_PATH)
 
 
 def _capture_stream_playback_id(v, c):
-    c["stream_playback_id"] = _get(v, "data.id") or _get(v, "data.playbackIds.0.id")
+    c["stream_playback_id"] = _get(v, _DATA_ID_PATH) or _get(v, _DATA_PLAYBACK_ID0_PATH)
 
 
 def _capture_simulcast(v, c):
-    c["simulcast_id"] = _get(v, "data.simulcastId") or _get(v, "data.id")
+    c["simulcast_id"] = _get(v, "data.simulcastId") or _get(v, _DATA_ID_PATH)
 
 
 def _capture_upload(v, c):
-    c["upload_id"] = _get(v, "data.uploadId") or _get(v, "data.id")
+    c["upload_id"] = _get(v, "data.uploadId") or _get(v, _DATA_ID_PATH)
 
 
 STEPS: List[Step] = [
@@ -373,6 +376,15 @@ def poll_media_ready(httpx_mod, base_url: str, media_id: str, auth) -> str:
     return last
 
 
+def _track_status_from_body(body: Any, track_id: str) -> Optional[str]:
+    """Return the status string for ``track_id`` in a media response body, if present."""
+    tracks = ((body or {}).get("data") or {}).get("tracks") or []
+    for t in tracks:
+        if t.get("id") == track_id:
+            return str(t.get("status") or "present")
+    return None
+
+
 def poll_track_ready(httpx_mod, base_url: str, media_id: str, track_id: str, auth) -> str:
     deadline = time.monotonic() + TRACK_READY_TIMEOUT_S
     last = "absent"
@@ -382,12 +394,11 @@ def poll_track_ready(httpx_mod, base_url: str, media_id: str, track_id: str, aut
             r = httpx_mod.get(url, auth=auth, timeout=30.0,
                               headers={"Accept": "application/json"})
             if r.status_code == 200:
-                tracks = ((r.json() or {}).get("data") or {}).get("tracks") or []
-                for t in tracks:
-                    if t.get("id") == track_id:
-                        last = str(t.get("status") or "present")
-                        if last in {"Ready", "available", "present"}:
-                            return last
+                status = _track_status_from_body(r.json(), track_id)
+                if status is not None:
+                    last = status
+                    if last in {"Ready", "available", "present"}:
+                        return last
         except Exception:
             pass
         time.sleep(POLL_INTERVAL_S)
@@ -439,60 +450,61 @@ def build_operation_index(spec: Mapping[str, Any]) -> Dict[str, Tuple[str, str, 
 # ---------------------------------------------------------------------------
 
 
-def run_step(
-    *,
+def _precheck_step(
     step: Step,
     op_index: Mapping[str, Tuple[str, str, Dict[str, Any]]],
     dispatch,
-    sdk,
-    raw_state: Dict[str, Any],
     ctx: Dict[str, Any],
-    components: Mapping[str, Any],
-    httpx_mod,
-    base_url: str,
-    auth,
-) -> EndpointResult:
+) -> Tuple[Optional[EndpointResult], Any, Any, Any, Any]:
+    """Run the pre-invocation guards. Returns (early_result, path, method, op, binding);
+    early_result is set when the step should short-circuit before invocation."""
     if step.operation_id not in op_index:
-        return EndpointResult(
-            endpoint="(unknown)", method="?", operation_id=step.operation_id,
-            status="SKIP", openapi_valid=True, openapi_errors=[],
-            sdk_parse_ok=False, sdk_parse_error="operationId not found in spec",
-            note=f"[{step.phase}] operationId not found in spec",
+        return (
+            EndpointResult(
+                endpoint="(unknown)", method="?", operation_id=step.operation_id,
+                status="SKIP", openapi_valid=True, openapi_errors=[],
+                sdk_parse_ok=False, sdk_parse_error="operationId not found in spec",
+                note=f"[{step.phase}] operationId not found in spec",
+            ),
+            None, None, None, None,
         )
     path, method, op = op_index[step.operation_id]
 
     # Step dependencies — skip if upstream IDs missing
     missing = [k for k in step.needs if not ctx.get(k)]
     if missing:
-        return EndpointResult(
-            endpoint=path, method=method, operation_id=step.operation_id,
-            status="SKIP", openapi_valid=True, openapi_errors=[],
-            sdk_parse_ok=False,
-            sdk_parse_error=f"missing dependency: {missing}",
-            note=f"[{step.phase}] upstream CREATE did not produce: {missing}",
+        return (
+            EndpointResult(
+                endpoint=path, method=method, operation_id=step.operation_id,
+                status="SKIP", openapi_valid=True, openapi_errors=[],
+                sdk_parse_ok=False,
+                sdk_parse_error=f"missing dependency: {missing}",
+                note=f"[{step.phase}] upstream CREATE did not produce: {missing}",
+            ),
+            path, method, op, None,
         )
 
     binding = dispatch.get(step.operation_id)
     if binding is None:
-        return EndpointResult(
-            endpoint=path, method=method, operation_id=step.operation_id,
-            status="FAIL", openapi_valid=True, openapi_errors=[],
-            sdk_parse_ok=False,
-            sdk_parse_error="SDK does not expose a method for this operation",
-            note=f"[{step.phase}] SDK regeneration required — no method bound",
+        return (
+            EndpointResult(
+                endpoint=path, method=method, operation_id=step.operation_id,
+                status="FAIL", openapi_valid=True, openapi_errors=[],
+                sdk_parse_ok=False,
+                sdk_parse_error="SDK does not expose a method for this operation",
+                note=f"[{step.phase}] SDK regeneration required — no method bound",
+            ),
+            path, method, op, None,
         )
 
-    # generate-subtitle-track needs the track to exist on the media first
-    if step.operation_id == "Generate-subtitle-track" and ctx.get("media_id") and ctx.get("track_id"):
-        poll_track_ready(httpx_mod, base_url, ctx["media_id"], ctx["track_id"], auth)
+    return (None, path, method, op, binding)
 
-    invocation: Dict[str, Any] = {}
-    invocation.update(step.request(ctx))
-    invocation.update(kwargs_to_snake(step.body))
 
-    expected_fail = step.operation_id in EXPECTED_FAILS
-
-    # Retry loop for transient "not ready for updates" errors
+def _invoke_with_retry(
+    sdk, binding, invocation: Dict[str, Any], step: Step, raw_state: Dict[str, Any]
+) -> Tuple[Any, bool, str, int]:
+    """Invoke the SDK method, retrying on the step's transient-error substring.
+    Returns (sdk_value, sdk_ok, sdk_err, attempt)."""
     deadline = time.monotonic() + NOT_READY_RETRY_TIMEOUT_S
     attempt = 0
     sdk_value: Any = None
@@ -515,6 +527,71 @@ def run_step(
                 time.sleep(NOT_READY_RETRY_INTERVAL_S)
                 continue
             break
+    return sdk_value, sdk_ok, sdk_err, attempt
+
+
+def _compute_diffs(
+    api_body: Any, sdk_value: Any, sdk_ok: bool, api_status: Optional[int]
+) -> Tuple[List[str], List[str], List[str], List[str]]:
+    """Compute missing-path and empty-array diffs between API and SDK payloads."""
+    if (sdk_ok and api_status and 200 <= api_status < 300
+            and isinstance(api_body, (dict, list))):
+        miss_sdk, miss_api = path_diff(api_body, sdk_value)
+        empty_sdk = sorted(collect_empty_array_paths(api_body) - collect_empty_array_paths(sdk_value))
+        empty_api = sorted(collect_empty_array_paths(sdk_value) - collect_empty_array_paths(api_body))
+        return miss_sdk, miss_api, empty_sdk, empty_api
+    return [], [], [], []
+
+
+def _resolve_status(
+    step: Step,
+    sdk_ok: bool,
+    api_status: Optional[int],
+    openapi_valid: bool,
+    miss_sdk: List[str],
+    miss_api: List[str],
+) -> Tuple[str, str]:
+    """Determine the PASS/FAIL status and note for a completed step."""
+    if step.operation_id in EXPECTED_FAILS:
+        if not sdk_ok:
+            return "PASS", (f"[{step.phase}] Expected to fail in a credentials-only run "
+                            "(no active RTMPS encoder) — SDK behaviour is correct.")
+        return "FAIL", (f"[{step.phase}] Operation succeeded but was expected to fail "
+                        "— check SDK swallowing")
+    if (sdk_ok and api_status and 200 <= api_status < 300
+            and openapi_valid and not miss_sdk and not miss_api):
+        return "PASS", f"[{step.phase}]"
+    return "FAIL", f"[{step.phase}]"
+
+
+def run_step(
+    *,
+    step: Step,
+    op_index: Mapping[str, Tuple[str, str, Dict[str, Any]]],
+    dispatch,
+    sdk,
+    raw_state: Dict[str, Any],
+    ctx: Dict[str, Any],
+    components: Mapping[str, Any],
+    httpx_mod,
+    base_url: str,
+    auth,
+) -> EndpointResult:
+    early, path, method, op, binding = _precheck_step(step, op_index, dispatch, ctx)
+    if early is not None:
+        return early
+
+    # generate-subtitle-track needs the track to exist on the media first
+    if step.operation_id == "Generate-subtitle-track" and ctx.get("media_id") and ctx.get("track_id"):
+        poll_track_ready(httpx_mod, base_url, ctx["media_id"], ctx["track_id"], auth)
+
+    invocation: Dict[str, Any] = {}
+    invocation.update(step.request(ctx))
+    invocation.update(kwargs_to_snake(step.body))
+
+    sdk_value, sdk_ok, sdk_err, attempt = _invoke_with_retry(
+        sdk, binding, invocation, step, raw_state
+    )
 
     api_status = raw_state.get("status")
     api_body = raw_state.get("body_json")
@@ -536,27 +613,13 @@ def run_step(
     if isinstance(api_body, dict) and api_status:
         openapi_valid, openapi_errors = validate_response(api_body, op, api_status, components)
 
-    # Path diff
-    if (sdk_ok and api_status and 200 <= api_status < 300
-            and isinstance(api_body, (dict, list))):
-        miss_sdk, miss_api = path_diff(api_body, sdk_value)
-        empty_sdk = sorted(collect_empty_array_paths(api_body) - collect_empty_array_paths(sdk_value))
-        empty_api = sorted(collect_empty_array_paths(sdk_value) - collect_empty_array_paths(api_body))
-    else:
-        miss_sdk, miss_api, empty_sdk, empty_api = [], [], [], []
+    miss_sdk, miss_api, empty_sdk, empty_api = _compute_diffs(
+        api_body, sdk_value, sdk_ok, api_status
+    )
 
-    # Status
-    if expected_fail:
-        status = "PASS" if not sdk_ok else "FAIL"
-        note = (f"[{step.phase}] Expected to fail in a credentials-only run "
-                "(no active RTMPS encoder) — SDK behaviour is correct."
-                if not sdk_ok else
-                f"[{step.phase}] Operation succeeded but was expected to fail — check SDK swallowing")
-    elif (sdk_ok and api_status and 200 <= api_status < 300
-          and openapi_valid and not miss_sdk and not miss_api):
-        status, note = "PASS", f"[{step.phase}]"
-    else:
-        status, note = "FAIL", f"[{step.phase}]"
+    status, note = _resolve_status(
+        step, sdk_ok, api_status, openapi_valid, miss_sdk, miss_api
+    )
 
     if attempt > 1:
         note += f"  (retried {attempt}x on '{step.retry_on}')"
@@ -581,6 +644,29 @@ def run_step(
     )
 
 
+_CTX_ID_KEYS = (
+    "signing_key_id", "playlist_id", "stream_id",
+    "media_id", "media_playback_id", "created_playback_id",
+    "track_id", "stream_playback_id", "simulcast_id", "upload_id",
+)
+
+
+def _print_step_outcome(result: EndpointResult, step: Step, ctx: Dict[str, Any]) -> None:
+    """Print one step's result line and attach fix suggestions on FAIL."""
+    captured = ""
+    if step.capture and result.status == "PASS":
+        new_keys = [k for k in _CTX_ID_KEYS if ctx.get(k)]
+        captured = f"  ctx-keys={new_keys}" if new_keys else ""
+
+    if result.status == "FAIL" and result.sdk_parse_error:
+        print(f"  ⚠️  FAIL — {result.sdk_parse_error[:200]}", flush=True)
+        result.fix_suggestions = generate_fix_suggestions(result)
+    elif result.status == "SKIP":
+        print(f"  ⏭  SKIP — {result.note}", flush=True)
+    else:
+        print(f"  ✓ {result.status} (HTTP {result.api_status or '?'}){captured}", flush=True)
+
+
 def main() -> int:
     user, pwd = require_credentials()
     spec = load_spec()
@@ -597,7 +683,7 @@ def main() -> int:
 
     get_sidecar()  # warm up
 
-    Fastpix, models = import_sdk()
+    fastpix_cls, models = import_sdk()
     auth = (user, pwd)
     raw_state: Dict[str, Any] = {}
     client = httpx.Client(
@@ -606,7 +692,7 @@ def main() -> int:
         timeout=180.0,
     )
     security = models.Security(username=user, password=pwd)
-    sdk = Fastpix(security=security, client=client)
+    sdk = fastpix_cls(security=security, client=client)
     ctx: Dict[str, Any] = {}
 
     total = len(STEPS)
@@ -623,22 +709,7 @@ def main() -> int:
             httpx_mod=httpx, base_url=base_url, auth=auth,
         )
 
-        captured = ""
-        if step.capture and result.status == "PASS":
-            new_keys = [k for k in ("signing_key_id", "playlist_id", "stream_id",
-                                     "media_id", "media_playback_id", "created_playback_id",
-                                     "track_id", "stream_playback_id", "simulcast_id", "upload_id")
-                        if ctx.get(k)]
-            captured = f"  ctx-keys={new_keys}" if new_keys else ""
-
-        if result.status == "FAIL" and result.sdk_parse_error:
-            print(f"  ⚠️  FAIL — {result.sdk_parse_error[:200]}", flush=True)
-            result.fix_suggestions = generate_fix_suggestions(result)
-        elif result.status == "SKIP":
-            print(f"  ⏭  SKIP — {result.note}", flush=True)
-        else:
-            print(f"  ✓ {result.status} (HTTP {result.api_status or '?'}){captured}", flush=True)
-
+        _print_step_outcome(result, step, ctx)
         results.append(result)
 
     counts = write_validation_report(

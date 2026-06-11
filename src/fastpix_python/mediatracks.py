@@ -269,7 +269,7 @@ class MediaTracks(BaseSDK):
         media_id: str,
         url: Optional[
             str
-        ] = "http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt",
+        ] = "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt",
         language_code: Optional[str] = "fr",
         language_name: Optional[str] = "French",
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -408,7 +408,7 @@ class MediaTracks(BaseSDK):
         media_id: str,
         url: Optional[
             str
-        ] = "http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt",
+        ] = "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt",
         language_code: Optional[str] = "fr",
         language_name: Optional[str] = "French",
         retries: OptionalNullable[utils.RetryConfig] = UNSET,

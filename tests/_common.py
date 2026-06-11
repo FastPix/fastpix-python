@@ -180,7 +180,7 @@ def validate_response(
     body: Any,
     operation: Mapping[str, Any],
     status_code: int,
-    components: Mapping[str, Any],
+    _components: Mapping[str, Any],
 ) -> Tuple[bool, List[Dict[str, Any]]]:
     """Validate ``body`` against the operation's response schema for ``status_code``.
 
@@ -202,6 +202,26 @@ def validate_response(
 # ---------------------------------------------------------------------------
 
 
+def _collect_dict_paths(value: dict, prefix: str, include_empty_arrays: bool) -> Set[str]:
+    out: Set[str] = set()
+    for k, v in value.items():
+        if not include_empty_arrays and isinstance(v, list) and not v:
+            continue
+        p = f"{prefix}.{k}" if prefix else k
+        out.add(p)
+        out |= collect_paths(v, p, include_empty_arrays)
+    return out
+
+
+def _collect_list_paths(value: list, prefix: str, include_empty_arrays: bool) -> Set[str]:
+    out: Set[str] = set()
+    arr_prefix = f"{prefix}[]" if prefix else "[]"
+    out.add(arr_prefix)
+    for item in value:
+        out |= collect_paths(item, arr_prefix, include_empty_arrays)
+    return out
+
+
 def collect_paths(value: Any, prefix: str = "", include_empty_arrays: bool = False) -> Set[str]:
     """Collect every intermediate and leaf JSON path. Matches Node SDK's
     `collectJsonPaths` with `includeEmptyArrays=false`.
@@ -210,28 +230,15 @@ def collect_paths(value: Any, prefix: str = "", include_empty_arrays: bool = Fal
     matching how the SDK omits unset arrays during serialization. Arrays of
     objects are merged into a single ``[]`` index.
     """
-    out: Set[str] = set()
     if value is None:
-        return out
+        return set()
     if isinstance(value, dict):
-        for k, v in value.items():
-            if not include_empty_arrays and isinstance(v, list) and not v:
-                continue
-            p = f"{prefix}.{k}" if prefix else k
-            out.add(p)
-            out |= collect_paths(v, p, include_empty_arrays)
-        return out
+        return _collect_dict_paths(value, prefix, include_empty_arrays)
     if isinstance(value, list):
         if not include_empty_arrays and not value:
-            return out
-        arr_prefix = f"{prefix}[]" if prefix else "[]"
-        out.add(arr_prefix)
-        for item in value:
-            out |= collect_paths(item, arr_prefix, include_empty_arrays)
-        return out
-    if prefix:
-        out.add(prefix)
-    return out
+            return set()
+        return _collect_list_paths(value, prefix, include_empty_arrays)
+    return {prefix} if prefix else set()
 
 
 def collect_empty_array_paths(value: Any, prefix: str = "") -> Set[str]:
@@ -437,11 +444,11 @@ class SDKBinding:
 
 def _op_method_pattern(source: str) -> Set[str]:
     """Read source and yield (method_name, operation_id) pairs."""
-    return set(re.findall(r'def\s+([a-zA-Z_][a-zA-Z0-9_]*)\(', source))
+    return set(re.findall(r'def\s+([a-zA-Z_]\w*)\(', source))
 
 
 _OP_ID_TO_METHOD_RE = re.compile(
-    r'def\s+([a-zA-Z_][a-zA-Z0-9_]*)\((?:[^)]|\n)*?\)[^{]*?'
+    r'def\s+([a-zA-Z_]\w*)\((?:[^)]|\n)*?\)[^{]*?'
     r'operation_id="([^"]+)"',
     re.DOTALL,
 )
@@ -458,14 +465,14 @@ def build_dispatch() -> Dict[str, SDKBinding]:
         text = mod_path.read_text(encoding="utf-8")
         # walk methods and pair each `def name(...)` with the first
         # `operation_id="..."` that follows (within the same function body)
-        for match in re.finditer(r'def\s+([a-zA-Z_][a-zA-Z0-9_]*)\(', text):
+        for match in re.finditer(r'def\s+([a-zA-Z_]\w*)\(', text):
             method_name = match.group(1)
             if method_name.startswith("_") or method_name.endswith("_async"):
                 continue
             # Search up to the next `def ` boundary (functions with very long
             # docstrings can push operation_id well past 8 KB).
             tail = text[match.end():]
-            next_def = re.search(r'\n    (?:async\s+)?def\s+', tail)
+            next_def = re.search(r'\n {4}(?:async\s+)?def\s+', tail)
             window = tail[: next_def.start()] if next_def else tail
             op_match = re.search(r'operation_id="([^"]+)"', window)
             if not op_match:
@@ -520,13 +527,13 @@ def import_sdk():
 
 
 def build_sdk(client: Optional[Any] = None) -> Any:
-    Fastpix, models = import_sdk()
+    fastpix_cls, models = import_sdk()
     user, pwd = require_credentials()
     security = models.Security(username=user, password=pwd)
     kwargs: Dict[str, Any] = {"security": security}
     if client is not None:
         kwargs["client"] = client
-    return Fastpix(**kwargs)
+    return fastpix_cls(**kwargs)
 
 
 def call_sdk_method(

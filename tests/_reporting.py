@@ -21,6 +21,10 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 from tests._common import EndpointResult
 
+_ERR_ONEOF = "must match exactly one schema in oneOf"
+_ERR_ALLOWED_VALUES = "must be equal to one of the allowed values"
+_NONE_BULLET = "- None"
+
 
 # ---------------------------------------------------------------------------
 # Fix-suggestion heuristics
@@ -35,13 +39,12 @@ def _openapi_error_paths(r: EndpointResult) -> List[str]:
     return [str(e.get("path") or "") for e in r.openapi_errors if e.get("path")]
 
 
-def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
-    """Port of the Node SDK's heuristic suggestion engine."""
+def _suggest_enum_oneof(r: EndpointResult, paths: List[str]) -> List[Dict[str, str]]:
+    """Heuristics 1-3: tracks oneOf overlap and enum mismatches."""
     out: List[Dict[str, str]] = []
-    paths = _openapi_error_paths(r)
 
     # 1) tracks oneOf overlap
-    if _has_openapi_error(r, "must match exactly one schema in oneOf") and any(
+    if _has_openapi_error(r, _ERR_ONEOF) and any(
         "tracks" in p for p in paths
     ):
         out.append({
@@ -67,7 +70,7 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
         })
 
     # 2) sourceResolution enum
-    if _has_openapi_error(r, "must be equal to one of the allowed values") and any(
+    if _has_openapi_error(r, _ERR_ALLOWED_VALUES) and any(
         "sourceResolution" in p for p in paths
     ):
         out.append({
@@ -83,7 +86,7 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
         })
 
     # 3) maxResolution enum
-    if _has_openapi_error(r, "must be equal to one of the allowed values") and any(
+    if _has_openapi_error(r, _ERR_ALLOWED_VALUES) and any(
         "maxResolution" in p for p in paths
     ):
         out.append({
@@ -97,8 +100,15 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
             ),
         })
 
+    return out
+
+
+def _suggest_schema_overlap(r: EndpointResult, paths: List[str]) -> List[Dict[str, str]]:
+    """Heuristics 4-6: redundant/overlapping oneOf and nullable drift."""
+    out: List[Dict[str, str]] = []
+
     # 4) /data/dimensions redundant oneOf
-    if _has_openapi_error(r, "must match exactly one schema in oneOf") and (
+    if _has_openapi_error(r, _ERR_ONEOF) and (
         r.endpoint == "/data/dimensions" or any("dimensions" in p for p in paths)
     ):
         out.append({
@@ -115,7 +125,7 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
         })
 
     # 5) integer-vs-number oneOf overlap
-    if _has_openapi_error(r, "must match exactly one schema in oneOf") and any(
+    if _has_openapi_error(r, _ERR_ONEOF) and any(
         "value" in p for p in paths
     ):
         out.append({
@@ -126,6 +136,13 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
             ),
             "where": "In `fixed.yaml`: metrics schemas that use `oneOf: [integer, number]`",
         })
+
+    return out
+
+
+def _suggest_field_issues(r: EndpointResult, paths: List[str]) -> List[Dict[str, str]]:
+    """Heuristics 6-9: field-level drift (nullable, phantom, envelope, casing)."""
+    out: List[Dict[str, str]] = []
 
     # 6) fpApiVersion nullable
     if _has_openapi_error(r, "must be string") and any("fpApiVersion" in p for p in paths):
@@ -151,7 +168,7 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
         })
 
     # 8) SDK response envelope drift (e.g. list_signing_keys flat vs wrapped)
-    if any(p.startswith("[]") or p.startswith("[].") for p in r.missing_in_api):
+    if any(p.startswith(("[]", "[].")) for p in r.missing_in_api):
         out.append({
             "title": "Fix response envelope: SDK is unwrapping `{success, data, pagination}` to a flat list",
             "why": (
@@ -178,6 +195,13 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
                 "or add a wire-format alias in the SDK's response model."
             ),
         })
+
+    return out
+
+
+def _suggest_fixture_issues(r: EndpointResult) -> List[Dict[str, str]]:
+    """Heuristics 10-11: fixture data problems (missing param, stale ID)."""
+    out: List[Dict[str, str]] = []
 
     # 10) Missing required query param fixture
     if r.sdk_parse_error and "missing 1 required keyword-only argument" in r.sdk_parse_error:
@@ -211,6 +235,17 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
     return out
 
 
+def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
+    """Port of the Node SDK's heuristic suggestion engine."""
+    paths = _openapi_error_paths(r)
+    return (
+        _suggest_enum_oneof(r, paths)
+        + _suggest_schema_overlap(r, paths)
+        + _suggest_field_issues(r, paths)
+        + _suggest_fixture_issues(r)
+    )
+
+
 # ---------------------------------------------------------------------------
 # Report writers
 # ---------------------------------------------------------------------------
@@ -218,6 +253,85 @@ def generate_fix_suggestions(r: EndpointResult) -> List[Dict[str, str]]:
 
 def _iso_now() -> str:
     return _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def _status_icon(status: str) -> str:
+    if status == "PASS":
+        return "✅ PASS"
+    if status == "FAIL":
+        return "❌ FAIL"
+    return "⏭ SKIP"
+
+
+def _append_bullet_section(lines: List[str], header: str, items: Sequence[Any]) -> None:
+    """Append a '**Header — N**' section followed by a bullet list (or '- None')."""
+    lines.append(f"{header} — {len(items)}**")
+    lines.append("")
+    if not items:
+        lines.append(_NONE_BULLET)
+    else:
+        for p in items:
+            lines.append(f"- `{p}`")
+    lines.append("")
+
+
+def _append_preview(lines: List[str], label: str, preview: Optional[str]) -> None:
+    """Append a fenced JSON preview block, if a preview is present."""
+    if not preview:
+        return
+    lines.append(f"**{label}**")
+    lines.append("")
+    lines.append("```json")
+    lines.append(preview)
+    lines.append("```")
+    lines.append("")
+
+
+def _append_openapi_errors(lines: List[str], r: EndpointResult, bullet: str) -> None:
+    """Append observed OpenAPI errors using the given bullet prefix ('-' or '  -')."""
+    for e in r.openapi_errors:
+        loc = f"`{e['path']}`" if e.get("path") else ""
+        msg = e.get("message") or ""
+        lines.append(f"{bullet} {loc} {msg}".rstrip())
+
+
+def _render_endpoint_detail(r: EndpointResult) -> List[str]:
+    """Render the per-endpoint detail block for the validation report."""
+    lines: List[str] = []
+    lines.append(f"### {r.operation_id} (`{r.endpoint}`)")
+    lines.append("")
+    lines.append(f"- **Status**: {r.status}")
+    if r.note:
+        lines.append(f"- **Note**: {r.note}")
+    lines.append(f"- **OpenAPI valid**: {'yes' if r.openapi_valid else 'no'}")
+    if not r.openapi_valid and r.openapi_errors:
+        lines.append("- **OpenAPI errors**:")
+        _append_openapi_errors(lines, r, "  -")
+    lines.append(f"- **SDK parse**: {'ok' if r.sdk_parse_ok else 'failed'}")
+    if not r.sdk_parse_ok and r.sdk_parse_error:
+        lines.append(f"- **SDK parse error**: {r.sdk_parse_error}")
+    if r.api_status is not None:
+        lines.append(f"- **API HTTP status**: `{r.api_status}`")
+    if r.api_response_file:
+        lines.append(f"- **API response file**: `{r.api_response_file}`")
+    if r.sdk_response_file:
+        lines.append(f"- **SDK response file**: `{r.sdk_response_file}`")
+    lines.append("")
+    _append_preview(lines, "API response (preview)", r.api_response_preview)
+    _append_preview(lines, "SDK response (preview)", r.sdk_response_preview)
+    _append_bullet_section(
+        lines, "**Missing in SDK (present in API)", r.missing_in_sdk
+    )
+    _append_bullet_section(
+        lines, "**Missing in API (present in SDK)", r.missing_in_api
+    )
+    _append_bullet_section(
+        lines, "**Empty arrays omitted by SDK", r.empty_arrays_omitted_in_sdk
+    )
+    _append_bullet_section(
+        lines, "**Empty arrays omitted by API", r.empty_arrays_omitted_in_api
+    )
+    return lines
 
 
 def write_validation_report(
@@ -258,7 +372,7 @@ def write_validation_report(
         ms = ", ".join(f"`{p}`" for p in r.missing_in_sdk) or "None"
         ma = ", ".join(f"`{p}`" for p in r.missing_in_api) or "None"
         ea = ", ".join(f"`{p}`" for p in r.empty_arrays_omitted_in_sdk) or "None"
-        status_icon = "✅ PASS" if r.status == "PASS" else ("❌ FAIL" if r.status == "FAIL" else "⏭ SKIP")
+        status_icon = _status_icon(r.status)
         lines.append(
             f"| `{r.endpoint}` | `{r.operation_id}` | {oa} | {sdk} | {ms} | {ma} | {ea} | {status_icon} |"
         )
@@ -266,77 +380,55 @@ def write_validation_report(
     lines.append("## Per-endpoint details (full missing parameter lists)")
     lines.append("")
     for r in results:
-        lines.append(f"### {r.operation_id} (`{r.endpoint}`)")
-        lines.append("")
-        lines.append(f"- **Status**: {r.status}")
-        if r.note:
-            lines.append(f"- **Note**: {r.note}")
-        lines.append(f"- **OpenAPI valid**: {'yes' if r.openapi_valid else 'no'}")
-        if not r.openapi_valid and r.openapi_errors:
-            lines.append("- **OpenAPI errors**:")
-            for e in r.openapi_errors:
-                loc = f"`{e['path']}`" if e.get("path") else ""
-                msg = e.get("message") or ""
-                lines.append(f"  - {loc} {msg}".rstrip())
-        lines.append(f"- **SDK parse**: {'ok' if r.sdk_parse_ok else 'failed'}")
-        if not r.sdk_parse_ok and r.sdk_parse_error:
-            lines.append(f"- **SDK parse error**: {r.sdk_parse_error}")
-        if r.api_status is not None:
-            lines.append(f"- **API HTTP status**: `{r.api_status}`")
-        if r.api_response_file:
-            lines.append(f"- **API response file**: `{r.api_response_file}`")
-        if r.sdk_response_file:
-            lines.append(f"- **SDK response file**: `{r.sdk_response_file}`")
-        lines.append("")
-        if r.api_response_preview:
-            lines.append("**API response (preview)**")
-            lines.append("")
-            lines.append("```json")
-            lines.append(r.api_response_preview)
-            lines.append("```")
-            lines.append("")
-        if r.sdk_response_preview:
-            lines.append("**SDK response (preview)**")
-            lines.append("")
-            lines.append("```json")
-            lines.append(r.sdk_response_preview)
-            lines.append("```")
-            lines.append("")
-        lines.append(f"**Missing in SDK (present in API) — {len(r.missing_in_sdk)}**")
-        lines.append("")
-        if not r.missing_in_sdk:
-            lines.append("- None")
-        else:
-            for p in r.missing_in_sdk:
-                lines.append(f"- `{p}`")
-        lines.append("")
-        lines.append(f"**Missing in API (present in SDK) — {len(r.missing_in_api)}**")
-        lines.append("")
-        if not r.missing_in_api:
-            lines.append("- None")
-        else:
-            for p in r.missing_in_api:
-                lines.append(f"- `{p}`")
-        lines.append("")
-        lines.append(f"**Empty arrays omitted by SDK — {len(r.empty_arrays_omitted_in_sdk)}**")
-        lines.append("")
-        if not r.empty_arrays_omitted_in_sdk:
-            lines.append("- None")
-        else:
-            for p in r.empty_arrays_omitted_in_sdk:
-                lines.append(f"- `{p}`")
-        lines.append("")
-        lines.append(f"**Empty arrays omitted by API — {len(r.empty_arrays_omitted_in_api)}**")
-        lines.append("")
-        if not r.empty_arrays_omitted_in_api:
-            lines.append("- None")
-        else:
-            for p in r.empty_arrays_omitted_in_api:
-                lines.append(f"- `{p}`")
-        lines.append("")
+        lines.extend(_render_endpoint_detail(r))
 
     out_path.write_text("\n".join(lines))
     return counts
+
+
+def _render_suggestions(suggestions: Sequence[Dict[str, str]]) -> List[str]:
+    """Render the '### Suggested fixes' section for one endpoint."""
+    lines: List[str] = ["### Suggested fixes", ""]
+    if not suggestions:
+        lines.append("- No heuristic suggestions available for this failure yet.")
+        lines.append("")
+        return lines
+    for s in suggestions:
+        lines.append(f"- **{s['title']}**")
+        lines.append(f"  - **why**: {s.get('why', '')}")
+        if s.get("where"):
+            lines.append(f"  - **where**: {s['where']}")
+        if s.get("paste_yaml"):
+            lines.append("  - **paste**:")
+            lines.append("")
+            lines.append("```yaml")
+            lines.append(s["paste_yaml"])
+            lines.append("```")
+        lines.append("")
+    return lines
+
+
+def _render_fix_entry(r: EndpointResult) -> List[str]:
+    """Render one failing endpoint's section in the fix-suggestions report."""
+    lines: List[str] = []
+    lines.append(f"## {r.operation_id} (`{r.endpoint}`)")
+    lines.append("")
+    lines.append(f"- **Status**: {r.status}")
+    lines.append(f"- **OpenAPI valid**: {'yes' if r.openapi_valid else 'no'}")
+    lines.append(f"- **SDK parse**: {'ok' if r.sdk_parse_ok else 'failed'}")
+    if r.api_response_file:
+        lines.append(f"- **API artifact**: `{r.api_response_file}`")
+    if r.sdk_response_file:
+        lines.append(f"- **SDK artifact**: `{r.sdk_response_file}`")
+    lines.append("")
+    if not r.openapi_valid and r.openapi_errors:
+        lines.append("### Observed OpenAPI errors")
+        lines.append("")
+        _append_openapi_errors(lines, r, "-")
+        lines.append("")
+    suggestions = r.fix_suggestions or generate_fix_suggestions(r)
+    lines.extend(_render_suggestions(suggestions))
+    return lines
 
 
 def write_fix_suggestions(
@@ -355,44 +447,6 @@ def write_fix_suggestions(
     lines.append(f"Total failing endpoints: {len(failing)}")
     lines.append("")
     for r in failing:
-        lines.append(f"## {r.operation_id} (`{r.endpoint}`)")
-        lines.append("")
-        lines.append(f"- **Status**: {r.status}")
-        lines.append(f"- **OpenAPI valid**: {'yes' if r.openapi_valid else 'no'}")
-        lines.append(f"- **SDK parse**: {'ok' if r.sdk_parse_ok else 'failed'}")
-        if r.api_response_file:
-            lines.append(f"- **API artifact**: `{r.api_response_file}`")
-        if r.sdk_response_file:
-            lines.append(f"- **SDK artifact**: `{r.sdk_response_file}`")
-        lines.append("")
-        if not r.openapi_valid and r.openapi_errors:
-            lines.append("### Observed OpenAPI errors")
-            lines.append("")
-            for e in r.openapi_errors:
-                loc = f"`{e['path']}`" if e.get("path") else ""
-                msg = e.get("message") or ""
-                lines.append(f"- {loc} {msg}".rstrip())
-            lines.append("")
-        suggestions = r.fix_suggestions or generate_fix_suggestions(r)
-        if not suggestions:
-            lines.append("### Suggested fixes")
-            lines.append("")
-            lines.append("- No heuristic suggestions available for this failure yet.")
-            lines.append("")
-            continue
-        lines.append("### Suggested fixes")
-        lines.append("")
-        for s in suggestions:
-            lines.append(f"- **{s['title']}**")
-            lines.append(f"  - **why**: {s.get('why', '')}")
-            if s.get("where"):
-                lines.append(f"  - **where**: {s['where']}")
-            if s.get("paste_yaml"):
-                lines.append("  - **paste**:")
-                lines.append("")
-                lines.append("```yaml")
-                lines.append(s["paste_yaml"])
-                lines.append("```")
-            lines.append("")
+        lines.extend(_render_fix_entry(r))
     out_path.write_text("\n".join(lines))
     return len(failing)

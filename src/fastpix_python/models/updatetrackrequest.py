@@ -27,7 +27,7 @@ class UpdateTrackRequest(BaseModel):
     r"""Contains details about the track being added to the media file."""
 
     url: Optional[str] = (
-        "http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt"
+        "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt"
     )
     r"""The direct URL of the track file. It must point to a valid audio or subtitle file."""
 

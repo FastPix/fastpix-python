@@ -205,13 +205,11 @@ def rewrite_file(
     return text, count, unmapped
 
 
-def main(argv: List[str]) -> int:
-    check_only = "--check" in argv
-    yaml_url_map = build_yaml_pair_map()
-    fixed_anchor_idx = extract_fixed_anchor_index(NEW_YAML)
-    print(f"Loaded {len(yaml_url_map)} URL substitutions from old↔new YAML pairing.")
-    print(f"Loaded {len(fixed_anchor_idx)} anchor-text → new-URL entries from fixed.yaml.")
-
+def _process_files(
+    yaml_url_map: Dict[str, str],
+    fixed_anchor_idx: Dict[str, str],
+    check_only: bool,
+) -> Tuple[List[Tuple[Path, int]], Dict[str, Set[str]]]:
     changes: List[Tuple[Path, int]] = []
     unmapped_global: Dict[str, Set[str]] = defaultdict(set)
 
@@ -228,21 +226,43 @@ def main(argv: List[str]) -> int:
         for url, _label in unmapped:
             unmapped_global[url].add(str(path.relative_to(REPO_ROOT)))
 
+    return changes, unmapped_global
+
+
+def _report_changes(changes: List[Tuple[Path, int]], check_only: bool) -> None:
+    if not changes:
+        print("\nNo stale doc URLs needed rewriting.")
+        return
     verb = "Would rewrite" if check_only else "Rewrote"
     total = sum(n for _, n in changes)
-    if changes:
-        print(f"\n{verb} {total} URL occurrences across {len(changes)} files:")
-        for p, n in sorted(changes):
-            print(f"  {p.relative_to(REPO_ROOT)}: {n}")
-    else:
-        print("\nNo stale doc URLs needed rewriting.")
+    print(f"\n{verb} {total} URL occurrences across {len(changes)} files:")
+    for p, n in sorted(changes):
+        print(f"  {p.relative_to(REPO_ROOT)}: {n}")
 
-    if unmapped_global:
-        print(f"\nUnmapped stale URLs left in repo (no pair in fixed.yaml — out of scope):")
-        for url, files in sorted(unmapped_global.items()):
-            print(f"  {url}")
-            for f in sorted(files):
-                print(f"    in {f}")
+
+def _report_unmapped(unmapped_global: Dict[str, Set[str]]) -> None:
+    if not unmapped_global:
+        return
+    print("\nUnmapped stale URLs left in repo (no pair in fixed.yaml — out of scope):")
+    for url, files in sorted(unmapped_global.items()):
+        print(f"  {url}")
+        for f in sorted(files):
+            print(f"    in {f}")
+
+
+def main(argv: List[str]) -> int:
+    check_only = "--check" in argv
+    yaml_url_map = build_yaml_pair_map()
+    fixed_anchor_idx = extract_fixed_anchor_index(NEW_YAML)
+    print(f"Loaded {len(yaml_url_map)} URL substitutions from old↔new YAML pairing.")
+    print(f"Loaded {len(fixed_anchor_idx)} anchor-text → new-URL entries from fixed.yaml.")
+
+    changes, unmapped_global = _process_files(
+        yaml_url_map, fixed_anchor_idx, check_only
+    )
+
+    _report_changes(changes, check_only)
+    _report_unmapped(unmapped_global)
     return 1 if check_only and changes else 0
 
 

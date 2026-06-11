@@ -80,13 +80,7 @@ async def check_one(client, url: str, semaphore: asyncio.Semaphore) -> Tuple[str
             return url, 0, f"{type(exc).__name__}: {exc}"
 
 
-async def run() -> int:
-    try:
-        import httpx
-    except ImportError:
-        print("httpx not installed. Run `pip install httpx`.", file=sys.stderr)
-        return 2
-
+def _collect_urls() -> Dict[str, Set[Path]]:
     url_to_files: Dict[str, Set[Path]] = defaultdict(set)
     for md in walk_markdown_files(REPO_ROOT):
         try:
@@ -95,29 +89,13 @@ async def run() -> int:
             continue
         for u in extract_urls(text):
             url_to_files[u].add(md)
+    return url_to_files
 
-    all_urls = sorted(url_to_files)
-    print(f"Scanning {len(all_urls)} unique URLs across "
-          f"{len({f for files in url_to_files.values() for f in files})} markdown files...",
-          flush=True)
 
-    semaphore = asyncio.Semaphore(CONCURRENCY)
-    # A browser-like User-Agent is required: docs sites and CDNs commonly 403
-    # the default httpx UA, which would mask working URLs as broken.
-    async with httpx.AsyncClient(
-        http2=False,
-        verify=True,
-        headers={
-            "User-Agent": (
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/124.0.0.0 Safari/537.36"
-            ),
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        },
-    ) as client:
-        results = await asyncio.gather(*(check_one(client, u, semaphore) for u in all_urls))
-
+def _tally_results(
+    results: List[Tuple[str, int, str]],
+    url_to_files: Dict[str, Set[Path]],
+) -> Tuple[List[Tuple[str, int, str, List[str], bool]], int, int, int]:
     rows: List[Tuple[str, int, str, List[str], bool]] = []
     fail_real = 0
     fail_acknowledged = 0
@@ -125,16 +103,34 @@ async def run() -> int:
     for url, status, err in results:
         is_ack = is_acknowledged(url)
         files = sorted(str(p.relative_to(REPO_ROOT)) for p in url_to_files[url])
-        ok_status = 200 <= status < 400
-        if not ok_status:
-            if is_ack:
-                fail_acknowledged += 1
-            else:
-                fail_real += 1
-        else:
+        if 200 <= status < 400:
             ok += 1
+        elif is_ack:
+            fail_acknowledged += 1
+        else:
+            fail_real += 1
         rows.append((url, status, err, files, is_ack))
+    return rows, ok, fail_real, fail_acknowledged
 
+
+def _fastpix_docs_broken(
+    rows: List[Tuple[str, int, str, List[str], bool]],
+) -> List[Tuple[str, int, str, List[str]]]:
+    return [
+        (url, status, err, files)
+        for url, status, err, files, ack in rows
+        if not (200 <= status < 400) and "fastpix.com/docs" in url and not ack
+    ]
+
+
+def _build_report(
+    all_urls: List[str],
+    rows: List[Tuple[str, int, str, List[str], bool]],
+    ok: int,
+    fail_real: int,
+    fail_acknowledged: int,
+    fastpix_docs_broken: List[Tuple[str, int, str, List[str]]],
+) -> str:
     lines: List[str] = []
     lines.append("# Broken Links Report\n")
     lines.append(f"- Total URLs: **{len(all_urls)}**")
@@ -142,11 +138,6 @@ async def run() -> int:
     lines.append(f"- Broken (real): **{fail_real}**")
     lines.append(f"- Broken (acknowledged patterns): **{fail_acknowledged}**\n")
 
-    fastpix_docs_broken = [
-        (url, status, err, files)
-        for url, status, err, files, ack in rows
-        if not (200 <= status < 400) and "fastpix.com/docs" in url and not ack
-    ]
     lines.append(f"## fastpix.com/docs broken ({len(fastpix_docs_broken)})\n")
     if not fastpix_docs_broken:
         lines.append("_None._\n")
@@ -169,7 +160,46 @@ async def run() -> int:
         )
     lines.append("")
 
-    REPORT_PATH.write_text("\n".join(lines), encoding="utf-8")
+    return "\n".join(lines)
+
+
+async def run() -> int:
+    try:
+        import httpx
+    except ImportError:
+        print("httpx not installed. Run `pip install httpx`.", file=sys.stderr)
+        return 2
+
+    url_to_files = _collect_urls()
+    all_urls = sorted(url_to_files)
+    print(f"Scanning {len(all_urls)} unique URLs across "
+          f"{len({f for files in url_to_files.values() for f in files})} markdown files...",
+          flush=True)
+
+    semaphore = asyncio.Semaphore(CONCURRENCY)
+    # A browser-like User-Agent is required: docs sites and CDNs commonly 403
+    # the default httpx UA, which would mask working URLs as broken.
+    async with httpx.AsyncClient(
+        http2=False,
+        verify=True,
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        },
+    ) as client:
+        results = await asyncio.gather(*(check_one(client, u, semaphore) for u in all_urls))
+
+    rows, ok, fail_real, fail_acknowledged = _tally_results(results, url_to_files)
+    fastpix_docs_broken = _fastpix_docs_broken(rows)
+
+    report = _build_report(
+        all_urls, rows, ok, fail_real, fail_acknowledged, fastpix_docs_broken
+    )
+    REPORT_PATH.write_text(report, encoding="utf-8")
     print(f"\nWrote {REPORT_PATH.relative_to(REPO_ROOT)}")
 
     # Exit-code policy: only real fastpix.com/docs failures fail the run.
