@@ -152,4 +152,7 @@ tests/BROKEN_LINKS_REPORT.md
 tests/NON_GET_ENDPOINTS_VALIDATION_REPORT.md
 tests/GET_ENDPOINTS_VALIDATION_REPORT.md
 
+# Local SDK usage examples (contain live workspace credentials/IDs)
+tests/examples/
+
 node_modules/

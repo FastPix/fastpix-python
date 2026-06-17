@@ -209,13 +209,17 @@ STEPS: List[Step] = [
          needs=("media_id",),
          request=lambda c: {"media_id": c["media_id"]},
          body={
-             # SDK takes a single `tracks` kwarg (AddTrackRequest object)
+             # SDK takes a single `tracks` kwarg (AddTrackRequest object).
+             # Add an AUDIO track (FastPix extracts the audio from the sample
+             # video) so the downstream Generate-subtitle-track step has an audio
+             # track to work from. A real audio source is required — sample.m4a
+             # and .vtt do not process; the sample MP4 reliably yields an
+             # `available` audio track.
              "tracks": {
-                 "url": "https://static.fastpix.com/sample.vtt",
-                 "type": "subtitle",
-                 "languageCode": "en",
-                 "languageName": "English",
-                 "closedCaptions": True,
+                 "url": "https://static.fastpix.io/fp-sample-video.mp4",
+                 "type": "audio",
+                 "languageCode": "fr",
+                 "languageName": "French",
              },
          },
          capture=_capture_track),
