@@ -4,12 +4,12 @@
 
 ### Available Operations
 
-* [create](#create) - Create a signing key
+* [create_signing_key](#create_signing_key) - Create a signing key
 * [list_signing_keys](#list_signing_keys) - Get list of signing key
 * [delete_signing_key](#delete_signing_key) - Delete a signing key
 * [get_signing_key_by_id](#get_signing_key_by_id) - Get signing key by ID
 
-## create
+## create_signing_key
 
 This endpoint allows you to create a new signing key pair for FastPix. When you call this endpoint, the API generates a 2048-bit RSA key pair. The privateKey is returned in the response, encoded in Base64 format. You also receive a unique key ID to reference the key in future operations. FastPix securely stores the public key to validate signed tokens. 
 
@@ -44,7 +44,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.signing_keys.create()
+    res = fastpix.signing_keys.create_signing_key()
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

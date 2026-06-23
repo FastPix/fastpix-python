@@ -49,9 +49,9 @@ class ImposeTrack(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["url", "startTime", "endTime", "fadeInLevel", "fadeOutLevel"]
-        )
+        optional_fields = {
+            "url", "startTime", "endTime", "fadeInLevel", "fadeOutLevel"
+        }
         serialized = handler(self)
         m = {}
 
@@ -59,9 +59,10 @@ class ImposeTrack(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -89,7 +90,7 @@ class AudioInput(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["imposeTracks"])
+        optional_fields = {"imposeTracks"}
         serialized = handler(self)
         m = {}
 
@@ -97,8 +98,9 @@ class AudioInput(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

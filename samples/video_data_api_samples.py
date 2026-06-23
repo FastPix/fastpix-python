@@ -125,7 +125,7 @@ def manage_data_dimensions():
         device_filters = fastpix.dimensions.list_filter_values_for_dimension(
             dimension="device_type"
         )
-        print(f"\n📱 Device type filter values:")
+        print("\n📱 Device type filter values:")
         for value in device_filters.data:
             print(f"   - {value.value}")
         
@@ -133,7 +133,7 @@ def manage_data_dimensions():
         country_filters = fastpix.dimensions.list_filter_values_for_dimension(
             dimension="country"
         )
-        print(f"\n🌍 Country filter values (top 10):")
+        print("\n🌍 Country filter values (top 10):")
         for value in country_filters.data[:10]:
             print(f"   - {value.value}")
 
@@ -163,7 +163,7 @@ def generate_analytics_report():
             timeframe="7d",
             limit=3
         )
-        print(f"\n🏆 Top 3 Content:")
+        print("\n🏆 Top 3 Content:")
         for i, content in enumerate(top_content.data, 1):
             print(f"   {i}. Media ID: {content.media_id} - {content.views:,} views")
         
@@ -173,7 +173,7 @@ def generate_analytics_report():
             metric="views",
             timeframe="7d"
         )
-        print(f"\n📱 Views by Device Type:")
+        print("\n📱 Views by Device Type:")
         for item in device_breakdown.data:
             percentage = (item.value / total_views * 100) if total_views > 0 else 0
             print(f"   {item.dimension_value}: {item.value:,} ({percentage:.1f}%)")
@@ -184,7 +184,7 @@ def generate_analytics_report():
             metric="views",
             timeframe="7d"
         )
-        print(f"\n🌍 Top Countries:")
+        print("\n🌍 Top Countries:")
         for item in geo_breakdown.data[:5]:
             percentage = (item.value / total_views * 100) if total_views > 0 else 0
             print(f"   {item.dimension_value}: {item.value:,} ({percentage:.1f}%)")
@@ -210,8 +210,8 @@ def complete_analytics_workflow():
         # Step 4: Generate comprehensive report
         generate_analytics_report()
         
-        print(f"\n🎉 Analytics workflow completed successfully!")
-        print(f"💡 Use these insights to optimize your video content strategy")
+        print("\n🎉 Analytics workflow completed successfully!")
+        print("💡 Use these insights to optimize your video content strategy")
         
     except Exception as e:
         print(f"❌ Error in analytics workflow: {str(e)}")

@@ -40,9 +40,8 @@ def serialize_request_body(
     serialization_method: str,
     request_body_type,
 ) -> Optional[SerializedRequestBody]:
-    if request_body is None:
-        if not nullable and optional:
-            return None
+    if request_body is None and not nullable and optional:
+        return None
 
     media_type = SERIALIZATION_METHOD_TO_CONTENT_TYPE[serialization_method]
 

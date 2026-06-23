@@ -60,7 +60,7 @@ def handle_basic_errors():
         except errors.MediaNotFoundError as e:
             print(f"❌ Media not found: {e.message}")
             print(f"   Status Code: {e.status_code}")
-            print(f"   Media ID: invalid-id")
+            print("   Media ID: invalid-id")
             
         except errors.FastpixError as e:
             print(f"❌ FastPix Error: {e.message}")
@@ -75,22 +75,23 @@ def handle_authentication_errors():
     """Demonstrate authentication error handling."""
     print("\n=== Authentication Error Handling ===")
     
-    # Create client with invalid credentials
+    # Create client with intentionally invalid placeholder values (not real credentials)
+    placeholder_credentials = ("invalid-token", "invalid-secret")
     invalid_client = Fastpix(
         security=models.Security(
-            username="invalid-token",
-            password="invalid-secret",
+            username=placeholder_credentials[0],
+            password=placeholder_credentials[1],
         ),
     )
     
     try:
         with invalid_client as fastpix:
-            media = fastpix.manage_videos.get_media(media_id="any-id")
+            fastpix.manage_videos.get_media(media_id="any-id")
             
     except errors.UnauthorizedError as e:
         print(f"❌ Authentication failed: {e.message}")
         print(f"   Status Code: {e.status_code}")
-        print(f"   Solution: Check your access token and secret key")
+        print("   Solution: Check your access token and secret key")
         
     except errors.FastpixError as e:
         print(f"❌ FastPix Error: {e.message}")
@@ -110,12 +111,12 @@ def handle_permission_errors():
         except errors.ForbiddenError as e:
             print(f"❌ Permission denied: {e.message}")
             print(f"   Status Code: {e.status_code}")
-            print(f"   Solution: Check your account permissions")
+            print("   Solution: Check your account permissions")
             
         except errors.InvalidPermissionError as e:
             print(f"❌ Invalid permission: {e.message}")
             print(f"   Status Code: {e.status_code}")
-            print(f"   Solution: Contact support for permission upgrade")
+            print("   Solution: Contact support for permission upgrade")
 
 
 def handle_validation_errors():
@@ -125,7 +126,7 @@ def handle_validation_errors():
         
         try:
             # This will fail due to invalid input
-            media = fastpix.input_video.create_media(
+            fastpix.input_video.create_media(
                 inputs=[{
                     "type": "video",
                     "url": "invalid-url-format"
@@ -138,12 +139,12 @@ def handle_validation_errors():
             print(f"   Status Code: {e.status_code}")
             if hasattr(e, 'data') and e.data:
                 print(f"   Validation Details: {e.data}")
-            print(f"   Solution: Check your input parameters")
+            print("   Solution: Check your input parameters")
             
         except errors.ValidationErrorResponse as e:
             print(f"❌ Validation Error: {e.message}")
             print(f"   Status Code: {e.status_code}")
-            print(f"   Solution: Fix the validation errors and retry")
+            print("   Solution: Fix the validation errors and retry")
 
 
 def handle_retry_logic():
@@ -179,16 +180,16 @@ def handle_network_errors():
         )
         
         with network_client as fastpix:
-            media = fastpix.manage_videos.list_media()
+            fastpix.manage_videos.list_media()
             
     except errors.FastpixError as e:
         print(f"❌ Network Error: {e.message}")
         print(f"   Status Code: {e.status_code}")
-        print(f"   Solution: Check your internet connection and server URL")
+        print("   Solution: Check your internet connection and server URL")
         
     except Exception as e:
         print(f"❌ Connection Error: {str(e)}")
-        print(f"   Solution: Verify network connectivity and server availability")
+        print("   Solution: Verify network connectivity and server availability")
 
 
 def comprehensive_error_handling():
@@ -202,41 +203,41 @@ def comprehensive_error_handling():
             print(f"✅ Media retrieved: {media.title}")
             
         except errors.MediaNotFoundError as e:
-            print(f"❌ Media Not Found:")
+            print("❌ Media Not Found:")
             print(f"   Message: {e.message}")
             print(f"   Status: {e.status_code}")
-            print(f"   Action: Check media ID or create new media")
-            
+            print("   Action: Check media ID or create new media")
+
         except errors.UnauthorizedError as e:
-            print(f"❌ Authentication Error:")
+            print("❌ Authentication Error:")
             print(f"   Message: {e.message}")
             print(f"   Status: {e.status_code}")
-            print(f"   Action: Verify credentials and permissions")
-            
+            print("   Action: Verify credentials and permissions")
+
         except errors.ForbiddenError as e:
-            print(f"❌ Permission Error:")
+            print("❌ Permission Error:")
             print(f"   Message: {e.message}")
             print(f"   Status: {e.status_code}")
-            print(f"   Action: Check account permissions")
-            
+            print("   Action: Check account permissions")
+
         except errors.BadRequestError as e:
-            print(f"❌ Bad Request Error:")
+            print("❌ Bad Request Error:")
             print(f"   Message: {e.message}")
             print(f"   Status: {e.status_code}")
-            print(f"   Action: Validate input parameters")
-            
+            print("   Action: Validate input parameters")
+
         except errors.FastpixError as e:
-            print(f"❌ FastPix Error:")
+            print("❌ FastPix Error:")
             print(f"   Message: {e.message}")
             print(f"   Status: {e.status_code}")
             print(f"   Headers: {e.headers}")
             print(f"   Body: {e.body}")
-            
+
         except Exception as e:
-            print(f"❌ Unexpected Error:")
+            print("❌ Unexpected Error:")
             print(f"   Type: {type(e).__name__}")
             print(f"   Message: {str(e)}")
-            print(f"   Action: Check logs and contact support")
+            print("   Action: Check logs and contact support")
 
 
 def demonstrate_error_recovery():
@@ -250,7 +251,7 @@ def demonstrate_error_recovery():
         
         for attempt in range(max_retries):
             try:
-                media_list = fastpix.manage_videos.list_media()
+                fastpix.manage_videos.list_media()
                 print(f"✅ Success on attempt {attempt + 1}")
                 break
                 
@@ -275,7 +276,7 @@ def log_errors_properly():
     with setup_client() as fastpix:
         try:
             # Simulate an operation that might fail
-            media = fastpix.manage_videos.get_media(media_id="non-existent-id")
+            fastpix.manage_videos.get_media(media_id="non-existent-id")
             
         except errors.FastpixError as e:
             # Log error with context
@@ -288,7 +289,7 @@ def log_errors_properly():
                 "media_id": "non-existent-id"
             }
             
-            print(f"📝 Error logged:")
+            print("📝 Error logged:")
             for key, value in error_context.items():
                 print(f"   {key}: {value}")
                 
@@ -301,7 +302,7 @@ def log_errors_properly():
                 "operation": "get_media"
             }
             
-            print(f"📝 Unexpected error logged:")
+            print("📝 Unexpected error logged:")
             for key, value in error_context.items():
                 print(f"   {key}: {value}")
 
@@ -338,13 +339,13 @@ def complete_error_handling_workflow():
         # Step 9: Proper logging
         log_errors_properly()
         
-        print(f"\n🎉 Error handling workflow completed!")
-        print(f"💡 Best Practices:")
-        print(f"   1. Always catch specific exception types")
-        print(f"   2. Implement retry logic for transient errors")
-        print(f"   3. Log errors with sufficient context")
-        print(f"   4. Provide meaningful error messages to users")
-        print(f"   5. Monitor error rates and patterns")
+        print("\n🎉 Error handling workflow completed!")
+        print("💡 Best Practices:")
+        print("   1. Always catch specific exception types")
+        print("   2. Implement retry logic for transient errors")
+        print("   3. Log errors with sufficient context")
+        print("   4. Provide meaningful error messages to users")
+        print("   5. Monitor error rates and patterns")
         
     except Exception as e:
         print(f"❌ Error in error handling workflow: {str(e)}")

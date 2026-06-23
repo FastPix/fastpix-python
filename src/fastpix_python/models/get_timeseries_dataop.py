@@ -199,9 +199,9 @@ class GetTimeseriesDataRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["groupBy", "sortOrder", "measurement", "timespan[]", "filterby[]"]
-        )
+        optional_fields = {
+            "groupBy", "sortOrder", "measurement", "timespan[]", "filterby[]"
+        }
         serialized = handler(self)
         m = {}
 
@@ -209,9 +209,10 @@ class GetTimeseriesDataRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -250,7 +251,7 @@ class GetTimeseriesDataResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "metadata", "data", "timespan"])
+        optional_fields = {"success", "metadata", "data", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -258,9 +259,10 @@ class GetTimeseriesDataResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

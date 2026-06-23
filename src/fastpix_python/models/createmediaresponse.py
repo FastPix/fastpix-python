@@ -61,7 +61,7 @@ class CreateMediaResponseInput(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["type", "url"])
+        optional_fields = {"type", "url"}
         serialized = handler(self)
         m = {}
 
@@ -69,9 +69,10 @@ class CreateMediaResponseInput(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -169,8 +170,8 @@ class CreateMediaResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "id",
                 "trial",
                 "status",
@@ -183,8 +184,8 @@ class CreateMediaResponse(BaseModel):
                 "maxResolution",
                 "inputs",
                 "optimizeAudio",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -192,8 +193,9 @@ class CreateMediaResponse(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

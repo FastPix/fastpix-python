@@ -169,8 +169,8 @@ class ListVideoViewsRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "timespan[]",
                 "filterby[]",
                 "limit",
@@ -179,9 +179,9 @@ class ListVideoViewsRequest(BaseModel):
                 "errorCode",
                 "orderBy",
                 "sortOrder",
-            ]
-        )
-        nullable_fields = set(["errorCode"])
+            
+        }
+        nullable_fields = {"errorCode"}
         serialized = handler(self)
         m = {}
 
@@ -193,13 +193,12 @@ class ListVideoViewsRequest(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m
 
@@ -238,7 +237,7 @@ class ListVideoViewsResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data", "pagination", "timespan"])
+        optional_fields = {"success", "data", "pagination", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -246,9 +245,10 @@ class ListVideoViewsResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

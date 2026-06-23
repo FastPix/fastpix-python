@@ -266,8 +266,8 @@ class Media(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "thumbnail",
                 "id",
                 "workspaceId",
@@ -293,10 +293,10 @@ class Media(BaseModel):
                 "aspectRatio",
                 "createdAt",
                 "updatedAt",
-            ]
-        )
-        nullable_fields = set(
-            [
+            
+        }
+        nullable_fields = {
+            
                 "thumbnail",
                 "metadata",
                 "title",
@@ -305,8 +305,8 @@ class Media(BaseModel):
                 "isAudioOnly",
                 "subtitleAvailable",
                 "aspectRatio",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -318,12 +318,11 @@ class Media(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

@@ -5,8 +5,8 @@
 ### Available Operations
 
 * [list_live_clips](#list_live_clips) - Get all clips of a live stream
-* [get](#get) - Get a media by ID
-* [get_input_info](#get_input_info) - Get info of media inputs
+* [get_media](#get_media) - Get a media by ID
+* [retrieve_media_input_info](#retrieve_media_input_info) - Get info of media inputs
 
 ## list_live_clips
 
@@ -39,7 +39,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.media.list_live_clips(livestream_id="b6f71268143f70c798a7851a0a92dcbf", limit=20, offset=1, order_by="desc")
+    res = fastpix.manage_videos.list_live_clips(livestream_id="b6f71268143f70c798a7851a0a92dcbf", limit=20, offset=1, order_by="desc")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -66,7 +66,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get
+## get_media
 
 By calling this endpoint, you can retrieve detailed information about a specific media item, including its current `status` and a `playbackId`. This is particularly useful for retrieving specific media details when managing large content libraries. 
 
@@ -100,7 +100,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.media.get(media_id="your-media-id")
+    res = fastpix.manage_videos.get_media(media_id="your-media-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -124,7 +124,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_input_info
+## retrieve_media_input_info
 
 This endpoint lets you retrieve detailed information about the media inputs associated with a specific media item. You can use it to verify the media file’s input URL, track its creation status, and check its container format. You must provide the mediaId (either the uploadId or the id) to fetch this information.
 
@@ -156,7 +156,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.media.get_input_info(media_id="your-media-id")
+    res = fastpix.manage_videos.retrieve_media_input_info(media_id="your-media-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

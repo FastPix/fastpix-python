@@ -967,7 +967,7 @@ paths:
             schema:
               $ref: "#/components/schemas/UpdateTrackRequest"
             example:
-              url: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+              url: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
               languageCode: fr
               languageName: french
       responses:
@@ -989,7 +989,7 @@ paths:
                   data:
                     id: 2452ca23-b7ed-4daf-babf-841996b0100e
                     type: subtitle
-                    url: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+                    url: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
                     languageCode: fr
                     languageName: french
         "default":
@@ -8354,7 +8354,7 @@ components:
           type: string
           format: uri
           description: The direct URL of the subtitle file.
-          example: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageName:
           type: string
           example: english
@@ -8444,7 +8444,7 @@ components:
           type: string
           format: uri
           description: The direct URL of the track file.
-          example: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageCode:
           type: string
           description: The BCP 47 language code representing the track's language.
@@ -8465,8 +8465,8 @@ components:
           type: string
           format: uri
           description: The direct URL of the track file. It must point to a valid audio or subtitle file.
-          example: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
-          default: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          default: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageCode:
           type: string
           description: The BCP 47 language code representing the track’s language.

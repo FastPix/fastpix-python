@@ -93,7 +93,7 @@ class DirectUploadVideoMediaSubtitles(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["languageName", "metadata", "languageCode"])
+        optional_fields = {"languageName", "metadata", "languageCode"}
         serialized = handler(self)
         m = {}
 
@@ -101,9 +101,10 @@ class DirectUploadVideoMediaSubtitles(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -166,7 +167,7 @@ class DirectUploadVideoMediaSummary(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["generate", "summaryLength"])
+        optional_fields = {"generate", "summaryLength"}
         serialized = handler(self)
         m = {}
 
@@ -174,9 +175,10 @@ class DirectUploadVideoMediaSummary(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -206,7 +208,7 @@ class DirectUploadVideoMediaModeration(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["type"])
+        optional_fields = {"type"}
         serialized = handler(self)
         m = {}
 
@@ -214,9 +216,10 @@ class DirectUploadVideoMediaModeration(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -276,7 +279,7 @@ class DirectUploadVideoMediaDomains(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -284,9 +287,10 @@ class DirectUploadVideoMediaDomains(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -346,7 +350,7 @@ class DirectUploadVideoMediaUserAgents(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["defaultPolicy", "allow", "deny"])
+        optional_fields = {"defaultPolicy", "allow", "deny"}
         serialized = handler(self)
         m = {}
 
@@ -354,9 +358,10 @@ class DirectUploadVideoMediaUserAgents(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -375,7 +380,7 @@ class DirectUploadVideoMediaAccessRestrictions(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["domains", "userAgents"])
+        optional_fields = {"domains", "userAgents"}
         serialized = handler(self)
         m = {}
 
@@ -383,9 +388,10 @@ class DirectUploadVideoMediaAccessRestrictions(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -553,8 +559,8 @@ class PushMediaSettings(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "accessPolicy",
                 "startTime",
                 "endTime",
@@ -574,8 +580,8 @@ class PushMediaSettings(BaseModel):
                 "namedEntities",
                 "moderation",
                 "accessRestrictions",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -583,9 +589,10 @@ class PushMediaSettings(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -622,7 +629,7 @@ class DirectUploadVideoMediaRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["corsOrigin", "pushMediaSettings"])
+        optional_fields = {"corsOrigin", "pushMediaSettings"}
         serialized = handler(self)
         m = {}
 
@@ -630,9 +637,10 @@ class DirectUploadVideoMediaRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

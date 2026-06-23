@@ -52,12 +52,12 @@ class MetricsBreakdownDetails(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["views", "value", "totalWatchTime", "totalPlayingTime", "field"]
-        )
-        nullable_fields = set(
-            ["views", "value", "totalWatchTime", "totalPlayingTime", "field"]
-        )
+        optional_fields = {
+            "views", "value", "totalWatchTime", "totalPlayingTime", "field"
+        }
+        nullable_fields = {
+            "views", "value", "totalWatchTime", "totalPlayingTime", "field"
+        }
         serialized = handler(self)
         m = {}
 
@@ -69,12 +69,11 @@ class MetricsBreakdownDetails(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

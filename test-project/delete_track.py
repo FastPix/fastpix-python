@@ -1,10 +1,11 @@
 import json
+import os
 from fastpix_python import Fastpix, models
 
 with Fastpix(
     security=models.Security(
-        username="your-access-token",
-        password="your-secret-key",
+        username=os.getenv("FASTPIX_ACCESS_TOKEN"),
+        password=os.getenv("FASTPIX_SECRET_KEY"),
     ),
 ) as fastpix:
 

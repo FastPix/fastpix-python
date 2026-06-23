@@ -6,10 +6,10 @@ Operations involving dimensions
 
 ### Available Operations
 
-* [list](#list) - List the dimensions
-* [list_filter_values](#list_filter_values) - List the filter values for a dimension
+* [list_dimensions](#list_dimensions) - List the dimensions
+* [list_filter_values_for_dimension](#list_filter_values_for_dimension) - List the filter values for a dimension
 
-## list
+## list_dimensions
 
 Retrieves a list of dimensions that can be used as query parameters across various data endpoints. Each dimension has a unique id that can be used to filter data effectively. 
 
@@ -33,7 +33,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.dimensions.list()
+    res = fastpix.dimensions.list_dimensions()
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -56,7 +56,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## list_filter_values
+## list_filter_values_for_dimension
 
 This endpoint returns the filter values associated with a specific dimension, along with the total number of video views for each value. For example, it can list all `browser_name` (dimension) and show how many views occurred for all available browsers like Chrome, Safari (filter values). 
 
@@ -84,7 +84,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.dimensions.list_filter_values(dimensions_id="browser_name", timespan="24:hours", filterby="browser_name:Chrome")
+    res = fastpix.dimensions.list_filter_values_for_dimension(dimensions_id="browser_name", timespan="24:hours", filterby="browser_name:Chrome")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

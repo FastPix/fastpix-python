@@ -67,79 +67,104 @@ def _populate_path_params(
         if name in skip_fields:
             continue
 
-        field = path_param_fields[name]
-
-        param_metadata = find_field_metadata(field, PathParamMetadata)
-        if param_metadata is None:
-            continue
-
-        param = getattr(path_params, name) if _is_set(path_params) else None
-        param, global_found = _populate_from_globals(
-            name, param, PathParamMetadata, gbls
-        )
-        if global_found:
+        if _populate_path_param_field(
+            name,
+            path_params,
+            gbls,
+            path_param_fields,
+            path_param_field_types,
+            path_param_values,
+        ):
             globals_already_populated.append(name)
 
-        if not _is_set(param):
+    return globals_already_populated
+
+
+def _populate_path_param_field(
+    name: str,
+    path_params: Any,
+    gbls: Any,
+    path_param_fields: Dict[str, FieldInfo],
+    path_param_field_types: Dict[str, Any],
+    path_param_values: Dict[str, str],
+) -> bool:
+    """Populate a single path param field. Returns True if it came from globals."""
+    field = path_param_fields[name]
+
+    param_metadata = find_field_metadata(field, PathParamMetadata)
+    if param_metadata is None:
+        return False
+
+    param = getattr(path_params, name) if _is_set(path_params) else None
+    param, global_found = _populate_from_globals(name, param, PathParamMetadata, gbls)
+
+    if not _is_set(param):
+        return global_found
+
+    f_name = field.alias if field.alias is not None else name
+    if param_metadata.serialization is not None:
+        serialized_params = _get_serialized_params(
+            param_metadata, f_name, param, path_param_field_types[name]
+        )
+        for key, value in serialized_params.items():
+            path_param_values[key] = value
+    elif param_metadata.style == "simple":
+        _populate_simple_path_param(
+            f_name, param, param_metadata.explode, path_param_values
+        )
+
+    return global_found
+
+
+def _populate_simple_path_param(
+    f_name: str,
+    param: Any,
+    explode: bool,
+    path_param_values: Dict[str, str],
+):
+    if isinstance(param, List):
+        pp_vals = [_val_to_string(v) for v in param if _is_set(v)]
+        path_param_values[f_name] = ",".join(pp_vals)
+    elif isinstance(param, Dict):
+        path_param_values[f_name] = _serialize_simple_dict(param, explode)
+    elif not isinstance(param, (str, int, float, complex, bool, Decimal)):
+        path_param_values[f_name] = _serialize_simple_basemodel(param, explode)
+    elif _is_set(param):
+        path_param_values[f_name] = _val_to_string(param)
+
+
+def _serialize_simple_dict(param: Dict, explode: bool) -> str:
+    pp_vals: List[str] = []
+    for pp_key in param:
+        if not _is_set(param[pp_key]):
+            continue
+        if explode:
+            pp_vals.append(f"{pp_key}={_val_to_string(param[pp_key])}")
+        else:
+            pp_vals.append(f"{pp_key},{_val_to_string(param[pp_key])}")
+    return ",".join(pp_vals)
+
+
+def _serialize_simple_basemodel(param: Any, explode: bool) -> str:
+    pp_vals: List[str] = []
+    param_fields: Dict[str, FieldInfo] = param.__class__.model_fields
+    for name in param_fields:
+        param_field = param_fields[name]
+
+        param_value_metadata = find_field_metadata(param_field, PathParamMetadata)
+        if param_value_metadata is None:
             continue
 
-        f_name = field.alias if field.alias is not None else name
-        serialization = param_metadata.serialization
-        if serialization is not None:
-            serialized_params = _get_serialized_params(
-                param_metadata, f_name, param, path_param_field_types[name]
-            )
-            for key, value in serialized_params.items():
-                path_param_values[key] = value
+        param_name = param_field.alias if param_field.alias is not None else name
+
+        param_field_val = getattr(param, name)
+        if not _is_set(param_field_val):
+            continue
+        if explode:
+            pp_vals.append(f"{param_name}={_val_to_string(param_field_val)}")
         else:
-            pp_vals: List[str] = []
-            if param_metadata.style == "simple":
-                if isinstance(param, List):
-                    for pp_val in param:
-                        if not _is_set(pp_val):
-                            continue
-                        pp_vals.append(_val_to_string(pp_val))
-                    path_param_values[f_name] = ",".join(pp_vals)
-                elif isinstance(param, Dict):
-                    for pp_key in param:
-                        if not _is_set(param[pp_key]):
-                            continue
-                        if param_metadata.explode:
-                            pp_vals.append(f"{pp_key}={_val_to_string(param[pp_key])}")
-                        else:
-                            pp_vals.append(f"{pp_key},{_val_to_string(param[pp_key])}")
-                    path_param_values[f_name] = ",".join(pp_vals)
-                elif not isinstance(param, (str, int, float, complex, bool, Decimal)):
-                    param_fields: Dict[str, FieldInfo] = param.__class__.model_fields
-                    for name in param_fields:
-                        param_field = param_fields[name]
-
-                        param_value_metadata = find_field_metadata(
-                            param_field, PathParamMetadata
-                        )
-                        if param_value_metadata is None:
-                            continue
-
-                        param_name = (
-                            param_field.alias if param_field.alias is not None else name
-                        )
-
-                        param_field_val = getattr(param, name)
-                        if not _is_set(param_field_val):
-                            continue
-                        if param_metadata.explode:
-                            pp_vals.append(
-                                f"{param_name}={_val_to_string(param_field_val)}"
-                            )
-                        else:
-                            pp_vals.append(
-                                f"{param_name},{_val_to_string(param_field_val)}"
-                            )
-                    path_param_values[f_name] = ",".join(pp_vals)
-                elif _is_set(param):
-                    path_param_values[f_name] = _val_to_string(param)
-
-    return globals_already_populated
+            pp_vals.append(f"{param_name},{_val_to_string(param_field_val)}")
+    return ",".join(pp_vals)
 
 
 def is_optional(field):

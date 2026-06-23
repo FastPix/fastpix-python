@@ -58,7 +58,7 @@ class Placement(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["xAlign", "xMargin", "yAlign", "yMargin"])
+        optional_fields = {"xAlign", "xMargin", "yAlign", "yMargin"}
         serialized = handler(self)
         m = {}
 
@@ -66,9 +66,10 @@ class Placement(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -121,7 +122,7 @@ class WatermarkInput(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["placement", "width", "height", "opacity"])
+        optional_fields = {"placement", "width", "height", "opacity"}
         serialized = handler(self)
         m = {}
 
@@ -129,8 +130,9 @@ class WatermarkInput(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

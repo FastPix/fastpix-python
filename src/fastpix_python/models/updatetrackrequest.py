@@ -27,7 +27,7 @@ class UpdateTrackRequest(BaseModel):
     r"""Contains details about the track being added to the media file."""
 
     url: Optional[str] = (
-        "http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt"
+        "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt"
     )
     r"""The direct URL of the track file. It must point to a valid audio or subtitle file."""
 
@@ -41,7 +41,7 @@ class UpdateTrackRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["url", "languageCode", "languageName"])
+        optional_fields = {"url", "languageCode", "languageName"}
         serialized = handler(self)
         m = {}
 
@@ -49,8 +49,9 @@ class UpdateTrackRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m

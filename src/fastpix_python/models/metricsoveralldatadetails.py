@@ -67,26 +67,26 @@ class MetricsOverallDataDetails(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "value",
                 "totalWatchTime",
                 "uniqueViews",
                 "totalViews",
                 "totalPlayTime",
                 "globalValue",
-            ]
-        )
-        nullable_fields = set(
-            [
+            
+        }
+        nullable_fields = {
+            
                 "value",
                 "totalWatchTime",
                 "uniqueViews",
                 "totalViews",
                 "totalPlayTime",
                 "globalValue",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -98,12 +98,11 @@ class MetricsOverallDataDetails(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

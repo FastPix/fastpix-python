@@ -228,8 +228,8 @@ class ListBreakdownValuesRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "timespan[]",
                 "filterby[]",
                 "limit",
@@ -238,8 +238,8 @@ class ListBreakdownValuesRequest(BaseModel):
                 "orderBy",
                 "sortOrder",
                 "measurement",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -247,9 +247,10 @@ class ListBreakdownValuesRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -293,7 +294,7 @@ class ListBreakdownValuesResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "metadata", "data", "pagination", "timespan"])
+        optional_fields = {"success", "metadata", "data", "pagination", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -301,9 +302,10 @@ class ListBreakdownValuesResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

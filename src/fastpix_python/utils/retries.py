@@ -9,7 +9,7 @@ import random
 import time
 from datetime import datetime
 from email.utils import parsedate_to_datetime
-from typing import List, Optional
+from typing import List, NoReturn, Optional
 
 import httpx
 
@@ -127,6 +127,41 @@ def _get_sleep_interval(
     return min(sleep, max_interval / 1000)
 
 
+def _matches_retry_code(status_code: int, code: str) -> bool:
+    """Return True when an HTTP status matches a retry code (e.g. "5XX" or "429")."""
+    if "X" in code.upper():
+        code_range = int(code[0])
+        status_major = status_code / 100
+        return code_range <= status_major < code_range + 1
+    return status_code == int(code)
+
+
+def _raise_for_retry_status(res: httpx.Response, status_codes: List[str]) -> None:
+    """Raise ``TemporaryError`` if the response matches a retryable status code."""
+    for code in status_codes:
+        if _matches_retry_code(res.status_code, code):
+            raise TemporaryError(res)
+
+
+def _reraise_request_error(
+    exception: Exception, retry_connection_errors: bool
+) -> NoReturn:
+    """Translate a request exception into the retry loop's error protocol.
+
+    - ``TemporaryError`` is re-raised so backoff retries it.
+    - Connection/timeout errors are retried (re-raised) when configured, else
+      wrapped as ``PermanentError``.
+    - Any other exception becomes a ``PermanentError``.
+    """
+    if isinstance(exception, TemporaryError):
+        raise exception
+    if isinstance(exception, (httpx.ConnectError, httpx.TimeoutException)):
+        if retry_connection_errors:
+            raise exception
+        raise PermanentError(exception) from exception
+    raise PermanentError(exception) from exception
+
+
 def retry(func, retries: Retries):
     if retries.config.strategy == "backoff":
 
@@ -135,33 +170,11 @@ def retry(func, retries: Retries):
             try:
                 res = func()
 
-                for code in retries.status_codes:
-                    if "X" in code.upper():
-                        code_range = int(code[0])
-
-                        status_major = res.status_code / 100
-
-                        if code_range <= status_major < code_range + 1:
-                            raise TemporaryError(res)
-                    else:
-                        parsed_code = int(code)
-
-                        if res.status_code == parsed_code:
-                            raise TemporaryError(res)
-            except httpx.ConnectError as exception:
-                if retries.config.retry_connection_errors:
-                    raise
-
-                raise PermanentError(exception) from exception
-            except httpx.TimeoutException as exception:
-                if retries.config.retry_connection_errors:
-                    raise
-
-                raise PermanentError(exception) from exception
-            except TemporaryError:
-                raise
-            except Exception as exception:
-                raise PermanentError(exception) from exception
+                _raise_for_retry_status(res, retries.status_codes)
+            except Exception as exception:  # pylint: disable=broad-exception-caught
+                _reraise_request_error(
+                    exception, retries.config.retry_connection_errors
+                )
 
             return res
 
@@ -184,33 +197,11 @@ async def retry_async(func, retries: Retries):
             try:
                 res = await func()
 
-                for code in retries.status_codes:
-                    if "X" in code.upper():
-                        code_range = int(code[0])
-
-                        status_major = res.status_code / 100
-
-                        if code_range <= status_major < code_range + 1:
-                            raise TemporaryError(res)
-                    else:
-                        parsed_code = int(code)
-
-                        if res.status_code == parsed_code:
-                            raise TemporaryError(res)
-            except httpx.ConnectError as exception:
-                if retries.config.retry_connection_errors:
-                    raise
-
-                raise PermanentError(exception) from exception
-            except httpx.TimeoutException as exception:
-                if retries.config.retry_connection_errors:
-                    raise
-
-                raise PermanentError(exception) from exception
-            except TemporaryError:
-                raise
-            except Exception as exception:
-                raise PermanentError(exception) from exception
+                _raise_for_retry_status(res, retries.status_codes)
+            except Exception as exception:  # pylint: disable=broad-exception-caught
+                _reraise_request_error(
+                    exception, retries.config.retry_connection_errors
+                )
 
             return res
 

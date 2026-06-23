@@ -21,7 +21,7 @@ class HttpClient(Protocol):
             bool, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
     ) -> httpx.Response:
-        pass
+        ...
 
     def build_request(
         self,
@@ -40,10 +40,10 @@ class HttpClient(Protocol):
         ] = httpx.USE_CLIENT_DEFAULT,
         extensions: Optional[httpx._types.RequestExtensions] = None,
     ) -> httpx.Request:
-        pass
+        ...
 
     def close(self) -> None:
-        pass
+        ...
 
 
 @runtime_checkable
@@ -60,7 +60,7 @@ class AsyncHttpClient(Protocol):
             bool, httpx._client.UseClientDefault
         ] = httpx.USE_CLIENT_DEFAULT,
     ) -> httpx.Response:
-        pass
+        ...
 
     def build_request(
         self,
@@ -79,10 +79,10 @@ class AsyncHttpClient(Protocol):
         ] = httpx.USE_CLIENT_DEFAULT,
         extensions: Optional[httpx._types.RequestExtensions] = None,
     ) -> httpx.Request:
-        pass
+        ...
 
     async def aclose(self) -> None:
-        pass
+        ...
 
 
 class ClientOwner(Protocol):

@@ -165,7 +165,7 @@ class ListFilterValuesForDimensionRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["timespan[]", "filterby[]"])
+        optional_fields = {"timespan[]", "filterby[]"}
         serialized = handler(self)
         m = {}
 
@@ -173,9 +173,10 @@ class ListFilterValuesForDimensionRequest(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 
@@ -209,7 +210,7 @@ class ListFilterValuesForDimensionResponseBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["success", "data", "timespan"])
+        optional_fields = {"success", "data", "timespan"}
         serialized = handler(self)
         m = {}
 
@@ -217,9 +218,10 @@ class ListFilterValuesForDimensionResponseBody(BaseModel):
             k = f.alias or n
             val = serialized.get(k)
 
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None or k not in optional_fields
+            ):
+                m[k] = val
 
         return m
 

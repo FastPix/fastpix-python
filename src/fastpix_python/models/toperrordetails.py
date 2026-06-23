@@ -90,8 +90,8 @@ class TopErrorDetails(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            [
+        optional_fields = {
+            
                 "percentage",
                 "uniqueViewersEffectedPercentage",
                 "notes",
@@ -99,10 +99,10 @@ class TopErrorDetails(BaseModel):
                 "lastSeen",
                 "count",
                 "code",
-            ]
-        )
-        nullable_fields = set(
-            [
+            
+        }
+        nullable_fields = {
+            
                 "percentage",
                 "uniqueViewersEffectedPercentage",
                 "notes",
@@ -110,8 +110,8 @@ class TopErrorDetails(BaseModel):
                 "lastSeen",
                 "count",
                 "code",
-            ]
-        )
+            
+        }
         serialized = handler(self)
         m = {}
 
@@ -123,12 +123,11 @@ class TopErrorDetails(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

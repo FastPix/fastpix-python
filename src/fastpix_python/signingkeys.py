@@ -12,6 +12,12 @@ from fastpix_python.utils import get_security_from_env
 from fastpix_python.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Mapping, Optional
 
+CONTENT_TYPE_JSON = "application/json"
+API_ERROR_MESSAGE = "API error occurred"
+UNEXPECTED_RESPONSE_MESSAGE = "Unexpected response received"
+SIGNING_KEYS_PATH = "/iam/signing-keys"
+SIGNING_KEY_BY_ID_PATH = "/iam/signing-keys/{signingKeyId}"
+
 
 class SigningKeys(BaseSDK):
     def create(
@@ -68,7 +74,7 @@ class SigningKeys(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
         req = self._build_request(
             method="POST",
-            path="/iam/signing-keys",
+            path=SIGNING_KEYS_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=None,
@@ -76,16 +82,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -106,22 +111,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "201", "application/json"):
+        if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CreateResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def create_async(
         self,
@@ -177,7 +182,7 @@ class SigningKeys(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
         req = self._build_request_async(
             method="POST",
-            path="/iam/signing-keys",
+            path=SIGNING_KEYS_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=None,
@@ -185,16 +190,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -215,22 +219,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "201", "application/json"):
+        if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CreateResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def list_signing_keys(
         self,
@@ -290,7 +294,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request(
             method="GET",
-            path="/iam/signing-keys",
+            path=SIGNING_KEYS_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -298,16 +302,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -328,22 +331,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetAllSigningKeysResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def list_signing_keys_async(
         self,
@@ -403,7 +406,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request_async(
             method="GET",
-            path="/iam/signing-keys",
+            path=SIGNING_KEYS_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -411,16 +414,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -441,22 +443,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetAllSigningKeysResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def delete_signing_key(
         self,
@@ -511,7 +513,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request(
             method="DELETE",
-            path="/iam/signing-keys/{signingKeyId}",
+            path=SIGNING_KEY_BY_ID_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -519,16 +521,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -549,22 +550,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteSigningKeyResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def delete_signing_key_async(
         self,
@@ -619,7 +620,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request_async(
             method="DELETE",
-            path="/iam/signing-keys/{signingKeyId}",
+            path=SIGNING_KEY_BY_ID_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -627,16 +628,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -657,22 +657,22 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteSigningKeyResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def get_signing_key_by_id(
         self,
@@ -755,7 +755,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request(
             method="GET",
-            path="/iam/signing-keys/{signingKeyId}",
+            path=SIGNING_KEY_BY_ID_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -763,16 +763,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -793,24 +792,24 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.GetPublicPemUsingSigningKeyIDResponseDTO, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def get_signing_key_by_id_async(
         self,
@@ -893,7 +892,7 @@ class SigningKeys(BaseSDK):
 
         req = self._build_request_async(
             method="GET",
-            path="/iam/signing-keys/{signingKeyId}",
+            path=SIGNING_KEY_BY_ID_PATH,
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -901,16 +900,15 @@ class SigningKeys(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -931,21 +929,21 @@ class SigningKeys(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.GetPublicPemUsingSigningKeyIDResponseDTO, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)

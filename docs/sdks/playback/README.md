@@ -6,14 +6,14 @@ Operations for video playback management
 
 ### Available Operations
 
-* [create](#create) - Create a playback ID
+* [create_media_playback_id](#create_media_playback_id) - Create a playback ID
 * [list_playback_ids](#list_playback_ids) - Get all playback IDs details for a media
-* [delete](#delete) - Delete a playback ID
-* [get_by_id](#get_by_id) - Get a playback ID
+* [delete_media_playback_id](#delete_media_playback_id) - Delete a playback ID
+* [get_playback_id](#get_playback_id) - Get a playback ID
 * [update_domain_restrictions](#update_domain_restrictions) - Update domain restrictions for a playback ID
 * [update_user_agent_restrictions](#update_user_agent_restrictions) - Update user-agent restrictions for a playback ID
 
-## create
+## create_media_playback_id
 
 You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href="https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy. 
 
@@ -46,7 +46,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.playback.create(media_id="your-media-id", access_policy="public", drm_configuration_id="your-drm-configuration-id", resolution="1080p")
+    res = fastpix.playback.create_media_playback_id(media_id="your-media-id", access_policy="public", drm_configuration_id="your-drm-configuration-id", resolution="1080p")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -125,7 +125,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## delete
+## delete_media_playback_id
 
 This endpoint deletes a specific playback ID associated with a media asset. Deleting a `playback ID` revokes access to the media content linked to that ID.
 
@@ -155,7 +155,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.playback.delete(
+    res = fastpix.playback.delete_media_playback_id(
         media_id="your-media-id",
         playback_id="your-playback-id",
     )
@@ -183,7 +183,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_by_id
+## get_playback_id
 
 This endpoint retrieves details about a specific playback ID associated with a media asset. Use it to check the access policy for that specific playback ID, such as whether it is public or private.
 
@@ -210,7 +210,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.playback.get_by_id(media_id="4fa85f64-5717-4562-b3fc-2c963f66afa6", playback_id="4fa85f64-5717-4562-b3fc-2c963f66afa6")
+    res = fastpix.playback.get_playback_id(media_id="4fa85f64-5717-4562-b3fc-2c963f66afa6", playback_id="4fa85f64-5717-4562-b3fc-2c963f66afa6")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

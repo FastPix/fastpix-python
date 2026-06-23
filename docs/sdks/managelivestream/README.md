@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get_viewer_count](#get_viewer_count) - Get stream views by ID
-* [update](#update) - Update a stream
-* [complete](#complete) - Complete a stream
+* [get_live_stream_viewer_count_by_id](#get_live_stream_viewer_count_by_id) - Get stream views by ID
+* [update_live_stream](#update_live_stream) - Update a stream
+* [complete_live_stream](#complete_live_stream) - Complete a stream
 
-## get_viewer_count
+## get_live_stream_viewer_count_by_id
 
 This endpoint retrieves the current number of viewers watching a specific live stream, identified by its unique `streamId`.
 
@@ -36,7 +36,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_live_stream.get_viewer_count(stream_id="61a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.manage_live_stream.get_live_stream_viewer_count_by_id(stream_id="61a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -60,7 +60,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update
+## update_live_stream
 
 This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. After the live stream is disabled, you cannot update a stream. 
 
@@ -89,7 +89,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.manage_live_stream.update(stream_id="your-stream-id", metadata={
+    res = fastpix.manage_live_stream.update_live_stream(stream_id="your-stream-id", metadata={
         "livestream_name": "Gaming_stream",
     }, reconnect_window=100)
     
@@ -118,7 +118,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## complete
+## complete_live_stream
 
 This endpoint marks a livestream as completed by stopping the active stream and transitioning its status to `idle`. It is typically used after a livestream session has ended.
 
@@ -148,7 +148,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_live_stream.complete(stream_id="91a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.manage_live_stream.complete_live_stream(stream_id="91a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

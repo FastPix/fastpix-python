@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get_all](#get_all) - Get all playlists
-* [update](#update) - Update a playlist by ID
-* [change_media_order](#change_media_order) - Change media order in a playlist by ID
+* [get_all_playlists](#get_all_playlists) - Get all playlists
+* [update_a_playlist](#update_a_playlist) - Update a playlist by ID
+* [change_media_order_in_playlist](#change_media_order_in_playlist) - Change media order in a playlist by ID
 
-## get_all
+## get_all_playlists
 
 This endpoint retrieves all playlists in a specified workspace. It allows you to view the collection of manual and smart playlists along with their associated metadata.
 #### How it works
@@ -35,7 +35,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlists.get_all(limit=1, offset=1)
+    res = fastpix.playlist.get_all_playlists(limit=1, offset=1)
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -60,7 +60,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update
+## update_a_playlist
 
 This endpoint allows you to update the name and description of an existing playlist. It enables modifications to the playlist's metadata without altering the media items or playlist structure.
 #### How it works
@@ -86,7 +86,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlists.update(
+    res = fastpix.playlist.update_a_playlist(
         playlist_id="your-playlist-id",
         name="updated name",
         description="updated description",
@@ -116,7 +116,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## change_media_order
+## change_media_order_in_playlist
 
 This endpoint allows you to change the order of media items within a playlist. By passing the complete list of media IDs in the desired sequence, the playlist's play order is updated accordingly.
 #### How it works
@@ -142,7 +142,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlists.change_media_order(
+    res = fastpix.playlist.change_media_order_in_playlist(
         playlist_id="your-playlist-id",
         media_ids=[
             "your-media-id-1",

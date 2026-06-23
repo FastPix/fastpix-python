@@ -37,8 +37,8 @@ class AiResponseRecord(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["status", "data"])
-        nullable_fields = set(["status", "data"])
+        optional_fields = {"status", "data"}
+        nullable_fields = {"status", "data"}
         serialized = handler(self)
         m = {}
 
@@ -50,12 +50,11 @@ class AiResponseRecord(BaseModel):
                 and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
             )
 
-            if val != UNSET_SENTINEL:
-                if (
-                    val is not None
-                    or k not in optional_fields
-                    or is_nullable_and_explicitly_set
-                ):
-                    m[k] = val
+            if val != UNSET_SENTINEL and (
+                val is not None
+                or k not in optional_fields
+                or is_nullable_and_explicitly_set
+            ):
+                m[k] = val
 
         return m

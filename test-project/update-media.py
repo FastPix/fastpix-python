@@ -11,8 +11,8 @@ from response_utils import to_api_payload
 
 with Fastpix(
     security=models.Security(
-        username="your-access-token",
-        password="your-secret-key",
+        username=os.getenv("FASTPIX_ACCESS_TOKEN"),
+        password=os.getenv("FASTPIX_SECRET_KEY"),
     ),
 ) as fastpix:
     res = fastpix.playlist.delete(playlist_id="your-playlist-id")

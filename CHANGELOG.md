@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.4]
+
+### Changed
+- **SDK version bump: `1.1.3` → `1.1.4`.**
+  A maintenance release that aligns the SDK's internal version identifiers and
+  applies behaviour-preserving code-quality cleanup. It contains no functional,
+  API, or behavioural changes and is fully backward compatible with `1.1.3`.
+
+  Updated identifiers:
+  - `__version__` / package version — now reports `1.1.4` (the internal
+    identifiers were previously lagging at `1.0.1`; they are now aligned with
+    the package version).
+  - `User-Agent` header — outbound requests now identify as
+    `fastpix-sdk/python 1.1.4`.
+
+  Maintainability:
+  - Internal static-analysis (SonarQube) cleanup across the SDK, samples, and
+    test harness — bundled request-builder parameters, shared response-handling
+    helpers, duplicated string literals extracted into constants, and nested
+    conditionals merged. No public-surface impact.
+
+### Compatibility
+- No changes to public types, method signatures, request/response models,
+  default server URLs, hooks, or retry logic.
+- No action required for existing integrations — upgrade the dependency and
+  re-run `pip install --upgrade fastpix_python`.
+
+---
+
 ## [1.1.3]
 
 ### ⚠️ Important — FastPix is migrating from `.io` to `.com`
@@ -23,7 +52,7 @@ All FastPix-owned hosts, API endpoints, and documentation links are being moved 
 What this means for users of `fastpix_python`:
 
 - **If you rely on SDK defaults**, no code change is required. The default `server_url` in this release points at `https://api.fastpix.com/v1/`, so bumping to `1.1.3` and re-running `pip install --upgrade fastpix_python` is enough.
-- **If you have an explicit `server_url` override** (e.g. `Fastpixpython(server_url="https://api.fastpix.io/v1/")`), change it to `https://api.fastpix.com/v1/`.
+- **If you have an explicit `server_url` override** (e.g. `Fastpix(server_url="https://api.fastpix.io/v1/")`), change it to `https://api.fastpix.com/v1/`.
 - **If your application code references FastPix asset URLs directly** — playback URLs (`stream.fastpix.io/...`), image CDN (`images.fastpix.io/...`), dashboard deep links, or doc links in your own README — update them to the `.com` equivalents before the `.io` hosts are decommissioned.
 - We strongly recommend upgrading **every official FastPix SDK** in your stack to its latest release as part of the same change — every SDK is being rolled out with the same migration.
 

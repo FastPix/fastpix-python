@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [delete](#delete) - Delete a media by ID
-* [delete_track](#delete_track) - Delete audio / subtitle track
-* [list_clips](#list_clips) - Get all clips of a media
+* [delete_media](#delete_media) - Delete a media by ID
+* [delete_media_track](#delete_media_track) - Delete audio / subtitle track
+* [get_media_clips](#get_media_clips) - Get all clips of a media
 
-## delete
+## delete_media
 
 This endpoint allows you to permanently delete a a specific video or audio media file along with all associated data. If you wish to remove a media from FastPix storage, use this endpoint with the `mediaId` (either `uploadId` or `id`) received during the media's creation or upload. 
 
@@ -39,7 +39,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.videos.delete(media_id="your-media-id")
+    res = fastpix.manage_videos.delete_media(media_id="your-media-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -63,7 +63,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## delete_track
+## delete_media_track
 
 This endpoint allows you to delete an existing audio or subtitle track from a media file. Once deleted, the track must no longer be available for playback.
 
@@ -104,7 +104,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.videos.delete_track(media_id="your-media-id", track_id="your-track-id")
+    res = fastpix.manage_videos.delete_media_track(media_id="your-media-id", track_id="your-track-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -129,7 +129,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## list_clips
+## get_media_clips
 
 This endpoint retrieves a list of all media clips associated with a given source media ID. It helps you organize and manage media efficiently by providing metadata such as clip media IDs and other relevant details.
 
@@ -164,7 +164,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.videos.list_clips(media_id="your-media-id", offset=5, limit=20, order_by="desc")
+    res = fastpix.manage_videos.get_media_clips(source_media_id="your-media-id", offset=5, limit=20, order_by="desc")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

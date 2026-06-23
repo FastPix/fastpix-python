@@ -149,9 +149,8 @@ class Fastpix(BaseSDK):
             type(async_client), AsyncHttpClient
         ), "The provided async_client must implement the AsyncHttpClient protocol."
 
-        if server_url is not None:
-            if url_params is not None:
-                server_url = utils.template_url(server_url, url_params)
+        if server_url is not None and url_params is not None:
+            server_url = utils.template_url(server_url, url_params)
 
         BaseSDK.__init__(
             self,
@@ -223,7 +222,7 @@ class Fastpix(BaseSDK):
     def __dir__(self):
         default_attrs = list(super().__dir__())
         lazy_attrs = list(self._sub_sdk_map.keys())
-        return sorted(list(set(default_attrs + lazy_attrs)))
+        return sorted(set(default_attrs + lazy_attrs))
 
     def __enter__(self):
         return self

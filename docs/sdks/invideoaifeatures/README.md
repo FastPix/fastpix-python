@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [update_summary](#update_summary) - Generate video summary
-* [update_moderation](#update_moderation) - Enable video moderation
-* [update_named_entities](#update_named_entities) - Generate named entities
+* [update_media_summary](#update_media_summary) - Generate video summary
+* [update_media_moderation](#update_media_moderation) - Enable video moderation
+* [update_media_named_entities](#update_media_named_entities) - Generate named entities
 
-## update_summary
+## update_media_summary
 
 This endpoint allows you to generate the summary for an existing media.
 
@@ -28,7 +28,7 @@ Related guide: <a href="https://fastpix.com/docs/video-intelligence/generate-a-v
 
 <!-- UsageSnippet language="python" operationID="update-media-summary" method="patch" path="/on-demand/{mediaId}/summary" -->
 ```python
-fimport os
+import os
 import json
 
 from fastpix_python import Fastpix, models
@@ -41,7 +41,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.in_video_ai_features.update_summary(media_id="your-media-id", generate=True, summary_length=100)
+    res = fastpix.in_video_ai_features.update_media_summary(media_id="your-media-id", generate=True, summary_length=100)
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
@@ -68,7 +68,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_moderation
+## update_media_moderation
 
 This endpoint enables moderation features, such as NSFW and profanity filtering, to detect inappropriate content in existing media.
 
@@ -99,7 +99,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.in_video_ai_features.update_moderation(media_id="your-media-id", moderation={
+    res = fastpix.in_video_ai_features.update_media_moderation(media_id="your-media-id", moderation={
         "type": "video",
     })
 
@@ -126,7 +126,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_named_entities
+## update_media_named_entities
 
 This endpoint allows you to extract named entities from an existing media.
 Named Entity Recognition (NER) is a fundamental natural language processing (NLP) technique that identifies and classifies key information (entities) in text into predefined categories. For instance:
@@ -164,7 +164,7 @@ with Fastpix(
 
    
     
-    res = fastpix.in_video_ai_features.update_named_entities(media_id="your-media-id", named_entities=True)
+    res = fastpix.in_video_ai_features.update_media_named_entities(media_id="your-media-id", named_entities=True)
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

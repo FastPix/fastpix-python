@@ -144,11 +144,11 @@ def complete_live_stream_workflow():
         # Step 4: Monitor performance
         monitor_stream_performance(stream_id)
         
-        print(f"\n🎉 Live streaming workflow completed!")
+        print("\n🎉 Live streaming workflow completed!")
         print(f"📡 Stream ID: {stream_id}")
         print(f"▶️ Playback ID: {playback_id}")
         print(f"📺 Simulcast IDs: {simulcast_ids}")
-        print(f"\n💡 Use the RTMP URL to start broadcasting from OBS or similar software")
+        print("\n💡 Use the RTMP URL to start broadcasting from OBS or similar software")
         
         # Note: In a real application, you would keep the stream running
         # and handle the complete stream lifecycle

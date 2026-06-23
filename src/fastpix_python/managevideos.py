@@ -12,6 +12,10 @@ from fastpix_python.utils import get_security_from_env
 from fastpix_python.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Dict, Mapping, Optional
 
+CONTENT_TYPE_JSON = "application/json"
+API_ERROR_MESSAGE = "API error occurred"
+UNEXPECTED_RESPONSE_MESSAGE = "Unexpected response received"
+
 
 class ManageVideos(BaseSDK):
     def list_media(
@@ -74,16 +78,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -104,22 +107,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListMediaResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def list_media_async(
         self,
@@ -181,16 +184,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -211,22 +213,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListMediaResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def update_media(
         self,
@@ -297,7 +299,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -307,9 +309,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -330,22 +331,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMediaResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def update_media_async(
         self,
@@ -416,7 +417,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -426,9 +427,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -449,22 +449,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMediaResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def cancel_upload(
         self,
@@ -523,16 +523,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -553,22 +552,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CancelUploadResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def cancel_upload_async(
         self,
@@ -627,16 +626,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -657,22 +655,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CancelUploadResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def generate_subtitles(
         self,
@@ -749,7 +747,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -759,9 +757,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -782,24 +779,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.GenerateSubtitleTrackResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def generate_subtitles_async(
         self,
@@ -876,7 +873,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -886,9 +883,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -909,24 +905,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.GenerateSubtitleTrackResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def get_summary(
         self,
@@ -983,16 +979,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1013,22 +1008,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaSummaryResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def get_summary_async(
         self,
@@ -1085,16 +1080,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1115,22 +1109,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaSummaryResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def update_source_access(
         self,
@@ -1191,7 +1185,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1205,9 +1199,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1228,24 +1221,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.UpdatedSourceAccessResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def update_source_access_async(
         self,
@@ -1306,7 +1299,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1320,9 +1313,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1343,24 +1335,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.UpdatedSourceAccessResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def update_mp4_support(
         self,
@@ -1441,7 +1433,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1451,9 +1443,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1474,24 +1465,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.UpdatedMp4SupportResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def update_mp4_support_async(
         self,
@@ -1572,7 +1563,7 @@ class ManageVideos(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1582,9 +1573,8 @@ class ManageVideos(BaseSDK):
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1605,24 +1595,24 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(
                 models.UpdatedMp4SupportResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     def list_unused_upload_urls(
         self,
@@ -1689,16 +1679,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1719,22 +1708,22 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListUploadsResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
     async def list_unused_upload_urls_async(
         self,
@@ -1801,16 +1790,15 @@ class ManageVideos(BaseSDK):
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value="application/json",
+            accept_header_value=CONTENT_TYPE_JSON,
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
@@ -1831,19 +1819,19 @@ class ManageVideos(BaseSDK):
             retry_config=retry_config,
         )
 
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListUploadsResponseBody, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.FastpixDefaultError(
-                "API error occurred", http_res, http_res_text
+                API_ERROR_MESSAGE, http_res, http_res_text
             )
-        if utils.match_response(http_res, "default", "application/json"):
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DefaultError, http_res)
 
-        raise errors.FastpixDefaultError("Unexpected response received", http_res)
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)

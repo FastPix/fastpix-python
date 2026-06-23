@@ -21,6 +21,8 @@ import httpx
 from typing import Callable, List, Mapping, Optional, Tuple
 from urllib.parse import parse_qs, urlparse
 
+_REQUEST_EXCEPTION_LOG = "Request Exception"
+
 
 class BaseSDK:
     sdk_configuration: SDKConfiguration
@@ -50,7 +52,7 @@ class BaseSDK:
         return utils.template_url(base_url, url_variables)
 
     def _build_request_async(
-        self,
+        self,  # NOSONAR S107 generated request-builder — params mirror the spec
         method,
         path,
         base_url,
@@ -94,7 +96,7 @@ class BaseSDK:
         )
 
     def _build_request(
-        self,
+        self,  # NOSONAR S107 generated request-builder — params mirror the spec
         method,
         path,
         base_url,
@@ -138,7 +140,7 @@ class BaseSDK:
         )
 
     def _build_request_with_client(
-        self,
+        self,  # NOSONAR S107 generated request-builder — params mirror the spec
         client,
         method,
         path,
@@ -187,23 +189,13 @@ class BaseSDK:
         headers["Accept"] = accept_header_value
         headers[user_agent_header] = self.sdk_configuration.user_agent
 
-        if security is not None:
-            if callable(security):
-                security = security()
-        security = utils.get_security_from_env(security, models.Security)
-        if security is not None:
-            security_headers, security_query_params = utils.get_security(security)
-            headers = {**headers, **security_headers}
-            query_params = {**query_params, **security_query_params}
+        headers, query_params = self._apply_security(
+            security, headers, query_params
+        )
 
-        serialized_request_body = SerializedRequestBody()
-        if get_serialized_body is not None:
-            rb = get_serialized_body()
-            if request_body_required and rb is None:
-                raise ValueError("request body is required")
-
-            if rb is not None:
-                serialized_request_body = rb
+        serialized_request_body = self._serialize_request_body(
+            get_serialized_body, request_body_required
+        )
 
         if (
             serialized_request_body.media_type is not None
@@ -216,8 +208,7 @@ class BaseSDK:
             headers["content-type"] = serialized_request_body.media_type
 
         if http_headers is not None:
-            for header, value in http_headers.items():
-                headers[header] = value
+            headers.update(http_headers)
 
         timeout = timeout_ms / 1000 if timeout_ms is not None else None
 
@@ -231,6 +222,45 @@ class BaseSDK:
             headers=headers,
             timeout=timeout,
         )
+
+    def _apply_security(self, security, headers, query_params):
+        if security is not None and callable(security):
+            security = security()
+        security = utils.get_security_from_env(security, models.Security)
+        if security is not None:
+            security_headers, security_query_params = utils.get_security(security)
+            headers = {**headers, **security_headers}
+            query_params = {**query_params, **security_query_params}
+        return headers, query_params
+
+    def _serialize_request_body(
+        self, get_serialized_body, request_body_required
+    ) -> SerializedRequestBody:
+        serialized_request_body = SerializedRequestBody()
+        if get_serialized_body is not None:
+            rb = get_serialized_body()
+            if request_body_required and rb is None:
+                raise ValueError("request body is required")
+
+            if rb is not None:
+                serialized_request_body = rb
+        return serialized_request_body
+
+    def _handle_request_exception(self, hooks, hook_ctx, exc, logger):
+        _, e = hooks.after_error(AfterErrorContext(hook_ctx), None, exc)
+        if e is not None:
+            logger.debug(_REQUEST_EXCEPTION_LOG, exc_info=True)
+            raise e
+
+    def _handle_error_response(self, hooks, hook_ctx, http_res, logger):
+        result, err = hooks.after_error(AfterErrorContext(hook_ctx), http_res, None)
+        if err is not None:
+            logger.debug(_REQUEST_EXCEPTION_LOG, exc_info=True)
+            raise err
+        if result is not None:
+            return result
+        logger.debug("Raising unexpected SDK error")
+        raise errors.FastpixDefaultError("Unexpected error occurred", http_res)
 
     def do_request(
         self,
@@ -262,10 +292,7 @@ class BaseSDK:
 
                 http_res = client.send(req, stream=stream)
             except Exception as e:
-                _, e = hooks.after_error(AfterErrorContext(hook_ctx), None, e)
-                if e is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise e
+                self._handle_request_exception(hooks, hook_ctx, e, logger)
 
             if http_res is None:
                 logger.debug("Raising no response SDK error")
@@ -280,19 +307,9 @@ class BaseSDK:
             )
 
             if utils.match_status_codes(error_status_codes, http_res.status_code):
-                result, err = hooks.after_error(
-                    AfterErrorContext(hook_ctx), http_res, None
+                http_res = self._handle_error_response(
+                    hooks, hook_ctx, http_res, logger
                 )
-                if err is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise err
-                if result is not None:
-                    http_res = result
-                else:
-                    logger.debug("Raising unexpected SDK error")
-                    raise errors.FastpixDefaultError(
-                        "Unexpected error occurred", http_res
-                    )
 
             return http_res
 
@@ -305,6 +322,26 @@ class BaseSDK:
             http_res = hooks.after_success(AfterSuccessContext(hook_ctx), http_res)
 
         return http_res
+
+    async def _handle_request_exception_async(self, hooks, hook_ctx, exc, logger):
+        _, e = await run_sync_in_thread(
+            hooks.after_error, AfterErrorContext(hook_ctx), None, exc
+        )
+        if e is not None:
+            logger.debug(_REQUEST_EXCEPTION_LOG, exc_info=True)
+            raise e
+
+    async def _handle_error_response_async(self, hooks, hook_ctx, http_res, logger):
+        result, err = await run_sync_in_thread(
+            hooks.after_error, AfterErrorContext(hook_ctx), http_res, None
+        )
+        if err is not None:
+            logger.debug(_REQUEST_EXCEPTION_LOG, exc_info=True)
+            raise err
+        if result is not None:
+            return result
+        logger.debug("Raising unexpected SDK error")
+        raise errors.FastpixDefaultError("Unexpected error occurred", http_res)
 
     async def do_request_async(
         self,
@@ -339,13 +376,9 @@ class BaseSDK:
 
                 http_res = await client.send(req, stream=stream)
             except Exception as e:
-                _, e = await run_sync_in_thread(
-                    hooks.after_error, AfterErrorContext(hook_ctx), None, e
+                await self._handle_request_exception_async(
+                    hooks, hook_ctx, e, logger
                 )
-
-                if e is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise e
 
             if http_res is None:
                 logger.debug("Raising no response SDK error")
@@ -360,20 +393,9 @@ class BaseSDK:
             )
 
             if utils.match_status_codes(error_status_codes, http_res.status_code):
-                result, err = await run_sync_in_thread(
-                    hooks.after_error, AfterErrorContext(hook_ctx), http_res, None
+                http_res = await self._handle_error_response_async(
+                    hooks, hook_ctx, http_res, logger
                 )
-
-                if err is not None:
-                    logger.debug("Request Exception", exc_info=True)
-                    raise err
-                if result is not None:
-                    http_res = result
-                else:
-                    logger.debug("Raising unexpected SDK error")
-                    raise errors.FastpixDefaultError(
-                        "Unexpected error occurred", http_res
-                    )
 
             return http_res
 
