@@ -4,10 +4,10 @@
 
 ### Available Operations
 
-* [list](#list) - Get list of DRM configuration IDs
-* [get_by_id](#get_by_id) - Get DRM configuration by ID
+* [get_drm_configuration](#get_drm_configuration) - Get list of DRM configuration IDs
+* [get_drm_configuration_by_id](#get_drm_configuration_by_id) - Get DRM configuration by ID
 
-## list
+## get_drm_configuration
 
 This endpoint retrieves the DRM configuration (DRM ID) associated with a workspace. It returns a list of DRM configurations, identified by a unique DRM ID, which is used for creating DRM encrypted asset.
 
@@ -37,7 +37,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.drm_configurations.list(offset=1, limit=10)
+    res = fastpix.drm_configurations.get_drm_configuration(offset=1, limit=10)
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -62,7 +62,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_by_id
+## get_drm_configuration_by_id
 
 This endpoint retrieves a DRM configuration ID. It is used to fetch the DRM-related ID for a workspace, typically required when validating or applying DRM policies to video assets.
 
@@ -88,7 +88,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.drm_configurations.get_by_id(drm_configuration_id="your-drm-configuration-id")
+    res = fastpix.drm_configurations.get_drm_configuration_by_id(drm_configuration_id="your-drm-configuration-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

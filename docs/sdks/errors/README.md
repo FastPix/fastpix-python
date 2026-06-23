@@ -6,9 +6,9 @@ Operations involving errors
 
 ### Available Operations
 
-* [list](#list) - List errors
+* [list_errors](#list_errors) - List errors
 
-## list
+## list_errors
 
 This endpoint returns the total number of playback errors that occurred, along with the total number of views captured, based on the specified timespan and filters. It provides insights into the overall playback quality and helps identify potential issues that may impact viewer experience. 
 
@@ -42,7 +42,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.errors.list(timespan="24:hours", filterby="browser_name:Chrome", limit=1)
+    res = fastpix.errors.list_errors(timespan="24:hours", filterby="browser_name:Chrome", limit=1)
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

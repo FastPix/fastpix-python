@@ -4,9 +4,9 @@
 
 ### Available Operations
 
-* [delete](#delete) - Delete a simulcast
+* [delete_simulcast_of_stream](#delete_simulcast_of_stream) - Delete a simulcast
 
-## delete
+## delete_simulcast_of_stream
 
 Deletes a simulcast using its unique simulcastId, which you received during the simulcast creation process. Deleting a simulcast stops the broadcast to the associated platform, while the parent stream continues if it’s live. This action can’t be undone, and you must create a new simulcast to resume streaming to the same platform.
 
@@ -31,7 +31,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.simulcast.delete(
+    res = fastpix.simulcast_stream.delete_simulcast_of_stream(
         stream_id="your-stream-id",
         simulcast_id="your-simulcast-id",
     )

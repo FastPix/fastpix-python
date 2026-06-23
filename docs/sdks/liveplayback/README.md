@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [create_playback_id](#create_playback_id) - Create a playbackId
-* [delete_playback_id](#delete_playback_id) - Delete a playbackId
-* [get_playback_id_details](#get_playback_id_details) - Get playbackId details
+* [create_playback_id_of_stream](#create_playback_id_of_stream) - Create a playbackId
+* [delete_playback_id_of_stream](#delete_playback_id_of_stream) - Delete a playbackId
+* [get_live_stream_playback_id](#get_live_stream_playback_id) - Get playbackId details
 
-## create_playback_id
+## create_playback_id_of_stream
 
 Generates a new playback ID for the live stream, allowing viewers to access the stream through this ID. The playback ID can be shared with viewers for direct access to the live broadcast. 
 
@@ -34,7 +34,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_playback.create_playback_id(stream_id="your-stream-id", access_policy="public")
+    res = fastpix.live_playback.create_playback_id_of_stream(stream_id="your-stream-id", access_policy="public")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -59,7 +59,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## delete_playback_id
+## delete_playback_id_of_stream
 
 Deletes a previously created playback ID for a live stream.This prevents new viewers from accessing the stream using the playback ID, while current viewers can continue watching for a short period before the connection ends. FastPix deletes the ID and ensures the new playback request fails.
 
@@ -82,7 +82,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_playback.delete_playback_id(
+    res = fastpix.live_playback.delete_playback_id_of_stream(
         stream_id="your-stream-id",
         playback_id="your-playback-id",
     )
@@ -110,7 +110,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_playback_id_details
+## get_live_stream_playback_id
 
 Retrieves details for an existing playback ID. When you provide the playbackId returned from a previous stream or playback creation request, FastPix returns the associated playback information, including the access policy.
 
@@ -133,7 +133,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_playback.get_playback_id_details(stream_id="61a264dcc447b63da6fb79ef925cd76d", playback_id="61a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.live_playback.get_live_stream_playback_id(stream_id="61a264dcc447b63da6fb79ef925cd76d", playback_id="61a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

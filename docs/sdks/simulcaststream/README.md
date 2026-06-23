@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [create](#create) - Create a simulcast
-* [get_simulcast](#get_simulcast) - Get a specific simulcast
-* [update_simulcast](#update_simulcast) - Update a simulcast
+* [create_simulcast_of_stream](#create_simulcast_of_stream) - Create a simulcast
+* [get_specific_simulcast_of_stream](#get_specific_simulcast_of_stream) - Get a specific simulcast
+* [update_specific_simulcast_of_stream](#update_specific_simulcast_of_stream) - Update a simulcast
 
-## create
+## create_simulcast_of_stream
 
 Creates a simulcast for a parent live stream. Simulcasting allows you to broadcast a live stream to multiple social platforms simultaneously (for example, YouTube, Facebook, or Twitch). This helps expand your audience reach across platforms. A simulcast can only be created when the parent live stream is in the idle state (not currently live or disabled). Only one simulcast target can be created per API call. 
 #### How it works
@@ -38,7 +38,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.simulcast_stream.create(stream_id="your-stream-id", url="rtmp://hyd01.contribute.live-video.net/app/", stream_key="live_1012464221_DuM8W004MoZYNxQEZ0czODgfHCFBhk", metadata={
+    res = fastpix.simulcast_stream.create_simulcast_of_stream(stream_id="your-stream-id", url="rtmp://hyd01.contribute.live-video.net/app/", stream_key="live_1012464221_DuM8W004MoZYNxQEZ0czODgfHCFBhk", metadata={
         "livestream_name": "Tech-Connect Summit",
     })
 
@@ -67,7 +67,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_simulcast
+## get_specific_simulcast_of_stream
 
 Retrieves the details of a specific simulcast associated with a parent live stream. By providing both the `streamId` of the parent stream and the `simulcastId`, FastPix returns detailed information about the simulcast, such as the stream URL, the status of the simulcast, and metadata. 
 
@@ -90,7 +90,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.simulcast_stream.get_simulcast(stream_id="your-stream-id", simulcast_id="your-simulcast-id")
+    res = fastpix.simulcast_stream.get_specific_simulcast_of_stream(stream_id="your-stream-id", simulcast_id="your-simulcast-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -115,7 +115,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_simulcast
+## update_specific_simulcast_of_stream
 
 Updates the status of a specific simulcast linked to a parent live stream. You can enable or disable the simulcast at any time while the parent stream is active or idle. After the live stream is disabled, the simulcast can no longer be modified.
 
@@ -140,7 +140,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.simulcast_stream.update_simulcast(stream_id="your-stream-id", simulcast_id="your-simulcast-id", is_enabled=True, metadata={
+    res = fastpix.simulcast_stream.update_specific_simulcast_of_stream(stream_id="your-stream-id", simulcast_id="your-simulcast-id", is_enabled=True, metadata={
         "simulcast_name": "Tech today",
     })
 

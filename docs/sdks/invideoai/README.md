@@ -4,9 +4,9 @@
 
 ### Available Operations
 
-* [update_chapters](#update_chapters) - Generate video chapters
+* [update_media_chapters](#update_media_chapters) - Generate video chapters
 
-## update_chapters
+## update_media_chapters
 
 This endpoint enables you to generate chapters for an existing media file.
 
@@ -38,7 +38,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.in_video_ai.update_chapters(media_id="your-media-id", chapters=True )
+    res = fastpix.in_video_ai_features.update_media_chapters(media_id="your-media-id", chapters=True )
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

@@ -5,7 +5,7 @@
 ### Available Operations
 
 * [create_media](#create_media) - Create media from URL
-* [direct_upload](#direct_upload) - Upload media from device
+* [direct_upload_video_media](#direct_upload_video_media) - Upload media from device
 
 ## create_media
 
@@ -72,9 +72,6 @@ with Fastpix(
         metadata={
             "key1": "value1",
         },
-        drm_configuration_id="your-drm-id",
-        title="My Video Title",
-        creator_id="creator-id",
         subtitles={
             "language_name": "english",
             "metadata": {
@@ -86,7 +83,6 @@ with Fastpix(
         source_access=True,
         optimize_audio=True,
         max_resolution="1080p",
-        media_quality="standard",
         chapters=True,
         named_entities=True,
     )
@@ -129,7 +125,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## direct_upload
+## direct_upload_video_media
 
 This endpoint enables accelerated uploads of large media files directly from your local device to FastPix for processing and storage.
 
@@ -173,7 +169,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.input_video.direct_upload(request={
+    res = fastpix.input_video.direct_upload_video_media(request={
         "push_media_settings": {
             "metadata": {
                 "key1": "value1",

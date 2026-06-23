@@ -4,9 +4,9 @@
 
 ### Available Operations
 
-* [create_stream](#create_stream) - Create a new stream
+* [create_new_stream](#create_new_stream) - Create a new stream
 
-## create_stream
+## create_new_stream
 
 Creates a new <a href="https://fastpix.com/docs/get-started/live-overview">RTMPS</a> or <a href="https://fastpix.com/docs/broadcast/live-stream-with-srt">SRT</a> live stream in FastPix. When you create a stream, FastPix generates a unique `streamKey` and `srtSecret` that you can use with broadcasting software such as OBS to connect to FastPix RTMPS or SRT servers. Use SRT for live streaming in unstable network conditions, as it provides error correction and encryption for a more reliable and secure broadcast.
 
@@ -42,7 +42,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.start_live_stream.create_stream(playback_settings={}, input_media_settings={
+    res = fastpix.start_live_stream.create_new_stream(playback_settings={}, input_media_settings={
         "metadata": {
             "livestream_name": "fastpix_livestream",
         },

@@ -6,13 +6,13 @@ Operations for playlist management
 
 ### Available Operations
 
-* [create](#create) - Create a new playlist
-* [get](#get) - Get a playlist by ID
-* [delete](#delete) - Delete a playlist by ID
-* [add_media](#add_media) - Add media to a playlist by ID
-* [delete_media](#delete_media) - Delete media in a playlist by ID
+* [create_a_playlist](#create_a_playlist) - Create a new playlist
+* [get_playlist_by_id](#get_playlist_by_id) - Get a playlist by ID
+* [delete_a_playlist](#delete_a_playlist) - Delete a playlist by ID
+* [add_media_to_playlist](#add_media_to_playlist) - Add media to a playlist by ID
+* [delete_media_from_playlist](#delete_media_from_playlist) - Delete media in a playlist by ID
 
-## create
+## create_a_playlist
 
 This endpoint creates a new playlist within a specified workspace. A playlist acts as a container for organizing media items either manually or based on filters and metadata. <br> <br>
 ### Playlists can be created in two modes
@@ -45,24 +45,23 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.create(
-        request=models.CreatePlaylistRequestSmart(
-            name="playlist name",
-            reference_id="a1",
-            description="This is a playlist",
-            play_order="createdDate DESC",
-            limit=20,
-            metadata=models.Metadata(
-                created_date=models.DateRange(
-                    start_date="2024-11-11",
-                    end_date="2024-12-12",
-                ),
-                updated_date=models.DateRange(
-                    start_date="2024-11-11",
-                    end_date="2024-12-12",
-                ),
+    res = fastpix.playlist.create_a_playlist(
+        name="playlist name",
+        reference_id="a1",
+        type_="smart",
+        description="This is a playlist",
+        play_order="createdDate DESC",
+        limit=20,
+        metadata={
+            "created_date": models.DateRange(
+                start_date="2024-11-11",
+                end_date="2024-12-12",
             ),
-        )
+            "updated_date": models.DateRange(
+                start_date="2024-11-11",
+                end_date="2024-12-12",
+            ),
+        },
     )
 
     
@@ -87,7 +86,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get
+## get_playlist_by_id
 
 This endpoint retrieves detailed information about a specific playlist using its unique `playlistId`. It provides comprehensive metadata about the playlist, including its title, creation mode (manual or smart), media items along with the metadata of each media in the playlist.
 
@@ -110,7 +109,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.get(playlist_id="<id>")
+    res = fastpix.playlist.get_playlist_by_id(playlist_id="<id>")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -134,7 +133,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## delete
+## delete_a_playlist
 
 This endpoint allows you to delete an existing playlist from the workspace. After deleted, the playlist and its metadata are permanently removed and cannot be recovered.
 #### How it works
@@ -159,7 +158,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.delete(playlist_id="<id>")
+    res = fastpix.playlist.delete_a_playlist(playlist_id="<id>")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -183,7 +182,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## add_media
+## add_media_to_playlist
 
 This endpoint allows you to add one or more media items to an existing playlist. By passing the media ID(s) in the request, the specified media items are appended to the playlist in the order provided.
 #### How it works
@@ -209,7 +208,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.add_media(
+    res = fastpix.playlist.add_media_to_playlist(
         playlist_id="your-playlist-id",
         media_ids=["your-media-id"],
     )
@@ -237,7 +236,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## delete_media
+## delete_media_from_playlist
 
 This endpoint allows you to delete one or more media items from an existing playlist. By passing the media ID(s) in the request, the specified media items are removed from the playlist.
 #### How it works
@@ -263,7 +262,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.delete_media(
+    res = fastpix.playlist.delete_media_from_playlist(
         playlist_id="<id>",
         media_ids=[
             "your-media-id-1",

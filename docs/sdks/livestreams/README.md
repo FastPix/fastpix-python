@@ -4,12 +4,12 @@
 
 ### Available Operations
 
-* [list](#list) - Get all live streams
-* [get_by_id](#get_by_id) - Get stream by ID
-* [enable](#enable) - Enable a stream
-* [disable](#disable) - Disable a stream
+* [get_all_streams](#get_all_streams) - Get all live streams
+* [get_live_stream_by_id](#get_live_stream_by_id) - Get stream by ID
+* [enable_live_stream](#enable_live_stream) - Enable a stream
+* [disable_live_stream](#disable_live_stream) - Disable a stream
 
-## list
+## get_all_streams
 
 Retrieves a list of all live streams associated with the current workspace. It provides an overview of both current and past live streams, including details like `streamId`, `metadata`, `status`, `createdAt` and more.
 
@@ -33,7 +33,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_streams.list(limit=20, offset=1, order_by="desc")
+    res = fastpix.manage_live_stream.get_all_streams(limit=20, offset=1, order_by="desc")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -59,7 +59,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## get_by_id
+## get_live_stream_by_id
 
 This endpoint retrieves details about a specific live stream by its unique `streamId`. It includes data such as the stream’s `status` (idle, preparing, active, disabled), `metadata` (title, description), and more. 
 #### Example
@@ -84,7 +84,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_streams.get_by_id(stream_id="61a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.manage_live_stream.get_live_stream_by_id(stream_id="61a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -108,7 +108,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## enable
+## enable_live_stream
 
 This endpoint allows you to enable a livestream by transitioning its status from `disabled` to `idle`. After it is enabled, the stream becomes available and ready to accept an incoming broadcast from a streaming tool.
 
@@ -138,7 +138,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_streams.enable(stream_id="your-stream-id")
+    res = fastpix.manage_live_stream.enable_live_stream(stream_id="your-stream-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -162,7 +162,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## disable
+## disable_live_stream
 
 This endpoint disables a livestream by setting its status to `disabled`. Use this to stop a livestream when it's no longer needed or must be taken offline intentionally.
 
@@ -190,7 +190,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_streams.disable(stream_id="your-stream-id")
+    res = fastpix.manage_live_stream.disable_live_stream(stream_id="your-stream-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

@@ -24,6 +24,7 @@ Run: ``FASTPIX_USERNAME=… FASTPIX_PASSWORD=… python -m tests.validate_non_ge
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from dataclasses import dataclass, field
@@ -62,12 +63,32 @@ REPORT_PATH = TESTS_DIR / "NON_GET_ENDPOINTS_OPENAPI_RESPONSE_VALIDATION_REPORT.
 SUGGESTIONS_PATH = TESTS_DIR / "NON_GET_ENDPOINTS_OPENAPI_RESPONSE_FIX_SUGGESTIONS.md"
 FIXTURES_PATH = TESTS_DIR / "non_get_endpoints_fixtures.json"
 
-MEDIA_READY_TIMEOUT_S = 180
-TRACK_READY_TIMEOUT_S = 300
-POLL_INTERVAL_S = 5
-NOT_READY_RETRY_TIMEOUT_S = 120
-NOT_READY_RETRY_INTERVAL_S = 5
+def _env_int(name: str, default: int) -> int:
+    """Read a positive int from the environment, falling back to ``default``.
+
+    Lets CI tighten/loosen polling budgets without changing default behaviour
+    (an unset or malformed value yields exactly the previous constant).
+    """
+    try:
+        val = int(os.environ.get(name, ""))
+        return val if val > 0 else default
+    except (TypeError, ValueError):
+        return default
+
+
+MEDIA_READY_TIMEOUT_S = _env_int("FASTPIX_MEDIA_READY_TIMEOUT_S", 180)
+TRACK_READY_TIMEOUT_S = _env_int("FASTPIX_TRACK_READY_TIMEOUT_S", 300)
+POLL_INTERVAL_S = _env_int("FASTPIX_POLL_INTERVAL_S", 5)
+NOT_READY_RETRY_TIMEOUT_S = _env_int("FASTPIX_NOT_READY_RETRY_TIMEOUT_S", 120)
+NOT_READY_RETRY_INTERVAL_S = _env_int("FASTPIX_NOT_READY_RETRY_INTERVAL_S", 5)
 NOT_READY_SUBSTR = "not ready for updates"
+
+# Public sample assets the lifecycle depends on. Checked (non-blocking) at
+# startup so an unreachable fixture surfaces as a clear warning instead of a
+# confusing mid-run "preparing forever" / Failed track.
+_SAMPLE_ASSETS = (
+    "https://static.fastpix.io/fp-sample-video.mp4",
+)
 
 _DATA_ID_PATH = "data.id"
 _DATA_PLAYBACK_ID0_PATH = "data.playbackIds.0.id"
@@ -352,7 +373,10 @@ STEPS: List[Step] = [
 ]
 
 # complete-live-stream is the one allowed failure in a credentials-only run.
-EXPECTED_FAILS = {"complete-live-stream"}
+# Operations expected to fail in a credentials-only run, mapped to the
+# substring the failure message MUST contain. Asserting the specific error
+# (not merely "it failed") prevents a real regression from passing silently.
+EXPECTED_FAILS = {"complete-live-stream": "cannot be completed"}
 
 # ---------------------------------------------------------------------------
 # Polling
@@ -554,12 +578,17 @@ def _resolve_status(
     openapi_valid: bool,
     miss_sdk: List[str],
     miss_api: List[str],
+    sdk_err: str = "",
 ) -> Tuple[str, str]:
     """Determine the PASS/FAIL status and note for a completed step."""
     if step.operation_id in EXPECTED_FAILS:
+        expected_sub = EXPECTED_FAILS[step.operation_id]
         if not sdk_ok:
-            return "PASS", (f"[{step.phase}] Expected to fail in a credentials-only run "
-                            "(no active RTMPS encoder) — SDK behaviour is correct.")
+            if expected_sub.lower() in (sdk_err or "").lower():
+                return "PASS", (f"[{step.phase}] Expected to fail in a credentials-only run "
+                                "(no active RTMPS encoder) — SDK behaviour is correct.")
+            return "FAIL", (f"[{step.phase}] Failed, but not with the expected error "
+                            f"'{expected_sub}': {(sdk_err or '')[:160]}")
         return "FAIL", (f"[{step.phase}] Operation succeeded but was expected to fail "
                         "— check SDK swallowing")
     if (sdk_ok and api_status and 200 <= api_status < 300
@@ -622,7 +651,7 @@ def run_step(
     )
 
     status, note = _resolve_status(
-        step, sdk_ok, api_status, openapi_valid, miss_sdk, miss_api
+        step, sdk_ok, api_status, openapi_valid, miss_sdk, miss_api, sdk_err
     )
 
     if attempt > 1:
@@ -671,6 +700,60 @@ def _print_step_outcome(result: EndpointResult, step: Step, ctx: Dict[str, Any])
         print(f"  ✓ {result.status} (HTTP {result.api_status or '?'}){captured}", flush=True)
 
 
+# Top-level resources whose deletion cascades to their children
+# (playback IDs, tracks, simulcasts). Deleting these is enough to leave the
+# workspace clean even if the run aborts before the DELETE phase.
+_CLEANUP_OPS: List[Tuple[str, Tuple[str, ...], Callable[[Dict[str, Any]], Dict[str, Any]]]] = [
+    ("delete-a-playlist", ("playlist_id",), lambda c: {"playlist_id": c["playlist_id"]}),
+    ("delete-live-stream", ("stream_id",), lambda c: {"stream_id": c["stream_id"]}),
+    ("delete-media", ("media_id",), lambda c: {"media_id": c["media_id"]}),
+    ("delete_signing_key", ("signing_key_id",), lambda c: {"signing_key_id": c["signing_key_id"]}),
+]
+
+
+def best_effort_cleanup(
+    sdk, dispatch, ctx: Dict[str, Any], done_ops: Optional[set] = None
+) -> None:
+    """Delete any captured resources, ignoring errors (already-deleted → 404).
+
+    Runs in a ``finally`` so a crash or interrupt before the DELETE phase does
+    not leak media / streams / playlists into the workspace. ``done_ops`` lists
+    delete operations the DELETE phase already completed, so a fully-successful
+    run issues no redundant calls.
+    """
+    done = done_ops or set()
+    for op_id, needs, build in _CLEANUP_OPS:
+        if op_id in done:
+            continue  # already torn down by the DELETE phase
+        if any(not ctx.get(k) for k in needs):
+            continue
+        binding = dispatch.get(op_id)
+        if binding is None:
+            continue
+        try:
+            call_sdk_method(sdk, binding, build(ctx))
+        except Exception:
+            pass  # best-effort; resource may already be gone
+
+
+def warn_unreachable_assets(httpx_mod) -> None:
+    """Non-blocking preflight: warn if a required sample asset is unreachable.
+
+    Purely diagnostic — never alters control flow or results. A failed/blocked
+    check is itself swallowed so the run proceeds exactly as before.
+    """
+    for url in _SAMPLE_ASSETS:
+        try:
+            r = httpx_mod.head(url, follow_redirects=True, timeout=10.0)
+            if r.status_code >= 400:
+                print(f"  ⚠️  sample asset returned HTTP {r.status_code}: {url}\n"
+                      "     track-dependent steps may fail if it cannot be ingested.",
+                      file=sys.stderr, flush=True)
+        except Exception as exc:  # network blocked, DNS, timeout — informational only
+            print(f"  ⚠️  could not verify sample asset ({type(exc).__name__}): {url}",
+                  file=sys.stderr, flush=True)
+
+
 def main() -> int:
     user, pwd = require_credentials()
     spec = load_spec()
@@ -686,6 +769,7 @@ def main() -> int:
         return 2
 
     get_sidecar()  # warm up
+    warn_unreachable_assets(httpx)
 
     fastpix_cls, models = import_sdk()
     auth = (user, pwd)
@@ -701,20 +785,27 @@ def main() -> int:
 
     total = len(STEPS)
     results: List[EndpointResult] = []
-    for idx, step in enumerate(STEPS, start=1):
-        ep = op_index.get(step.operation_id)
-        method = (ep[1].upper() if ep else "?")
-        path = (ep[0] if ep else "?")
-        print(f"[{idx}/{total}] ({step.phase}) {method:>6} {path}  ({step.operation_id})", flush=True)
+    try:
+        for idx, step in enumerate(STEPS, start=1):
+            ep = op_index.get(step.operation_id)
+            method = (ep[1].upper() if ep else "?")
+            path = (ep[0] if ep else "?")
+            print(f"[{idx}/{total}] ({step.phase}) {method:>6} {path}  ({step.operation_id})", flush=True)
 
-        result = run_step(
-            step=step, op_index=op_index, dispatch=dispatch,
-            sdk=sdk, raw_state=raw_state, ctx=ctx, components=components,
-            httpx_mod=httpx, base_url=base_url, auth=auth,
-        )
+            result = run_step(
+                step=step, op_index=op_index, dispatch=dispatch,
+                sdk=sdk, raw_state=raw_state, ctx=ctx, components=components,
+                httpx_mod=httpx, base_url=base_url, auth=auth,
+            )
 
-        _print_step_outcome(result, step, ctx)
-        results.append(result)
+            _print_step_outcome(result, step, ctx)
+            results.append(result)
+    finally:
+        # Tear down anything still alive, even on exception / KeyboardInterrupt,
+        # so a partial run does not leak resources into the workspace. Skip
+        # deletes the DELETE phase already completed to avoid redundant calls.
+        done_ops = {r.operation_id for r in results if r.status == "PASS"}
+        best_effort_cleanup(sdk, dispatch, ctx, done_ops)
 
     counts = write_validation_report(
         results, REPORT_PATH,

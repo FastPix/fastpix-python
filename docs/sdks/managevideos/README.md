@@ -5,13 +5,13 @@
 ### Available Operations
 
 * [list_media](#list_media) - Get list of all media
-* [update_media](#update_media) - Update a media by ID
+* [updated_media](#updated_media) - Update a media by ID
 * [cancel_upload](#cancel_upload) - Cancel ongoing upload
-* [generate_subtitles](#generate_subtitles) - Generate track subtitle
+* [generate_subtitle_track](#generate_subtitle_track) - Generate track subtitle
 * [get_summary](#get_summary) - Get the summary of a video
-* [update_source_access](#update_source_access) - Update the source access of a media by ID
-* [update_mp4_support](#update_mp4_support) - Update the mp4Support of a media by ID
-* [list_unused_upload_urls](#list_unused_upload_urls) - Get all unused upload URLs
+* [updated_source_access](#updated_source_access) - Update the source access of a media by ID
+* [updated_mp4_support](#updated_mp4_support) - Update the mp4Support of a media by ID
+* [list_uploads](#list_uploads) - Get all unused upload URLs
 
 ## list_media
 
@@ -66,7 +66,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_media
+## updated_media
 
 This endpoint allows you to update specific parameters of an existing media file. You can modify the key-value pairs of the metadata that were provided in the payload during the creation of media from a URL or when uploading the media directly from device. 
 
@@ -100,9 +100,9 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.manage_videos.update_media(media_id="your-media-id", metadata={
+    res = fastpix.manage_videos.updated_media(media_id="your-media-id", metadata={
         "user": "fastpix_admin",
-    }, title="test title", creator_id="your-creator-id")
+    })
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
@@ -188,7 +188,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## generate_subtitles
+## generate_subtitle_track
 
 This endpoint allows you to generate subtitles for an existing audio track in a media file. By calling this API, you can generate subtitles automatically using speech recognition
 
@@ -225,7 +225,7 @@ with Fastpix(
 ) as fastpix:
 
     
-    res = fastpix.manage_videos.generate_subtitles(media_id="your-media-id", track_id="your-track0-id", language_name="Italian", metadata={
+    res = fastpix.manage_videos.generate_subtitle_track(media_id="your-media-id", track_id="your-track0-id", language_name="Italian", metadata={
         "key1": "value1",
     })
     
@@ -310,7 +310,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_source_access
+## updated_source_access
 
 This endpoint allows you to update the `sourceAccess` setting of an existing media file. The `sourceAccess` parameter determines whether the original media file is accessible or restricted. Setting this to `true` enables access to the media source, while setting it to `false` restricts access. 
 
@@ -340,7 +340,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.manage_videos.update_source_access(media_id="your-media-id", source_access=True)
+    res = fastpix.manage_videos.updated_source_access(media_id="your-media-id", source_access=True)
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -365,7 +365,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update_mp4_support
+## updated_mp4_support
 
 This endpoint allows you to update the `mp4Support` setting of an existing media file using its media ID. You can specify the MP4 support level, such as `none`, `capped_4k`, `audioOnly`, or a combination of `audioOnly`, `capped_4k`, in the request payload.
 
@@ -412,7 +412,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_videos.update_mp4_support(media_id="your-media-id", mp4_support="capped_4k")
+    res = fastpix.manage_videos.updated_mp4_support(media_id="your-media-id", mp4_support="capped_4k")
     
     # Handle response (convert datetimes to JSON-serializable strings)
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -437,7 +437,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## list_unused_upload_urls
+## list_uploads
 
 This endpoint retrieves a paginated list of all unused upload signed URLs within your organization. It provides comprehensive metadata including upload IDs, creation dates, status, and URLs, helping you manage your media resources efficiently.
 
@@ -470,7 +470,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_videos.list_unused_upload_urls(limit=20, offset=1, order_by="desc")
+    res = fastpix.manage_videos.list_uploads(limit=20, offset=1, order_by="desc")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

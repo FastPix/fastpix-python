@@ -4,9 +4,9 @@
 
 ### Available Operations
 
-* [delete](#delete) - Delete a stream
+* [delete_live_stream](#delete_live_stream) - Delete a stream
 
-## delete
+## delete_live_stream
 
 Permanently deletes a specified live stream from the workspace. If the stream is active, the encoder is disconnected and ingestion stops immediately. This action is irreversible, and any future playback attempts fail as a result.
 
@@ -34,7 +34,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.streams.delete(stream_id="your-stream-id")
+    res = fastpix.manage_live_stream.delete_live_stream(stream_id="your-stream-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))

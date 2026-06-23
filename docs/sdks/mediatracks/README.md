@@ -4,10 +4,10 @@
 
 ### Available Operations
 
-* [add](#add) - Add audio / subtitle track
-* [update](#update) - Update audio / subtitle track
+* [add_media_track](#add_media_track) - Add audio / subtitle track
+* [update_media_track](#update_media_track) - Update audio / subtitle track
 
-## add
+## add_media_track
 
 This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload.
 
@@ -48,7 +48,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.media_tracks.add(media_id="your-media-id", tracks={})
+    res = fastpix.manage_videos.add_media_track(media_id="your-media-id", tracks={})
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
@@ -73,7 +73,7 @@ with Fastpix(
 | -------------------------- | -------------------------- | -------------------------- |
 | errors.FastpixDefaultError | 4XX, 5XX                   | \*/\*                      |
 
-## update
+## update_media_track
 
 This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new track `url`, `languageName`, and `languageCode`, ensuring all three parameters are included in the request.
 
@@ -120,7 +120,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.media_tracks.update(track_id="your-track-id", media_id="your-media-id", url="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt", language_code="fr", language_name="french")
+    res = fastpix.manage_videos.update_media_track(track_id="your-track-id", media_id="your-media-id", url="http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt", language_code="fr", language_name="french")
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
