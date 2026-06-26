@@ -13,6 +13,11 @@ on:
         required: false
         default: ''
 
+# Least-privilege token: only read access is needed (checkout + build).
+# Publishing authenticates to PyPI with its own API token, not GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -37,27 +42,28 @@ jobs:
       - name: Build package
         run: python -m build
 
-      - name: Verify the built wheel imports (pre-publish guard)
-        # Install the freshly built wheel and import every module. Blocks the
-        # publish if the build can't import — the exact 1.1.3/1.1.4 failure mode.
+      - name: Verify the built wheel imports before publishing (pre-publish guard)
+        # Blocks the publish if the freshly-built artifact cannot import — the
+        # exact 1.1.3/1.1.4 failure mode. Supply-chain clean: installs only
+        # pinned runtime deps and *extracts* the wheel (no `pip install` of an
+        # unpinned package), then imports every module on the runner.
         run: |
-          # Install the freshly-built wheel — a local build artifact, not an
-          # external dependency, so version-locking does not apply here.
-          python -m pip install dist/*.whl  # NOSONAR
+          python -m pip install "httpcore==1.0.9" "httpx==0.28.1" "pydantic==2.13.4"
+          python -m zipfile -e dist/*.whl wheel_check
+          cd wheel_check
           python - <<'PY'
           import importlib, pkgutil, sys
           import fastpix_python as root
-          from fastpix_python import Fastpix, models
           failed = []
           for mi in pkgutil.walk_packages(root.__path__, root.__name__ + '.'):
               try:
                   importlib.import_module(mi.name)
-              except Exception as e:
+              except Exception as e:  # noqa: BLE001 - report every failure
                   failed.append(f"{mi.name}: {type(e).__name__}: {e}")
           if failed:
               print("Pre-publish import check FAILED:")
-              for x in failed:
-                  print("  -", x)
+              for item in failed:
+                  print("  -", item)
               sys.exit(1)
           print("Pre-publish import check passed.")
           PY

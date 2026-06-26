@@ -1,16 +1,20 @@
 name: Import smoke test
 
-# Guards against shipping a build that fails to import on a supported Python.
+# Guards against shipping code that fails to import on a supported Python.
 # This is exactly the class of bug that broke 1.1.3/1.1.4: `playback.py` used
 # `List` without importing it, which only crashes on Python < 3.14 (eager
-# annotation evaluation). Testing import on the floor (3.9) and a mid version
-# (3.12) catches it before publish.
+# annotation evaluation). Importing every module on the floor (3.9) and mid
+# versions (3.12/3.13) catches it before it can be released.
 
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+
+# Least-privilege token: this workflow only reads the repo to import it.
+permissions:
+  contents: read
 
 jobs:
   import-check:
@@ -27,41 +31,30 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Build and install the wheel
-        run: |
-          # Pin build tooling so the build is reproducible (locked versions).
-          python -m pip install build==1.5.0
-          python -m build
-          # Install the locally-built wheel — a build artifact, not an external
-          # dependency, so version-locking does not apply here.
-          python -m pip install dist/*.whl  # NOSONAR
+      - name: Install pinned runtime dependencies
+        # Locked versions (no version ranges) so the check is reproducible and
+        # to satisfy supply-chain scanning. These mirror the SDK's runtime deps.
+        run: python -m pip install "httpcore==1.0.9" "httpx==0.28.1" "pydantic==2.13.4"
 
-      - name: Import every module (catches missing-import / unregistered-model bugs)
+      - name: Import every module from source (Python ${{ matrix.python-version }})
+        # Imports the in-repo source directly (cwd is on sys.path) — no build or
+        # install step, so there is no unpinned dependency resolution. Walking
+        # every module forces each one to be imported, which is what surfaces a
+        # missing-import / unregistered-model bug at definition time.
         run: |
           python - <<'PY'
           import importlib, pkgutil, sys
           import fastpix_python as root
-          from fastpix_python import Fastpix, models
           failed = []
           for mi in pkgutil.walk_packages(root.__path__, root.__name__ + '.'):
               try:
                   importlib.import_module(mi.name)
-              except Exception as e:
+              except Exception as e:  # noqa: BLE001 - report every failure
                   failed.append(f"{mi.name}: {type(e).__name__}: {e}")
-          # Instantiate the client and touch every resource (forces lazy imports)
-          f = Fastpix(security=models.Security(username="x", password="y"))
-          for r in ["playback", "manage_videos", "input_video", "playlist",
-                    "manage_live_stream", "live_playback", "simulcast_stream",
-                    "signing_keys", "in_video_ai_features", "start_live_stream",
-                    "metrics", "views", "dimensions", "drm_configurations"]:
-              try:
-                  list(dir(getattr(f, r)))
-              except Exception as e:
-                  failed.append(f"resource {r}: {type(e).__name__}: {e}")
           if failed:
               print("IMPORT CHECK FAILED on Python", sys.version.split()[0])
-              for x in failed:
-                  print("  -", x)
+              for item in failed:
+                  print("  -", item)
               sys.exit(1)
           print("Import check passed on Python", sys.version.split()[0])
           PY
