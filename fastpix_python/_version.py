@@ -3,7 +3,7 @@
 import importlib.metadata
 
 __title__: str = "fastpix_python"
-__version__: str = "1.1.4"
+__version__: str = "1.1.5"
 __openapi_doc_version__: str = "1.0.0"
 __gen_version__: str = "2.723.4"
 __user_agent__: str = "fastpix-sdk/python 1.1.4 2.723.4 1.1.4 fastpix_python"

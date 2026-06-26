@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.5]
+
+### Fixed
+- **Critical: `import fastpix_python` (playback) crashed on Python 3.9–3.13.**
+  `playback.py` used `List` in the `update_domain_restrictions` /
+  `update_user_agent_restrictions` signatures without importing it. On Python
+  3.9–3.13 (the entire supported range) this raised
+  `NameError: name 'List' is not defined` **at import time**, making the
+  affected modules unusable. It went unnoticed because Python 3.14 evaluates
+  annotations lazily and masked the error. Affected releases: **1.1.3 and
+  1.1.4**. Added the missing `from typing import List`.
+- **Invalid return-type annotations on the playback restriction methods.**
+  They referenced `models.UpdateDomainRestrictionsResponse` /
+  `models.UpdateUserAgentRestrictionsResponse`, which do not exist. Corrected to
+  the actual returned types (`...ResponseBody`). This also contributed to the
+  import-time failure on Python 3.9–3.13.
+- **`models.DefaultError` was unregistered.** The playback methods' error path
+  returns `models.DefaultError`, but it was missing from the model registry,
+  so it failed to resolve. Now registered.
+
+### Removed
+- **Dead `ValidationErrorResponseError` export.** This name had been exported
+  since `1.0.0` but pointed at a module that was never generated, so any
+  `from fastpix_python.models import ValidationErrorResponseError` raised
+  `ImportError`. It was never referenced by SDK code (the real, working class is
+  `errors.ValidationErrorResponse`). Removed the dangling export; no working
+  code path is affected.
+
+### Compatibility
+- **Drop-in fix — no API or signature changes.** Public types, method
+  signatures, and request/response models are unchanged.
+- **Strongly recommended for anyone on 1.1.3 or 1.1.4**, especially on Python
+  3.9–3.13 where those versions fail to import. Upgrade with
+  `pip install --upgrade fastpix_python`.
+
+---
+
 ## [1.1.4]
 
 ### Changed

@@ -1,0 +1,64 @@
+name: Import smoke test
+
+# Guards against shipping a build that fails to import on a supported Python.
+# This is exactly the class of bug that broke 1.1.3/1.1.4: `playback.py` used
+# `List` without importing it, which only crashes on Python < 3.14 (eager
+# annotation evaluation). Testing import on the floor (3.9) and a mid version
+# (3.12) catches it before publish.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  import-check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build and install the wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+          python -m pip install dist/*.whl
+
+      - name: Import every module (catches missing-import / unregistered-model bugs)
+        run: |
+          python - <<'PY'
+          import importlib, pkgutil, sys
+          import fastpix_python as root
+          from fastpix_python import Fastpix, models
+          failed = []
+          for mi in pkgutil.walk_packages(root.__path__, root.__name__ + '.'):
+              try:
+                  importlib.import_module(mi.name)
+              except Exception as e:
+                  failed.append(f"{mi.name}: {type(e).__name__}: {e}")
+          # Instantiate the client and touch every resource (forces lazy imports)
+          f = Fastpix(security=models.Security(username="x", password="y"))
+          for r in ["playback", "manage_videos", "input_video", "playlist",
+                    "manage_live_stream", "live_playback", "simulcast_stream",
+                    "signing_keys", "in_video_ai_features", "start_live_stream",
+                    "metrics", "views", "dimensions", "drm_configurations"]:
+              try:
+                  list(dir(getattr(f, r)))
+              except Exception as e:
+                  failed.append(f"resource {r}: {type(e).__name__}: {e}")
+          if failed:
+              print("IMPORT CHECK FAILED on Python", sys.version.split()[0])
+              for x in failed:
+                  print("  -", x)
+              sys.exit(1)
+          print("Import check passed on Python", sys.version.split()[0])
+          PY

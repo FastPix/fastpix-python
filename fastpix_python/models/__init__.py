@@ -813,10 +813,6 @@ if TYPE_CHECKING:
         UserAgentRestrictions,
         UserAgentRestrictionsTypedDict,
     )
-    from .validationerrorresponse import (
-        ValidationErrorResponseError,
-        ValidationErrorResponseErrorTypedDict,
-    )
     from .videoinput import (
         Segment1,
         Segment1TypedDict,
@@ -1465,8 +1461,6 @@ __all__ = [
     "UpdatedSourceAccessResponseTypedDict",
     "UserAgentRestrictions",
     "UserAgentRestrictionsTypedDict",
-    "ValidationErrorResponseError",
-    "ValidationErrorResponseErrorTypedDict",
     "VideoInput",
     "VideoInputTypedDict",
     "ViewNotFoundError",
@@ -1516,6 +1510,12 @@ _module_exports: dict[str, list[str]] = {
         "UpdateUserAgentRestrictionsRequestTypedDict",
         "UpdateUserAgentRestrictionsDataTypedDict",
         "UpdateUserAgentRestrictionsResponseBodyTypedDict",
+    ],
+    ".default_error": [
+        "Error",
+        "ErrorTypedDict",
+        "DefaultError",
+        "DefaultErrorTypedDict",
     ],
     ".add_media_to_playlistop": [
         "AddMediaToPlaylistRequest",
@@ -2431,10 +2431,6 @@ _module_exports: dict[str, list[str]] = {
     ".useragentrestrictions": [
         "UserAgentRestrictions",
         "UserAgentRestrictionsTypedDict",
-    ],
-    ".validationerrorresponse": [
-        "ValidationErrorResponseError",
-        "ValidationErrorResponseErrorTypedDict",
     ],
     ".videoinput": [
         "Segment1",
