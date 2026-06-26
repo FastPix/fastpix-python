@@ -29,9 +29,12 @@ jobs:
 
       - name: Build and install the wheel
         run: |
-          python -m pip install --upgrade pip build
+          # Pin build tooling so the build is reproducible (locked versions).
+          python -m pip install build==1.5.0
           python -m build
-          python -m pip install dist/*.whl
+          # Install the locally-built wheel — a build artifact, not an external
+          # dependency, so version-locking does not apply here.
+          python -m pip install dist/*.whl  # NOSONAR
 
       - name: Import every module (catches missing-import / unregistered-model bugs)
         run: |
