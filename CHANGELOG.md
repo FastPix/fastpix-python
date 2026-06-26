@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file.
 - **`models.DefaultError` was unregistered.** The playback methods' error path
   returns `models.DefaultError`, but it was missing from the model registry,
   so it failed to resolve. Now registered.
+- **`fastpix.errors.list_errors` was unreachable** (Video Data "list errors"
+  endpoint, `GET /data/errors`). The `Errors` resource lived in `errors.py`,
+  which was shadowed by the `errors/` exception-classes package — so
+  `fastpix.errors` raised `AttributeError` and the endpoint could not be called.
+  Renamed the resource module to `errors_sdk.py` (and updated the client
+  mapping) to remove the collision. The `errors/` exception package is
+  unchanged.
 
 ### Removed
 - **Dead `ValidationErrorResponseError` export.** This name had been exported

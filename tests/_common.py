@@ -402,7 +402,7 @@ _SUB_SDK_MODULES = (
     "views_sdk",
     "dimensions",
     "metrics",
-    "errors",
+    "errors_sdk",
 )
 
 _SUB_SDK_ATTR = {
@@ -420,7 +420,7 @@ _SUB_SDK_ATTR = {
     "views_sdk": "views",
     "dimensions": "dimensions",
     "metrics": "metrics",
-    "errors": "errors",
+    "errors_sdk": "errors",
 }
 
 # Hard-coded fallback for irregular cases (e.g. spec uses kebab-case, method uses snake_case).
@@ -549,12 +549,11 @@ def call_sdk_method(
     return method(**invocation_kwargs)
 
 
-_SHADOWED_SUB_SDK_PATHS: Dict[str, Tuple[str, str]] = {
-    # The `errors/` exception package shadows `errors.py` at import resolution
-    # time, so `sdk.errors` raises AttributeError. Load the SDK class directly
-    # from the file. This is a real SDK packaging bug — flagged in pre-publish.
-    "errors": ("fastpix_python/errors.py", "Errors"),
-}
+# Previously needed to work around the `errors.py` / `errors/` name collision
+# (the package shadowed the module, so `sdk.errors` raised AttributeError). That
+# SDK bug is now fixed — the resource module was renamed to `errors_sdk.py` — so
+# `sdk.errors` resolves normally and no path-based fallback is required.
+_SHADOWED_SUB_SDK_PATHS: Dict[str, Tuple[str, str]] = {}
 
 
 def _resolve_sub_sdk(sdk: Any, sub_sdk_attr: str) -> Any:
