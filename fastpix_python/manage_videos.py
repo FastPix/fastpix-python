@@ -2560,7 +2560,7 @@ class ManageVideos(BaseSDK):
         self,
         *,
         media_id: str,
-        mp4_support: Optional[models.UpdatedMp4SupportMp4Support] = None,
+        mp4_support: models.UpdatedMp4SupportMp4Support,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2692,7 +2692,7 @@ class ManageVideos(BaseSDK):
         self,
         *,
         media_id: str,
-        mp4_support: Optional[models.UpdatedMp4SupportMp4Support] = None,
+        mp4_support: models.UpdatedMp4SupportMp4Support,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -3018,6 +3018,196 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.RetrieveMediaInputInfoResponse, http_res
             )
+        self._raise_for_status_async(
+            http_res,
+            [
+                ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
+                ("403", errors.ForbiddenErrorData, errors.ForbiddenError),
+                ("404", errors.MediaNotFoundErrorData, errors.MediaNotFoundError),
+                ("422", errors.ValidationErrorResponseData, errors.ValidationErrorResponse),
+            ],
+        )
+
+    def get_summary(
+        self,
+        *,
+        media_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetMediaSummaryResponse:
+        r"""Get the summary of a video
+
+        This endpoint returns the generated summary of a video.
+
+        The summary is created using the **InVideo Summary** feature, which processes the video content and produces a textual summary.
+
+        To use this endpoint, you must first generate the video summary using the Generate Video Summary endpoint. This endpoint can return the summary only after that process is complete.
+
+        If the summary has not been generated or the feature is disabled for the requested media, the endpoint returns an error indicating that the summary is unavailable.
+
+
+        :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetMediaSummaryRequest(
+            media_id=media_id,
+        )
+
+        req = self._build_request(BuildRequestData(
+            method="GET",
+            path="/on-demand/{mediaId}/summary",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(1000, 10000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["408", "429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="get-media-summary",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "403", "404", "422", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
+        self._raise_for_status(
+            http_res,
+            [
+                ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
+                ("403", errors.ForbiddenErrorData, errors.ForbiddenError),
+                ("404", errors.MediaNotFoundErrorData, errors.MediaNotFoundError),
+                ("422", errors.ValidationErrorResponseData, errors.ValidationErrorResponse),
+            ],
+        )
+
+    async def get_summary_async(
+        self,
+        *,
+        media_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetMediaSummaryResponse:
+        r"""Get the summary of a video
+
+        This endpoint returns the generated summary of a video.
+
+        The summary is created using the **InVideo Summary** feature, which processes the video content and produces a textual summary.
+
+        To use this endpoint, you must first generate the video summary using the Generate Video Summary endpoint. This endpoint can return the summary only after that process is complete.
+
+        If the summary has not been generated or the feature is disabled for the requested media, the endpoint returns an error indicating that the summary is unavailable.
+
+
+        :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetMediaSummaryRequest(
+            media_id=media_id,
+        )
+
+        req = self._build_request_async(BuildRequestData(
+            method="GET",
+            path="/on-demand/{mediaId}/summary",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(1000, 10000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["408", "429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="get-media-summary",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "403", "404", "422", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
         self._raise_for_status_async(
             http_res,
             [

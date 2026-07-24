@@ -19,14 +19,14 @@ r"""Determines the type of MP4 support for the media.   - **none**: Disables MP4
 
 
 class UpdatedMp4SupportRequestBodyTypedDict(TypedDict):
-    mp4_support: NotRequired[UpdatedMp4SupportMp4Support]
+    mp4_support: UpdatedMp4SupportMp4Support
     r"""Determines the type of MP4 support for the media.   - **none**: Disables MP4 support.   - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.   - **audioOnly**: Provides an MP4 stream containing only the audio.   - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream."""
 
 
 class UpdatedMp4SupportRequestBody(BaseModel):
     mp4_support: Annotated[
-        Optional[UpdatedMp4SupportMp4Support], pydantic.Field(alias="mp4Support")
-    ] = None
+        UpdatedMp4SupportMp4Support, pydantic.Field(alias="mp4Support")
+    ]
     r"""Determines the type of MP4 support for the media.   - **none**: Disables MP4 support.   - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.   - **audioOnly**: Provides an MP4 stream containing only the audio.   - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream."""
 
 

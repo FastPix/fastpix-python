@@ -6360,19 +6360,54 @@ components:
             - Failed
           description: Determines the media's status, which can be one of the possible values.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         sourceAccess:
           type: boolean
           nullable: true
@@ -6419,6 +6454,11 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -6540,19 +6580,54 @@ components:
             - Failed
           description: Determines the media's status, which can be one of the possible values.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         sourceAccess:
           type: boolean
           nullable: true
@@ -6599,6 +6674,11 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -6714,19 +6794,54 @@ components:
               - $ref: "#/components/schemas/SubtitleTrack"
           description: A media consists of different media tracks, like video, audio, and subtitle, all combined.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         generatedSubtitles:
           type: array
           nullable: true
@@ -6852,19 +6967,54 @@ components:
             - Failed
           description: Determines the media’s status, which can be one of the possible values.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         sourceAccess:
           type: boolean
           nullable: true
@@ -6915,6 +7065,11 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -7023,19 +7178,54 @@ components:
             - Failed
           description: Determines the media's status, which can be one of the possible values.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         sourceAccess:
           type: boolean
           nullable: true
@@ -7086,6 +7276,11 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -7194,19 +7389,54 @@ components:
             - Failed
           description: Determines the media's status, which can be one of the possible values.
         mp4Support:
-          type: string
-          example: capped_4k
-          enum:
-            - none
-            - capped_4k
-            - audioOnly
-            - audioOnly,capped_4k
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: capped_4k
+                enum:
+                  - capped_4k
+                  - audioOnly
+                description: The MP4 rendition type. `capped_4k` is a downloadable MP4 video capped at 4K resolution, `audioOnly` is a downloadable m4a audio-only file.
+              status:
+                type: string
+                example: ready
+                enum:
+                  - preparing
+                  - ready
+                  - failed
+                description: Generation status of this MP4 rendition.
+              height:
+                type: integer
+                nullable: true
+                example: 1080
+                description: Pixel height of the rendition. Omitted for the `audioOnly` type.
+              width:
+                type: integer
+                nullable: true
+                example: 1920
+                description: Pixel width of the rendition. Omitted for the `audioOnly` type.
+              ext:
+                type: string
+                example: mp4
+                enum:
+                  - mp4
+                  - m4a
+                description: File extension of the downloadable rendition.
+          example:
+            - type: capped_4k
+              status: ready
+              height: 1080
+              width: 1920
+              ext: mp4
+            - type: audioOnly
+              status: ready
+              ext: m4a
           description: |
-            Determines the type of MP4 support for the media.
-            - **none**: Disables MP4 support.
-            - **capped_4k**: Enables MP4 downloads with resolutions up to 4K.
-            - **audioOnly**: Provides an MP4 stream containing only the audio.
-            - **audioOnly,capped_4k**: Enables both MP4 video downloads (up to 4K) and an audio-only stream.
+            A list of MP4 renditions generated for the media when MP4 support is requested. Each entry represents one downloadable rendition (for example, a capped-4K video file or an audio-only m4a file) along with its generation status. Omitted when no MP4 support has been requested.
         sourceAccess:
           type: boolean
           example: true
@@ -7255,6 +7485,11 @@ components:
           type: boolean
           description: Specifies whether subtitle tracks are available for the media.
           example: false
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: '00:00:10'

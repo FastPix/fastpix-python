@@ -1,17 +1,11 @@
 # GetMediaSummaryResponse
 
+Get media summary
 
-## Supported Types
 
-### `models.GetMediaSummaryResponseBody`
+## Fields
 
-```python
-value: models.GetMediaSummaryResponseBody = /* values here */
-```
-
-### `models.DefaultError`
-
-```python
-value: models.DefaultError = /* values here */
-```
-
+| Field | Type | Required | Description | Example |
+| ----- | ---- | -------- | ----------- | ------- |
+| `success` | *Optional[bool]* | :heavy_minus_sign: | Shows the request status. Returns true for success and false for failure. | true |
+| `data` | *Optional[str]* | :heavy_minus_sign: | The summary of the particular video. | Grandmaster Igor Spirinov introduces the Kutch Gambit... |

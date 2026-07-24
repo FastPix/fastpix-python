@@ -281,6 +281,12 @@ if TYPE_CHECKING:
         GetLiveStreamViewerCountByIDRequestTypedDict,
     )
     from .get_media_clipsop import GetMediaClipsRequest, GetMediaClipsRequestTypedDict
+    from .get_media_summaryop import (
+        GetMediaSummaryRequest,
+        GetMediaSummaryRequestTypedDict,
+        GetMediaSummaryResponse,
+        GetMediaSummaryResponseTypedDict,
+    )
     from .get_mediaop import (
         GetMediaRequest,
         GetMediaRequestTypedDict,
@@ -493,7 +499,11 @@ if TYPE_CHECKING:
     from .media import (
         Media,
         MediaMaxResolution,
-        MediaMp4Support,
+        MediaMp4SupportEntry,
+        MediaMp4SupportEntryExt,
+        MediaMp4SupportEntryStatus,
+        MediaMp4SupportEntryType,
+        MediaMp4SupportEntryTypedDict,
         MediaSourceResolution,
         MediaTypedDict,
     )
@@ -1089,6 +1099,10 @@ __all__ = [
     "GetMediaRequestTypedDict",
     "GetMediaResponse",
     "GetMediaResponseTypedDict",
+    "GetMediaSummaryRequest",
+    "GetMediaSummaryRequestTypedDict",
+    "GetMediaSummaryResponse",
+    "GetMediaSummaryResponseTypedDict",
     "GetPlaybackIDData",
     "GetPlaybackIDDataTypedDict",
     "GetPlaybackIDRequest",
@@ -1228,7 +1242,11 @@ __all__ = [
     "MediaIdsRequest",
     "MediaIdsRequestTypedDict",
     "MediaMaxResolution",
-    "MediaMp4Support",
+    "MediaMp4SupportEntry",
+    "MediaMp4SupportEntryExt",
+    "MediaMp4SupportEntryStatus",
+    "MediaMp4SupportEntryType",
+    "MediaMp4SupportEntryTypedDict",
     "MediaNotFoundError",
     "MediaNotFoundErrorTypedDict",
     "MediaOrPlaybackNotFoundError",
@@ -1826,6 +1844,12 @@ _module_exports: dict[str, list[str]] = {
         "GetMediaClipsRequest",
         "GetMediaClipsRequestTypedDict",
     ],
+    ".get_media_summaryop": [
+        "GetMediaSummaryRequest",
+        "GetMediaSummaryRequestTypedDict",
+        "GetMediaSummaryResponse",
+        "GetMediaSummaryResponseTypedDict",
+    ],
     ".get_mediaop": [
         "GetMediaRequest",
         "GetMediaRequestTypedDict",
@@ -2043,7 +2067,11 @@ _module_exports: dict[str, list[str]] = {
     ".media": [
         "Media",
         "MediaMaxResolution",
-        "MediaMp4Support",
+            "MediaMp4SupportEntry",
+        "MediaMp4SupportEntryExt",
+        "MediaMp4SupportEntryStatus",
+        "MediaMp4SupportEntryType",
+        "MediaMp4SupportEntryTypedDict",
         "MediaSourceResolution",
         "MediaTypedDict",
     ],
