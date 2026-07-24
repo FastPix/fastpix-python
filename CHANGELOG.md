@@ -7,65 +7,49 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.6]
 
-### Breaking
+### Fixed
 
-- **`mp4Support` on media responses is now a list only.** The API returns
-  `mp4Support` as a list of rendition objects (`type`, `status`, `height`,
-  `width`, `ext`). The older scalar string form (for example `"capped_4k"`) is
-  no longer accepted when deserializing, matching the current API contract.
-  If you have code branching on a string value, switch to iterating the list:
+- **Media responses with MP4 renditions failed to deserialize.** `mp4Support`
+  was typed as a single string, but the API returns a list of rendition objects
+  (`type`, `status`, `height`, `width`, `ext`), so every affected call raised
+  `ValidationError` on 1.1.5. Hits `get_media`, `list_media`, `updated_media`,
+  `updated_source_access`, `updated_mp4Support`, `list_live_clips`. Read it as:
 
   ```python
-  for rendition in media.mp4_support or []:
-      print(rendition.type, rendition.status, rendition.ext)
+  for r in media.mp4_support or []:
+      print(r.type, r.status, r.ext)
   ```
 
-- **`models.MediaMp4Support` has been removed.** It described the retired scalar
-  form. Use `models.MediaMp4SupportEntry` — the type of each item in the list.
-
-- **`mp4_support` is now required on `updated_mp4_support()`.** The OpenAPI spec
-  marks it required, but the SDK accepted an empty body and sent `{}`, producing
-  a server-side `400`. Omitting it now raises a `TypeError`/`ValidationError`
-  client-side instead. Calls that already passed `mp4_support` are unaffected.
+- **`updated_mp4_support()` sent an empty body** when `mp4_support` was omitted,
+  which the server rejected with a `400`. It is now a required argument.
+- **Version metadata disagreed** — `setup.py` said `1.1.3`, `_version.py` and
+  `pyproject.toml` said `1.1.5`. All now match, including the `User-Agent`.
 
 ### Added
 
-- **`manage_videos.get_summary()` / `get_summary_async()`** for
-  `GET /on-demand/{mediaId}/summary` (operation `get-media-summary`). The
-  operation was present in the OpenAPI spec and the documentation but had no
-  implementation, so calls raised
-  `AttributeError: 'ManageVideos' object has no attribute 'get_summary'`.
-  Returns `success` and `data` (the generated summary text). Note the summary
-  must first be generated via `in_video_ai_features.update_media_summary()`;
-  requesting it before then returns a `400`.
+- **`manage_videos.get_summary()` / `get_summary_async()`** —
+  `GET /on-demand/{mediaId}/summary`. Present in the spec and docs but never
+  implemented, so calls raised `AttributeError`. Generate the summary first via
+  `in_video_ai_features.update_media_summary()`.
 
-### Fixed
+### Changed
 
-- **`mp4Support` response shape aligned with the API across all media
-  endpoints.** `get_media`, `list_media`, `updated_media`,
-  `updated_source_access`, `updated_mp4Support` and `list_live_clips` all
-  deserialize the list form, including `null`.
-- **Documentation corrected for `mp4Support`.** Six model pages showed the
-  retired scalar type and linked to five type pages that did not exist in the
-  SDK (`GetMediaResponseMp4Support`, `GetAllMediaResponseMp4Support`,
-  `SourceAccessMediaMp4Support`, `UpdateMediaMp4Support`,
-  `LiveMediaClipsMp4Support`). They now point at
-  [`MediaMp4SupportEntry`](docs/models/mediamp4supportentry.md); the dead pages
-  were removed. `mp4_support` is also now marked required on the
+- **`models.MediaMp4Support` removed**, replaced by
+  `models.MediaMp4SupportEntry` (one item of the list). This is the only change
+  that can affect running code, and only if you imported the type directly.
+
+### Documentation
+
+- Six model pages showed the retired scalar type and linked to five type pages
+  that never existed in the SDK. They now point at `MediaMp4SupportEntry`; the
+  dead pages were removed. `mp4_support` is marked required on the
   update-mp4Support request body page.
-- **Version metadata is consistent.** `setup.py` reported `1.1.3` while
-  `_version.py` and `pyproject.toml` reported `1.1.5`. All now report the same
-  version, and the `User-Agent` string matches.
 
-### Notes
-
-- `optimizeAudio` was reviewed against the spec and required no changes; it is
-  present on every request and response model the API defines it for.
-- The spec declares `mp4Support` on the update-mp4Support body as both
-  `required` and `default: capped_4k`. These conflict — a required property can
-  never fall back to a default. The SDK implements `required`.
+> The spec marks `mp4Support` on the update-mp4Support body both `required` and
+> `default: capped_4k`, which conflict. The SDK implements `required`.
 
 ---
+
 
 ## [1.1.5]
 
