@@ -36,7 +36,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.get_all_streams(limit=20, offset=1, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -87,7 +87,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.get_live_stream_by_id(stream_id="61a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -141,7 +141,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.enable_live_stream(stream_id="your-stream-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -193,7 +193,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.disable_live_stream(stream_id="your-stream-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

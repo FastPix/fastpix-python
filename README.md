@@ -179,7 +179,7 @@ with Fastpix(
         },
     )
 
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
 
 ## Available Resources and Operations
@@ -365,7 +365,7 @@ with Fastpix(
         ),
     )
 
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
@@ -402,7 +402,7 @@ with Fastpix(
         },
     )
 
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
 <!-- End Retries [retries] -->
 
@@ -447,7 +447,7 @@ with Fastpix(
             },
         )
 
-        print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+        print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
     except errors.FastpixError as e:
         print(e.message)
         print(e.status_code)
@@ -510,7 +510,7 @@ with Fastpix(
         },
     )
 
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
 <!-- End Server Selection [server] -->
 

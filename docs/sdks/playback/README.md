@@ -49,7 +49,7 @@ with Fastpix(
     res = fastpix.playback.create_media_playback_id(media_id="your-media-id", access_policy="public", drm_configuration_id="your-drm-configuration-id", resolution="1080p")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -104,7 +104,7 @@ with Fastpix(
     res = fastpix.playback.list_playback_ids(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -161,7 +161,7 @@ with Fastpix(
     )
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -213,7 +213,7 @@ with Fastpix(
     res = fastpix.playback.get_playback_id(media_id="4fa85f64-5717-4562-b3fc-2c963f66afa6", playback_id="4fa85f64-5717-4562-b3fc-2c963f66afa6")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -272,7 +272,7 @@ with Fastpix(
     ])
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -333,7 +333,7 @@ with Fastpix(
     ])
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

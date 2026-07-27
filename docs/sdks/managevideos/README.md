@@ -43,7 +43,7 @@ with Fastpix(
     res = fastpix.manage_videos.list_media(limit=20, offset=1, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -106,7 +106,7 @@ with Fastpix(
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -167,7 +167,7 @@ with Fastpix(
     res = fastpix.manage_videos.cancel_upload(upload_id="your-upload-id")
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -230,7 +230,7 @@ with Fastpix(
     })
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -289,7 +289,7 @@ with Fastpix(
     res = fastpix.manage_videos.get_summary(media_id="fc733e3f-2fba-4c3d-9388-2511dc50d15f")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -343,7 +343,7 @@ with Fastpix(
     res = fastpix.manage_videos.updated_source_access(media_id="your-media-id", source_access=True)
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -415,7 +415,7 @@ with Fastpix(
     res = fastpix.manage_videos.updated_mp4_support(media_id="your-media-id", mp4_support="capped_4k")
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -473,7 +473,7 @@ with Fastpix(
     res = fastpix.manage_videos.list_uploads(limit=20, offset=1, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

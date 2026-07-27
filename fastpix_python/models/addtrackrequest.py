@@ -25,6 +25,8 @@ class AddTrackRequestTypedDict(TypedDict):
     r"""The BCP 47 language code representing the track's language."""
     language_name: NotRequired[str]
     r"""The full name of the language corresponding to the `languageCode`."""
+    title: NotRequired[str]
+    r"""Title of the track."""
 
 
 class AddTrackRequest(BaseModel):
@@ -41,3 +43,6 @@ class AddTrackRequest(BaseModel):
 
     language_name: Annotated[Optional[str], pydantic.Field(alias="languageName")] = None
     r"""The full name of the language corresponding to the `languageCode`."""
+
+    title: Optional[str] = None
+    r"""Title of the track."""

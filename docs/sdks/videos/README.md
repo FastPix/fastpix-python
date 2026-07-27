@@ -42,7 +42,7 @@ with Fastpix(
     res = fastpix.manage_videos.delete_media(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -107,7 +107,7 @@ with Fastpix(
     res = fastpix.manage_videos.delete_media_track(media_id="your-media-id", track_id="your-track-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -167,7 +167,7 @@ with Fastpix(
     res = fastpix.manage_videos.get_media_clips(source_media_id="your-media-id", offset=5, limit=20, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

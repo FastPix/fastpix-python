@@ -39,7 +39,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.get_live_stream_viewer_count_by_id(stream_id="61a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -95,7 +95,7 @@ with Fastpix(
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -151,7 +151,7 @@ with Fastpix(
     res = fastpix.manage_live_stream.complete_live_stream(stream_id="91a264dcc447b63da6fb79ef925cd76d")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

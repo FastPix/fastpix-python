@@ -42,7 +42,7 @@ with Fastpix(
     res = fastpix.manage_videos.list_live_clips(livestream_id="b6f71268143f70c798a7851a0a92dcbf", limit=20, offset=1, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -103,7 +103,7 @@ with Fastpix(
     res = fastpix.manage_videos.get_media(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -159,7 +159,7 @@ with Fastpix(
     res = fastpix.manage_videos.retrieve_media_input_info(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

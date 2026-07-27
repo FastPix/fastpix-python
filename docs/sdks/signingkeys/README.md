@@ -47,7 +47,7 @@ with Fastpix(
     res = fastpix.signing_keys.create_signing_key()
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -100,7 +100,7 @@ with Fastpix(
     res = fastpix.signing_keys.list_signing_keys(limit=25, offset=1)
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -159,7 +159,7 @@ with Fastpix(
     )
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -235,7 +235,7 @@ with Fastpix(
     res = fastpix.signing_keys.get_signing_key_by_id(signing_key_id="5ta85f64-5717-4562-b3fc-2c963f66afa6")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

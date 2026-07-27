@@ -45,7 +45,7 @@ with Fastpix(
     res = fastpix.errors.list_errors(timespan="24:hours", filterby="browser_name:Chrome", limit=1)
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

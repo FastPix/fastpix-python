@@ -43,7 +43,7 @@ with Fastpix(
     })
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -93,7 +93,7 @@ with Fastpix(
     res = fastpix.simulcast_stream.get_specific_simulcast_of_stream(stream_id="your-stream-id", simulcast_id="your-simulcast-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -145,7 +145,7 @@ with Fastpix(
     })
 
      # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

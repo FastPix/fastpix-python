@@ -55,7 +55,7 @@ with Fastpix(
     res = fastpix.views.list_video_views(timespan="24:hours", filterby="browser_name:Chrome", limit=10, offset=1, viewer_id="09a78f7d-02ee-44f5-aa39-1b268ed2c270", error_code="1002", order_by="view_end", sort_order="asc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -114,7 +114,7 @@ with Fastpix(
     res = fastpix.views.get_video_view_details(view_id="<id>")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -172,7 +172,7 @@ with Fastpix(
     res = fastpix.views.list_by_top_content(timespan="24:hours", filterby="browser_name:Chrome", limit=10)
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

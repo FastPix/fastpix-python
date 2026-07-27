@@ -45,7 +45,7 @@ with Fastpix(
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -104,7 +104,7 @@ with Fastpix(
     })
 
        # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -167,7 +167,7 @@ with Fastpix(
     res = fastpix.in_video_ai_features.update_media_named_entities(media_id="your-media-id", named_entities=True)
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

@@ -36,7 +36,7 @@ with Fastpix(
     res = fastpix.dimensions.list_dimensions()
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -87,7 +87,7 @@ with Fastpix(
     res = fastpix.dimensions.list_filter_values_for_dimension(dimensions_id="browser_name", timespan="24:hours", filterby="browser_name:Chrome")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

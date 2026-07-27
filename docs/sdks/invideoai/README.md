@@ -41,7 +41,7 @@ with Fastpix(
     res = fastpix.in_video_ai_features.update_media_chapters(media_id="your-media-id", chapters=True )
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
