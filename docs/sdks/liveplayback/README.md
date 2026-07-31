@@ -133,7 +133,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_playback.get_live_stream_playback_id(stream_id="61a264dcc447b63da6fb79ef925cd76d", playback_id="61a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.live_playback.get_live_stream_playback_id(stream_id="your-stream-id", playback_id="your-playback-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))

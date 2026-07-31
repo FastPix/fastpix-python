@@ -28,6 +28,8 @@ class TrackTypedDict(TypedDict):
     r"""BCP-47 language code for audio/subtitle tracks (e.g. ``"en"``, ``"und"``)."""
     language_name: NotRequired[str]
     r"""Human-readable language name (e.g. ``"English"``, ``"default"``)."""
+    title: NotRequired[str]
+    r"""Title of the track."""
 
 
 class Track(BaseModel):
@@ -61,3 +63,6 @@ class Track(BaseModel):
 
     language_name: Annotated[Optional[str], pydantic.Field(alias="languageName")] = None
     r"""Human-readable language name (e.g. ``"English"``, ``"default"``)."""
+
+    title: Optional[str] = None
+    r"""Title of the track."""

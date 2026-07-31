@@ -9,41 +9,35 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- **Media responses with MP4 renditions failed to deserialize.** `mp4Support`
-  was typed as a single string, but the API returns a list of rendition objects
-  (`type`, `status`, `height`, `width`, `ext`), so every affected call raised
-  `ValidationError` on 1.1.5. Hits `get_media`, `list_media`, `updated_media`,
-  `updated_source_access`, `updated_mp4Support`, `list_live_clips`. Read it as:
-
-  ```python
-  for r in media.mp4_support or []:
-      print(r.type, r.status, r.ext)
-  ```
-
-- **`updated_mp4_support()` sent an empty body** when `mp4_support` was omitted,
-  which the server rejected with a `400`. It is now a required argument.
-- **Version metadata disagreed** — `setup.py` said `1.1.3`, `_version.py` and
-  `pyproject.toml` said `1.1.5`. All now match, including the `User-Agent`.
+- **`mp4Support` is a list of renditions**, not a string — deserialization
+  failed on `get_media`, `list_media`, `updated_media`, `updated_source_access`,
+  `updated_mp4Support`, `list_live_clips`.
+- **`updated_mp4_support()` sent an empty body** when `mp4_support` was omitted
+  (`400`). Now required.
+- **Version metadata disagreed** — `setup.py` `1.1.3` vs `1.1.5` elsewhere.
+- **Live-clip `sourceResolution` rejected bare numeric values** (`"1080"`,
+  `"720"`). Now accepted, with `360p`/`360`.
+- **`maxDuration` and `resolution` rejected uncapped resources** — now `0` or
+  `60`–`28800`, and `CreatePlaybackId.resolution` is nullable.
 
 ### Added
 
-- **`manage_videos.get_summary()` / `get_summary_async()`** —
-  `GET /on-demand/{mediaId}/summary`. Present in the spec and docs but never
-  implemented, so calls raised `AttributeError`. Generate the summary first via
-  `in_video_ai_features.update_media_summary()`.
+- **`get_summary()` / `get_summary_async()`** — `GET /on-demand/{mediaId}/summary`.
+- **Track `title`** on the track models and on `update_media_track()` /
+  `generate_subtitle_track()`.
+- **`optimize_audio`** on the live-clip response.
 
 ### Changed
 
-- **`models.MediaMp4Support` removed**, replaced by
-  `models.MediaMp4SupportEntry` (one item of the list). This is the only change
-  that can affect running code, and only if you imported the type directly.
+- **`models.MediaMp4Support` removed** — use `models.MediaMp4SupportEntry`.
+- **`update_media_track()` no longer accepts `url`** — raises `TypeError`.
 
 ### Documentation
 
-- Six model pages showed the retired scalar type and linked to five type pages
-  that never existed in the SDK. They now point at `MediaMp4SupportEntry`; the
-  dead pages were removed. `mp4_support` is marked required on the
-  update-mp4Support request body page.
+- MP4 model pages now point at `MediaMp4SupportEntry`; `mp4_support` marked
+  required. Dead type pages removed.
+- Doc links migrated to the restructured site;
+  `video.media.subtitle.generated.ready` → `video.media.subtitle.generated`.
 
 > The spec marks `mp4Support` on the update-mp4Support body both `required` and
 > `default: capped_4k`, which conflict. The SDK implements `required`.

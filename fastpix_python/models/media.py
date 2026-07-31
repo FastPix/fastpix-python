@@ -16,18 +16,23 @@ MediaMaxResolution = Union[Literal[
     "1080p",
     "720p",
     "480p",
-    "360p",
 ], str]
 r"""The maximum resolution specified by the user for the media. The API may also return ``\"NA\"`` for unprocessed media or bare numeric strings (e.g. ``\"480\"``); these pass through as plain strings."""
 
 
 MediaSourceResolution = Union[Literal[
     "2160p",
+    "2160",
     "1440p",
+    "1440",
     "1080p",
+    "1080",
     "720p",
+    "720",
     "480p",
+    "480",
     "360p",
+    "360",
 ], str]
 r"""The actual resolution of the uploaded media. The API may also return bare numeric strings (e.g. ``\"480\"``, ``\"0\"``) for re-encoded source; these pass through as plain strings."""
 

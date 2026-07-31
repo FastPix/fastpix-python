@@ -210,7 +210,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.playback.get_playback_id(media_id="4fa85f64-5717-4562-b3fc-2c963f66afa6", playback_id="4fa85f64-5717-4562-b3fc-2c963f66afa6")
+    res = fastpix.playback.get_playback_id(media_id="your-media-id", playback_id="your-playback-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
@@ -264,7 +264,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.playback.update_domain_restrictions(media_id="your-media-id", playback_id="your-secret-key", default_policy="allow", allow=[
+    res = fastpix.playback.update_domain_restrictions(media_id="your-media-id", playback_id="your-playback-id", default_policy="allow", allow=[
         "yourdomain.com",
         "sampledomain.com",
     ], deny=[

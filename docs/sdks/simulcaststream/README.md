@@ -20,7 +20,7 @@ Creates a simulcast for a parent live stream. Simulcasting allows you to broadca
 #### Example
 An event manager sets up a live stream for a virtual conference and wants to simulcast the stream on YouTube and Facebook Live. They first create the primary live stream in FastPix, ensuring it's in the idle state. Then, they use the API to create a simulcast target for YouTube. 
 
-Related guide: <a href="https://fastpix.com/docs/edit-and-transform-live-stream/simulcast-to-multiple-platforms">Simulcast to 3rd party platforms</a>
+Related guide: <a href="https://fastpix.com/docs/live-streaming/simulcast-to-multiple-platforms">Simulcast to 3rd party platforms</a>
 
 ### Example Usage
 

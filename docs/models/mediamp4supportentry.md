@@ -14,7 +14,7 @@ Every field is optional: the `audioOnly` rendition carries no `height`/`width`.
 from fastpix_python import Fastpix
 
 with Fastpix(
-    username="your-access-token-id",
+    username="your-access-token",
     password="your-secret-key",
 ) as fastpix:
 

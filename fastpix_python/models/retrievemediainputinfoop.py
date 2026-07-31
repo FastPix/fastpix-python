@@ -41,6 +41,7 @@ class RetrieveMediaInputInfoFileTrackTypedDict(TypedDict, total=False):
     width: int
     height: int
     frame_rate: str
+    title: str
 
 
 class RetrieveMediaInputInfoFileTrack(BaseModel):
@@ -52,6 +53,7 @@ class RetrieveMediaInputInfoFileTrack(BaseModel):
     width: Optional[int] = None
     height: Optional[int] = None
     frame_rate: Annotated[Optional[str], pydantic.Field(alias="frameRate")] = None
+    title: Optional[str] = None
 
 
 class RetrieveMediaInputInfoFileTypedDict(TypedDict, total=False):

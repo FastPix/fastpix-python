@@ -10,8 +10,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class UpdateTrackRequestTypedDict(TypedDict):
     r"""Contains details about the track being added to the media file."""
 
-    url: NotRequired[str]
-    r"""The direct URL of the track file. It should point to a valid audio or subtitle file."""
     language_code: NotRequired[str]
     r"""The BCP 47 language code representing the track's language."""
     language_name: NotRequired[str]
@@ -22,9 +20,6 @@ class UpdateTrackRequestTypedDict(TypedDict):
 
 class UpdateTrackRequest(BaseModel):
     r"""Contains details about the track being added to the media file."""
-
-    url: Optional[str] = None
-    r"""The direct URL of the track file. It should point to a valid audio or subtitle file."""
 
     language_code: Annotated[Optional[str], pydantic.Field(alias="languageCode")] = None
     r"""The BCP 47 language code representing the track's language."""

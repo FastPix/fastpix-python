@@ -232,7 +232,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.signing_keys.get_signing_key_by_id(signing_key_id="5ta85f64-5717-4562-b3fc-2c963f66afa6")
+    res = fastpix.signing_keys.get_signing_key_by_id(signing_key_id="signing_key_id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))

@@ -109,7 +109,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.get_playlist_by_id(playlist_id="<id>")
+    res = fastpix.playlist.get_playlist_by_id(playlist_id="your-playlist-id")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -158,7 +158,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.delete_a_playlist(playlist_id="<id>")
+    res = fastpix.playlist.delete_a_playlist(playlist_id="your-playlist-id")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -263,7 +263,7 @@ with Fastpix(
     ),
 ) as fastpix:
     res = fastpix.playlist.delete_media_from_playlist(
-        playlist_id="<id>",
+        playlist_id="your-playlist-id",
         media_ids=[
             "your-media-id-1",
             "your-media-id-2",

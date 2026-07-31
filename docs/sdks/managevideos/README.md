@@ -78,7 +78,7 @@ This endpoint allows you to update specific parameters of an existing media file
 
 3. The response returns the updated media data, confirming the changes. 
 
-4. Monitor the <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> webhook event to track the update status in your system.
+4. Monitor the <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> webhook event to track the update status in your system.
 
 #### Example
 If a user uploads a video and later needs to change the title, add a new description, or update tags, you can use this endpoint to update the media metadata without re-uploading the entire video.
@@ -141,7 +141,7 @@ This endpoint allows you to cancel ongoing upload by its `uploadId`. Once cancel
 
 #### Webhook Events
 
-Once the upload is cancelled, you must receive the webhook event <a href="https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled">video.media.upload.cancelled</a>.
+Once the upload is cancelled, you must receive the webhook event <a href="https://fastpix.com/docs/webhooks/media-events#videomediauploadcancelled">video.media.upload.cancelled</a>.
 
 #### Example
 
@@ -202,11 +202,11 @@ This endpoint allows you to generate subtitles for an existing audio track in a 
 
 #### Webhook Events
 
-1. After the subtitle track is generated and ready, you receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready">video.media.subtitle.generated.ready</a>.
+1. After the subtitle track is generated and ready, you receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasubtitlegenerated">video.media.subtitle.generated</a>.
 
-2. Finally the <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> event notifies your system about the media’s updated status.
+2. Finally the <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> event notifies your system about the media’s updated status.
 
-</br> Related guide: <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically">Add auto-generated subtitles</a>
+</br> Related guide: <a href="https://fastpix.com/docs/video-on-demand/generate-subtitles-automatically">Add auto-generated subtitles</a>
 
 ### Example Usage
 
@@ -225,7 +225,7 @@ with Fastpix(
 ) as fastpix:
 
     
-    res = fastpix.manage_videos.generate_subtitle_track(media_id="your-media-id", track_id="your-track0-id", language_name="Italian", metadata={
+    res = fastpix.manage_videos.generate_subtitle_track(media_id="your-media-id", track_id="your-track0-id", language_name="your-langugae-name", metadata={
         "key1": "value1",
     })
     
@@ -286,7 +286,7 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_videos.get_summary(media_id="fc733e3f-2fba-4c3d-9388-2511dc50d15f")
+    res = fastpix.manage_videos.get_summary(media_id="your-media-id")
 
     # Handle response
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
@@ -321,7 +321,7 @@ This endpoint allows you to update the `sourceAccess` setting of an existing med
 2. Include the updated `sourceAccess` parameter in the request body.
 
 3. You receive a response confirming the update to the media’s source access status.
-4. Webhook events: <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready">video.media.source.ready</a>, <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted">video.media.source.deleted</a>
+4. Webhook events: <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasourceready">video.media.source.ready</a>, <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasourcedeleted">video.media.source.deleted</a>
 
 ### Example Usage
 
@@ -389,7 +389,7 @@ This endpoint allows you to update the `mp4Support` setting of an existing media
 
 #### Webhook events
 
-- <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+- <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediamp4supportready">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
 #### Example
 Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting "mp4Support": "capped_4k", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set "mp4Support": "audioOnly". This provides an audio-only stream URL that allows users to listen to the media without video. By setting "mp4Support": "audioOnly,capped_4k", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media. 

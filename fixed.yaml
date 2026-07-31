@@ -181,10 +181,10 @@ paths:
 
         4. Use the id in subsequent API calls, such as checking the status of the media with the <a href="https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media">Get Media by ID</a> endpoint to determine when the media is ready for playback. 
 
-        FastPix uses webhooks to tell your application about things that happen in the background, outside of the API regular request flow. For instance, after the media file is created (but not yet processed or encoded), FastPix sends a `POST` request to your specified webhook URL with the event <a href="https://fastpix.com/docs/vod-events/media-events#videomediacreated">video.media.created</a>. 
+        FastPix uses webhooks to tell your application about things that happen in the background, outside of the API regular request flow. For instance, after the media file is created (but not yet processed or encoded), FastPix sends a `POST` request to your specified webhook URL with the event <a href="https://fastpix.com/docs/webhooks/media-events#videomediacreated">video.media.created</a>. 
 
 
-        After processing completes, monitor the events <a href="https://fastpix.com/docs/vod-events/media-events#videomediaready">video.media.ready</a> and <a href="https://fastpix.com/docs/vod-events/media-events#videomediafailed">video.media.failed</a> to track the status of the media file.
+        After processing completes, monitor the events <a href="https://fastpix.com/docs/webhooks/media-events#videomediaready">video.media.ready</a> and <a href="https://fastpix.com/docs/webhooks/media-events#videomediafailed">video.media.failed</a> to track the status of the media file.
 
         Related guide: <a href="https://fastpix.com/docs/upload-videos/upload-videos-from-a-url">Upload videos from URL</a>
       operationId: create-media
@@ -242,7 +242,7 @@ paths:
                     optimizeAudio: false
 
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -353,7 +353,7 @@ paths:
                     currentOffset: 1
                     offsetCount: 10
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -378,7 +378,7 @@ paths:
         Suppose you’re hosting a live gaming event and want to showcase key moments from the stream — such as top plays or final match highlights. You can use this endpoint to fetch all clips generated from that livestream, display them in your dashboard, or use them for post-event editing and sharing.
 
 
-        Related guide: <a href="https://fastpix.com/docs/edit-and-transform-live-stream/clip-moments-from-a-live-stream">Instant live clipping</a>
+        Related guide: <a href="https://fastpix.com/docs/live-streaming/clip-moments-from-a-live-stream">Instant live clipping</a>
       operationId: list-live-clips
       parameters:
         - in: path
@@ -472,7 +472,7 @@ paths:
                     currentOffset: 1
                     offsetCount: 10
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -525,7 +525,7 @@ paths:
                     example: true
                     description: Demonstrates whether the request is successful or not.
                   data:
-                    $ref: "#/components/schemas/GetMediaResponse"
+                    $ref: "#/components/schemas/GetMediaDetailResponse"
                 example:
                   success: true
                   data:
@@ -538,7 +538,15 @@ paths:
                     maxResolution: 1080p
                     sourceResolution: 1080p
                     status: Ready
-                    mp4Support: capped_4k
+                    mp4Support:
+                      - type: capped_4k
+                        status: ready
+                        height: 1080
+                        width: 1920
+                        ext: mp4
+                      - type: audioOnly
+                        status: ready
+                        ext: m4a
                     sourceAccess: false
                     playbackIds:
                       - id: 837f028b-dcaf-4c23-b368-3748641f74ac
@@ -566,7 +574,7 @@ paths:
                     createdAt: "2025-01-09T06:44:44.617138Z"
                     updatedAt: "2025-01-09T06:44:53.742648Z"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -589,7 +597,7 @@ paths:
 
         3. The response returns the updated media data, confirming the changes. 
 
-        4. Monitor the <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> webhook event to track the update status in your system.
+        4. Monitor the <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> webhook event to track the update status in your system.
 
         #### Example
         If a user uploads a video and later needs to change the title, add a new description, or update tags, you can use this endpoint to update the media metadata without re-uploading the entire video.
@@ -693,7 +701,7 @@ paths:
                     createdAt: "2025-01-09T06:44:44.617138Z"
                     updatedAt: "2025-01-09T06:44:53.742648Z"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -716,7 +724,7 @@ paths:
 
         2. This action is irreversible. Make sure you no longer need the media before proceeding. Once deleted, the media can’t be retrieved or played back. 
 
-        3. Monitor the following webhook event: <a href="https://fastpix.com/docs/vod-events/media-events#videomediadeleted">video.media.deleted</a>
+        3. Monitor the following webhook event: <a href="https://fastpix.com/docs/webhooks/media-events#videomediadeleted">video.media.deleted</a>
 
         #### Example
         A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
@@ -744,7 +752,7 @@ paths:
                 example:
                   success: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -757,7 +765,7 @@ paths:
         - Manage videos
       summary: Add audio / subtitle track
       description: |
-        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload.
+        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -771,17 +779,17 @@ paths:
 
         #### Webhook events
 
-        1. After successfully adding a track, your system must receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackcreated">video.media.track.created</a>.
+        1. After successfully adding a track, your system must receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackcreated">video.media.track.created</a>.
 
-        2. Once the track is processed and ready, you must receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready">video.media.track.ready</a>.
+        2. Once the track is processed and ready, you must receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready">video.media.track.ready</a>.
 
-        3. Finally, an update event <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> must notify your system about the media's updated status.
+        3. Finally, an update event <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> must notify your system about the media's updated status.
 
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to add an Italian audio track to it. By calling this API, you can attach an external audio file (https://static.fastpix.com/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
 
-        Related guides: <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video">Add own audio tracks</a>
+        Related guides: <a href="https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/video-on-demand/add-audio-to-a-video">Add own audio tracks</a>
       operationId: Add-media-track
       parameters:
         - in: path
@@ -807,8 +815,9 @@ paths:
               tracks:
                 url: https://static.fastpix.com/music-1.mp3
                 type: audio
-                languageCode: it
+                languageCode: it-IT
                 languageName: Italian
+                title: Italian audio
       responses:
         "201":
           description: Media details updated successfully
@@ -829,10 +838,11 @@ paths:
                     id: ace60fc7-e876-4fc6-b9d9-c33fa242f84b
                     type: audio
                     url: https://static.fastpix.com/music-1.mp3
-                    languageCode: it
+                    languageCode: it-IT
                     languageName: Italian
+                    title: Italian audio
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -855,7 +865,7 @@ paths:
 
         #### Webhook Events
 
-        Once the upload is cancelled, you must receive the webhook event <a href="https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled">video.media.upload.cancelled</a>.
+        Once the upload is cancelled, you must receive the webhook event <a href="https://fastpix.com/docs/webhooks/media-events#videomediauploadcancelled">video.media.upload.cancelled</a>.
 
         #### Example
 
@@ -900,7 +910,7 @@ paths:
                     metadata:
                       key1: value1
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -913,7 +923,7 @@ paths:
         - Manage videos
       summary: Update audio / subtitle track
       description: |
-        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new track `url`, `languageName`, and `languageCode`, ensuring all three parameters are included in the request.
+        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new `languageName` and `languageCode`, ensuring both parameters are included in the request. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -928,11 +938,11 @@ paths:
 
         After updating a track, your system must receive webhook notifications:
 
-        1. After successfully updating a track, your system must receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackupdated">video.media.track.updated</a>.
+        1. After successfully updating a track, your system must receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackupdated">video.media.track.updated</a>.
 
-        2. Once the new track is processed and ready, you must receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready">video.media.track.ready</a>.
+        2. Once the new track is processed and ready, you must receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready">video.media.track.ready</a>.
 
-        3. Once the media file is updated with the new track details, a <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
+        3. Once the media file is updated with the new track details, a <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
 
 
         #### Example
@@ -941,7 +951,7 @@ paths:
           - The original track file has errors and needs correction.
           - You want to improve subtitle translations or replace an audio track with a better-quality version.
         
-        Related guides: <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video">Add own audio tracks</a>
+        Related guides: <a href="https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/video-on-demand/add-audio-to-a-video">Add own audio tracks</a>
       operationId: update-media-track
       parameters:
         - in: path
@@ -967,9 +977,9 @@ paths:
             schema:
               $ref: "#/components/schemas/UpdateTrackRequest"
             example:
-              url: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
               languageCode: fr
               languageName: french
+              title: French subtitles
       responses:
         "200":
           description: Media details updated successfully
@@ -989,11 +999,12 @@ paths:
                   data:
                     id: 2452ca23-b7ed-4daf-babf-841996b0100e
                     type: subtitle
-                    url: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+                    url: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
                     languageCode: fr
                     languageName: french
+                    title: French subtitles
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1020,7 +1031,7 @@ paths:
 
         1. After successfully deleting a track, your system must receive the webhook event **video.media.track.deleted**.
 
-        2. Once the media file is updated to reflect the track removal, a <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
+        2. Once the media file is updated to reflect the track removal, a <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> event must be triggered.
 
 
         #### Example
@@ -1030,7 +1041,7 @@ paths:
           - The content owner requests the removal of a specific subtitle or audio track.
           - A new version of the track gets uploaded to replace the existing one.
         
-        Related guides: <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video">Add own audio tracks</a>
+        Related guides: <a href="https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/video-on-demand/add-audio-to-a-video">Add own audio tracks</a>
       parameters:
         - in: path
           name: mediaId
@@ -1063,7 +1074,7 @@ paths:
                 example:
                   success: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1088,11 +1099,11 @@ paths:
 
         #### Webhook Events
 
-        1. After the subtitle track is generated and ready, you receive the webhook event <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready">video.media.subtitle.generated.ready</a>.
+        1. After the subtitle track is generated and ready, you receive the webhook event <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasubtitlegenerated">video.media.subtitle.generated</a>.
 
-        2. Finally the <a href="https://fastpix.com/docs/vod-events/media-events#videomediaupdated">video.media.updated</a> event notifies your system about the media’s updated status.
+        2. Finally the <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> event notifies your system about the media’s updated status.
 
-        </br> Related guide: <a href="https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically">Add auto-generated subtitles</a>
+        </br> Related guide: <a href="https://fastpix.com/docs/video-on-demand/generate-subtitles-automatically">Add auto-generated subtitles</a>
       operationId: Generate-subtitle-track
       parameters:
         - in: path
@@ -1118,8 +1129,9 @@ paths:
             schema:
               $ref: "#/components/schemas/TrackSubtitlesGenerateRequest"
             example:
-              languageCode: it
+              languageCode: it-IT
               languageName: Italian
+              title: Italian subtitles
       responses:
         "200":
           description: Media details updated successfully
@@ -1139,10 +1151,11 @@ paths:
                   data:
                     id: ace60fc7-e876-4fc6-b9d9-c33fa242f84b
                     type: subtitle
-                    languageCode: it
+                    languageCode: it-IT
                     languageName: Italian
+                    title: Italian subtitles
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1163,7 +1176,7 @@ paths:
         3. Include the `summaryLength` parameter, specify the desired length of the summary in words (for example, 120 words), this determines how concise or detailed the summary will be. If no specific summary length is provided, the default length will be 100 words.
         4. The response includes the updated media data and confirmation of the changes applied.
 
-        You can use the <a href="https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaisummaryready">video.mediaAI.summary.ready</a> webhook event to track and notify about the summary generation.
+        You can use the <a href="https://fastpix.com/docs/webhooks/in-video-ai-events#videomediaaisummaryready">video.mediaAI.summary.ready</a> webhook event to track and notify about the summary generation.
 
 
 
@@ -1171,7 +1184,7 @@ paths:
 
         **Use case**: This is particularly useful when a user uploads a video and later chooses to generate a summary without needing to re-upload the video.
 
-        Related guide: <a href="https://fastpix.com/docs/video-intelligence/generate-a-video-summary">Video summary</a>
+        Related guide: <a href="https://fastpix.com/docs/in-video-ai/generate-a-video-summary">Video summary</a>
       operationId: update-media-summary
       parameters:
         - in: path
@@ -1229,7 +1242,7 @@ paths:
                     mediaId: c695988b-ff84-42ae-bb21-10f284fedb0e
                     isSummaryEnabled: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1283,7 +1296,7 @@ paths:
                     description: The summary of the particular video.
 
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1303,11 +1316,11 @@ paths:
         2. Include the `chapters` parameter in the request body to enable.
         3. The response contains the updated media data, confirming the changes made.
 
-        You can use the <a href="https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaichaptersready">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
+        You can use the <a href="https://fastpix.com/docs/webhooks/in-video-ai-events#videomediaaichaptersready">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
 
         **Use case:** This is particularly useful when a user uploads a video and later decides to enable chapters without re-uploading the entire video.
 
-        Related guide: <a href="https://fastpix.com/docs/video-intelligence/generate-video-chapters">Video chapters</a>
+        Related guide: <a href="https://fastpix.com/docs/in-video-ai/generate-video-chapters">Video chapters</a>
       operationId: update-media-chapters
       parameters:
         - in: path
@@ -1356,7 +1369,7 @@ paths:
                     mediaId: c695988b-ff84-42ae-bb21-10f284fedb0e
                     isChaptersEnabled: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1381,11 +1394,11 @@ paths:
         2. Include the `namedEntities` parameter in the request body to enable.
         3. Receive a response containing the updated media data, confirming the changes made.
 
-        You can use the <a href="https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaainamedentitiesready">video.mediaAI.named-entities.ready</a> webhook event to track and notify about the named entities extraction.
+        You can use the <a href="https://fastpix.com/docs/webhooks/in-video-ai-events#videomediaainamedentitiesready">video.mediaAI.named-entities.ready</a> webhook event to track and notify about the named entities extraction.
 
         **Use case:** If a user uploads a video and later decides to enable named entity extraction without re-uploading the entire video.
 
-        Related guide: <a href="https://fastpix.com/docs/video-intelligence/extract-named-entities-from-a-video">Named entities</a>
+        Related guide: <a href="https://fastpix.com/docs/in-video-ai/extract-named-entities-from-a-video">Named entities</a>
       operationId: update-media-named-entities
       parameters:
         - in: path
@@ -1433,7 +1446,7 @@ paths:
                     mediaId: c695988b-ff84-42ae-bb21-10f284fedb0e
                     isNamedEntitiesEnabled: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1453,11 +1466,11 @@ paths:
         2. Include the `moderation` object and provide the requried `type` parameter in the request body to specify the media type (for example, video/audio/av).
         4. The response contains the updated media data, confirming the changes made.
 
-        You can use the <a href="https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaimoderationready">video.mediaAI.moderation.ready</a> webhook event to track and notify about the detected moderation results.
+        You can use the <a href="https://fastpix.com/docs/webhooks/in-video-ai-events#videomediaaimoderationready">video.mediaAI.moderation.ready</a> webhook event to track and notify about the detected moderation results.
 
         **Use case:** This is particularly useful when a user uploads a video and later decides to enable moderation detection without the need to re-upload it.
 
-        Related guide: <a href="https://fastpix.com/docs/video-intelligence/detect-nsfw-content-and-profanity">Moderate NSFW & Profanity</a>
+        Related guide: <a href="https://fastpix.com/docs/in-video-ai/detect-nsfw-content-and-profanity">Moderate NSFW & Profanity</a>
       operationId: update-media-moderation
       parameters:
         - in: path
@@ -1507,11 +1520,12 @@ paths:
                     mediaId: c695988b-ff84-42ae-bb21-10f284fedb0e
                     isModerationEnabled: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Default-Error"
+
   /on-demand/{mediaId}/source-access:
     patch:
       security:
@@ -1529,7 +1543,7 @@ paths:
         2. Include the updated `sourceAccess` parameter in the request body.
 
         3. You receive a response confirming the update to the media’s source access status.
-        4. Webhook events: <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready">video.media.source.ready</a>, <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted">video.media.source.deleted</a>
+        4. Webhook events: <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasourceready">video.media.source.ready</a>, <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediasourcedeleted">video.media.source.deleted</a>
       operationId: updated-source-access
       parameters:
         - in: path
@@ -1610,7 +1624,7 @@ paths:
                     createdAt: "2024-12-06T03:47:26.489888Z"
                     updatedAt: "2024-12-06T03:47:47.593400Z"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1645,13 +1659,13 @@ paths:
 
         #### Webhook events
 
-        - <a href="https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+        - <a href="https://fastpix.com/docs/webhooks/transform-media-events#videomediamp4supportready">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting "mp4Support": "capped_4k", the system generates an MP4 rendition of the video up to 4K resolution, making it available for download through the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`). If you want users to stream only the audio from the media file, you can set "mp4Support": "audioOnly". This provides an audio-only stream URL that allows users to listen to the media without video. By setting "mp4Support": "audioOnly,capped_4k", both options are enabled. Users can download the MP4 video and also stream just the audio version of the media. 
 
 
-        Related guide: <a href="https://fastpix.com/docs/playback-and-delivery/enable-mp4-support-for-offline-viewing">Use MP4 support for offline viewing</a>
+        Related guide: <a href="https://fastpix.com/docs/video-on-demand/enable-mp4-support-for-offline-viewing">Use MP4 support for offline viewing</a>
       operationId: updated-mp4Support
       parameters:
         - in: path
@@ -1716,7 +1730,15 @@ paths:
                     maxResolution: 1080p
                     sourceResolution: 1080p
                     status: Ready
-                    mp4Support: capped_4k
+                    mp4Support:
+                      - type: capped_4k
+                        status: ready
+                        height: 1080
+                        width: 1920
+                        ext: mp4
+                      - type: audioOnly
+                        status: ready
+                        ext: m4a
                     sourceAccess: true
                     playbackIds:
                       - id: cf41c9f7-ece3-4efe-8d31-c6e000dc422b
@@ -1745,7 +1767,7 @@ paths:
                     createdAt: "2024-12-06T03:47:26.489888Z"
                     updatedAt: "2024-12-06T03:47:47.593400Z"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1840,7 +1862,7 @@ paths:
                           status: available
 
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -1945,7 +1967,7 @@ paths:
                         deny: []
                     resolution: 1080p
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2029,7 +2051,7 @@ paths:
                                   type: array
                                   items:
                                     type: string
-                                  example: ["malicioussite.com", "abc.net"]
+                                  example: ["malicioussite.io", "abc.net"]
                             userAgents:
                               type: object
                               properties:
@@ -2052,7 +2074,7 @@ paths:
                                   example:
                                     - PostmanRuntime/7.29.0
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2112,7 +2134,7 @@ paths:
                 example:
                   success: true
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2130,7 +2152,7 @@ paths:
 
         > **NOTE**
         >
-        > This version now supports uploads with no file size limitations and offers faster uploads. The previous endpoint (which had a 500MB size limit) is now deprecated. You can find details in the [changelog](https://fastpix.com/docs/changelog/api-update-direct-upload-media-from-device).
+        > This version now supports uploads with no file size limitations and offers faster uploads. The previous endpoint (which had a 500MB size limit) is now deprecated. You can find details in the [changelog](https://fastpix.com/docs/changelog/release-notes).
 
         #### How it works
 
@@ -2138,7 +2160,7 @@ paths:
 
         2. The response includes an `uploadId` and a signed `url` for direct video file upload.
 
-        3. Upload your video file to the provided url by making a PUT request. The API accepts the media file from your device and uploads it to the FastPix platform. (Refer to <a href="https://fastpix.com/docs/upload-videos/upload-videos-from-device#step-3-initiate-the-upload">Step 3: Initiate the upload</a> for complete instructions.)
+        3. Upload your video file to the provided url by making a PUT request. The API accepts the media file from your device and uploads it to the FastPix platform. (Refer to <a href="https://fastpix.com/docs/upload-videos/upload-videos-from-device#initiate-the-upload-session-web-only">Step 3: Initiate the upload</a> for complete instructions.)
         
         
         4. Once uploaded, the media undergoes processing and is assigned a unique ID for tracking. Retain this `uploadId` for any future operations related to this upload. 
@@ -2179,7 +2201,7 @@ paths:
                     Configuration settings for uploading and processing media on the FastPix platform.  
                     These settings define how the uploaded video is handled, including access control, resolution, DRM, and optional metadata.  
                     For a complete explanation of how media uploads and processing work, refer to the  
-                    <a href="https://fastpix.com/docs/get-started/overview" target="_blank">FastPix Video on Demand Overview</a>.
+                    <a href="https://fastpix.com/docs/video-on-demand/overview" target="_blank">FastPix Video on Demand Overview</a>.
                   properties:
                     accessPolicy:
                       type: string
@@ -2376,7 +2398,7 @@ paths:
                               items:
                                 type: string
                               example:
-                                - malicioussite.com
+                                - malicioussite.io
                                 - spamdomain.net
                               description: |
                                 A list of domain names or patterns that are explicitly denied access. 
@@ -2465,7 +2487,7 @@ paths:
                       sourceAccess: false
                       optimizeAudio: false
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2567,7 +2589,7 @@ paths:
                     currentOffset: 1
                     offsetCount: 10
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2597,7 +2619,7 @@ paths:
 
         Imagine you’re managing a video editing platform where users upload full-length videos and create short clips for social media sharing. To keep track of all clips linked to a particular video, you call this API with the sourceMediaId. The response provides a list of all associated clips, allowing you to manage, edit, or repurpose them as needed.
 
-        Related guide: <a href="https://fastpix.com/docs/edit-and-transform-videos/clip-and-trim-videos">Create clips from existing media</a>
+        Related guide: <a href="https://fastpix.com/docs/video-on-demand/clip-and-trim-videos">Create clips from existing media</a>
       operationId: get-media-clips
       parameters:
         - in: path
@@ -2638,7 +2660,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/MediaClipResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2656,7 +2678,7 @@ paths:
         - **Manual:** Creates an empty playlist without any initial media items. Use this mode for manual curation, where you add items later in a user-defined sequence.
         - **Smart:** Auto-populates the playlist at creation time based on the filter criteria (for example, a video creation date range) that you provide in the request.
         
-        For more details, see <a href="https://fastpix.com/docs/playback-and-delivery/create-and-manage-playlists">Create and manage playlist</a>.
+        For more details, see <a href="https://fastpix.com/docs/video-on-demand/create-and-manage-playlists">Create and manage playlist</a>.
 
         #### How it works 
 
@@ -2681,7 +2703,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/playlistCreatedResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2730,7 +2752,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/GetAllPlaylistsResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2803,7 +2825,7 @@ paths:
                       updatedAt: "2025-06-05T12:23:47.096690Z"
                       mediaCount: 0
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2844,7 +2866,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/playlistCreatedResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2878,7 +2900,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaylistDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2921,7 +2943,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaylistByIdResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -2962,7 +2984,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaylistByIdResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3003,7 +3025,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaylistByIdResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3092,7 +3114,7 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                example: ["malicioussite.com", "abc.net"]
+                                example: ["malicioussite.io", "abc.net"]
                           userAgents:
                             type: object
                             properties:
@@ -3115,7 +3137,7 @@ paths:
                                 example:
                                   - PostmanRuntime/7.29.0
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3219,7 +3241,7 @@ paths:
                         description: List of domains explicitly denied from accessing the media.
                         example: ["sampledomain.com"]
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3327,7 +3349,7 @@ paths:
                         example: ["Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/53745.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36"]
                         description: List of user-agent substrings explicitly denied.
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3398,7 +3420,7 @@ paths:
                   currentOffset: 1
                   offsetCount: 1
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3448,7 +3470,7 @@ paths:
                 data:
                   id: e3dfdf15-16bb-4835-98b9-484c1e4320cc
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3461,7 +3483,7 @@ paths:
         - Start live stream
       summary: Create a new stream
       description: |-
-        Creates a new <a href="https://fastpix.com/docs/get-started/live-overview">RTMPS</a> or <a href="https://fastpix.com/docs/broadcast/live-stream-with-srt">SRT</a> live stream in FastPix. When you create a stream, FastPix generates a unique `streamKey` and `srtSecret` that you can use with broadcasting software such as OBS to connect to FastPix RTMPS or SRT servers. Use SRT for live streaming in unstable network conditions, as it provides error correction and encryption for a more reliable and secure broadcast.
+        Creates a new <a href="https://fastpix.com/docs/live-streaming/live-stream-with-rtmps">RTMPS</a> or <a href="https://fastpix.com/docs/live-streaming/live-stream-with-srt">SRT</a> live stream in FastPix. When you create a stream, FastPix generates a unique `streamKey` and `srtSecret` that you can use with broadcasting software such as OBS to connect to FastPix RTMPS or SRT servers. Use SRT for live streaming in unstable network conditions, as it provides error correction and encryption for a more reliable and secure broadcast.
         
         Leverage SRT for live streaming in environments with unstable networks, taking advantage of its error correction and encryption features for a resilient and secure broadcast. 
 
@@ -3471,7 +3493,7 @@ paths:
 
         2. FastPix returns the stream details for both RTMPS and SRT configurations. These keys and IDs from the stream details are essential for connecting the broadcasting software to FastPix’s servers and transmitting the live stream to viewers.
 
-        3. After the live stream is created, FastPix sends a `POST` request to your specified webhook endpoint with the event <a href="https://fastpix.com/docs/live-stream-events/live-events#videolive_streamcreated">video.live_stream.created</a>.
+        3. After the live stream is created, FastPix sends a `POST` request to your specified webhook endpoint with the event <a href="https://fastpix.com/docs/webhooks/live-events#videolive_streamcreated">video.live_stream.created</a>.
 
 
         **Example:**
@@ -3480,7 +3502,7 @@ paths:
           Imagine a gaming platform that allows users to live stream gameplay directly from their dashboard. The API creates a new stream, provides the necessary stream key, and sets it to "private" so that only specific viewers can access it. 
         
         
-        Related guide: <a href="https://fastpix.com/docs/get-started/live-quickstart">How to live stream</a>
+        Related guide: <a href="https://fastpix.com/docs/live-streaming/quickstart">How to live stream</a>
       operationId: create-new-stream
       requestBody:
         required: true
@@ -3496,7 +3518,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/liveStreamResponseDTO"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3550,7 +3572,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/getStreamsResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3571,7 +3593,7 @@ paths:
         
         Suppose a content creator is hosting a live concert and wants to display the number of live viewers on their dashboard. This endpoint can be queried to show up-to-date viewer statistics.
         
-        Related guide: <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+        Related guide: <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#how-to-get-stream-viewers">Manage streams</a>
 
       operationId: get-live-stream-viewer-count-by-id
       parameters:
@@ -3590,7 +3612,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ViewsCountResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3609,7 +3631,7 @@ paths:
           Suppose a news agency is broadcasting a live event and wants to track the configurations set for the live stream while also checking the stream's status.
         
         
-        Related guide: <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+        Related guide: <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#how-to-get-stream-details">Manage streams</a>
       operationId: get-live-stream-by-id
       parameters:
         - name: streamId
@@ -3627,7 +3649,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/livestreamgetResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3641,14 +3663,14 @@ paths:
       description: |-
         Permanently deletes a specified live stream from the workspace. If the stream is active, the encoder is disconnected and ingestion stops immediately. This action is irreversible, and any future playback attempts fail as a result.
 
-          Provide the `streamId` in the request to terminate active connections and remove the stream from the workspace. You can further look for <a href="https://fastpix.com/docs/live-stream-events/live-events#videolive_streamdeleted">video.live_stream.deleted</a> webhook to notify your system about the status.
+          Provide the `streamId` in the request to terminate active connections and remove the stream from the workspace. You can further look for <a href="https://fastpix.com/docs/webhooks/live-events#videolive_streamdeleted">video.live_stream.deleted</a> webhook to notify your system about the status.
 
           #### Example
         
           For an online concert platform, a trial stream was mistakenly made public. The event manager deletes the stream before the concert begins to avoid confusion among viewers. 
         
         
-          Related guide: <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+          Related guide: <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#delete-a-stream">Manage streams</a>
       operationId: delete-live-stream
       parameters:
         - name: streamId
@@ -3666,7 +3688,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LiveStreamDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3681,7 +3703,7 @@ paths:
         This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. After the live stream is disabled, you cannot update a stream. 
 
 
-          The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href="https://fastpix.com/docs/live-stream-events/live-events#videolive_streamupdated">video.live_stream.updated</a> webhook event notifies your system.
+          The updated stream parameters and the `streamId` needs to be shared in the request, and FastPix returns the updated stream details. After the update, <a href="https://fastpix.com/docs/webhooks/live-events#videolive_streamupdated">video.live_stream.updated</a> webhook event notifies your system.
 
          #### Example
         
@@ -3689,7 +3711,7 @@ paths:
         
         
         
-          Related guide: <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+          Related guide: <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#how-to-update-a-stream">Manage streams</a>
       operationId: update-live-stream
       parameters:
         - name: streamId
@@ -3713,7 +3735,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/patchResponseDTO"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3736,7 +3758,7 @@ paths:
         
         A creator disables a livestream to pause it temporarily. Later, they decide to continue the session. By calling this endpoint with the stream's ID, they can re-enable and restart the same livestream.
         
-        Related guide <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+        Related guide <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#enable-a-stream">Manage streams</a>
       operationId: enable-live-stream
       parameters:
         - name: streamId
@@ -3754,7 +3776,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LiveStreamDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3775,7 +3797,7 @@ paths:
         
         A speaker finishes their live session and wants to prevent the stream from being mistakenly started again. By calling this endpoint, the stream is transitioned to a `disabled` state, ensuring it's permanently stopped (unless re-enabled on a paid plan).
         
-        Related guide <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+        Related guide <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#disable-a-stream">Manage streams</a>
       operationId: disable-live-stream
       parameters:
         - name: streamId
@@ -3793,7 +3815,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LiveStreamDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3816,7 +3838,7 @@ paths:
         
         A virtual event ends, and the system or host needs to close the livestream to prevent further streaming. This endpoint ensures the livestream status is changed from `active` to `idle`, indicating it's officially completed.
         
-        Related guide <a href="https://fastpix.com/docs/manage-live-streams/create-and-manage-live-streams">Manage streams</a>
+        Related guide <a href="https://fastpix.com/docs/live-streaming/create-and-manage-live-streams#how-to-complete-a-stream">Manage streams</a>
       operationId: complete-live-stream
       parameters:
         - name: streamId
@@ -3834,7 +3856,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LiveStreamDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3877,7 +3899,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaybackIdSuccessResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3917,7 +3939,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/LiveStreamDeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3958,7 +3980,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaybackIdSuccessResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -3981,7 +4003,7 @@ paths:
         #### Example
         An event manager sets up a live stream for a virtual conference and wants to simulcast the stream on YouTube and Facebook Live. They first create the primary live stream in FastPix, ensuring it's in the idle state. Then, they use the API to create a simulcast target for YouTube. 
 
-        Related guide: <a href="https://fastpix.com/docs/edit-and-transform-live-stream/simulcast-to-multiple-platforms">Simulcast to 3rd party platforms</a>
+        Related guide: <a href="https://fastpix.com/docs/live-streaming/simulcast-to-multiple-platforms">Simulcast to 3rd party platforms</a>
       operationId: create-simulcast-of-stream
       parameters:
         - name: streamId
@@ -4005,7 +4027,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/simulcastResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4020,7 +4042,7 @@ paths:
       description: |-
         Deletes a simulcast using its unique simulcastId, which you received during the simulcast creation process. Deleting a simulcast stops the broadcast to the associated platform, while the parent stream continues if it’s live. This action can’t be undone, and you must create a new simulcast to resume streaming to the same platform.
 
-        Webhook event: <a href="https://fastpix.com/docs/live-stream-events/live-events#videolive_streamsimulcast_targetdeleted">video.live_stream.simulcast_target.deleted</a>
+        Webhook event: <a href="https://fastpix.com/docs/webhooks/live-events#videolive_streamsimulcast_targetdeleted">video.live_stream.simulcast_target.deleted</a>
 
 
         #### Example
@@ -4050,7 +4072,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/simulcastdeleteResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4090,7 +4112,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/simulcastResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4104,7 +4126,7 @@ paths:
       description: |-
         Updates the status of a specific simulcast linked to a parent live stream. You can enable or disable the simulcast at any time while the parent stream is active or idle. After the live stream is disabled, the simulcast can no longer be modified.
 
-        Webhook event: <a href="https://fastpix.com/docs/live-stream-events/live-events#videolive_streamsimulcast_targetupdated">video.live_stream.simulcast_target.updated</a>
+        Webhook event: <a href="https://fastpix.com/docs/webhooks/live-events#videolive_streamsimulcast_targetupdated">video.live_stream.simulcast_target.updated</a>
 
         #### Example
         When a `PATCH` request is made to this endpoint, the API updates the status of the simulcast. This can be useful for pausing or resuming a simulcast on a particular platform without stopping the parent live stream.
@@ -4138,7 +4160,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/simulcastUpdateResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4193,7 +4215,7 @@ paths:
                   privateKey: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRREtaN1JKT1IrbXZGeVQxSWFIL0hVUkYwQnRncDJzK0srdUd4TUZ4N1JiaGNudVBMYU14WjM1b0lNWndhdHJrdDFDM3JxVFZsQzBsSnExeENFTyt3Zi9JNHQ0bktmUFB2WG83NGFCQi82YmR0MXpaSHp0OGFIenBnL3YrdEtCWVc5SEdWQ0tYc2JpNjczbHgwcFhHdXVnem8wdnZMR2lKWDBiL0Z4WEI5U1R3RkV5Q1dQOFJhczZ3VWVuSUdVM2UwMmJiV3Z4UnNoMWNER2xSRk03RWw2RVQ2MUQrS0tLTndnUGNYR1pvY0YwZTFxRU5iVGdPZUdBMFNDU0xIT3NtQ0NBQTNtSndJS1VaY0Z2MmpGRUx4Uk5MTnhoMjM5UEdUT3BuWmdvTFp5Skt4b2REN1FpV1N1eDVZY1Z0MFgrSk9rZXNBOEpjM1ZtM0tGc0IwL3RYck9QQWdNQkFBRUNnZ0VBUHhNWUxLVmZocTgyVGw4eFdWbEVCZ0p2OG5COHdIVnpFZGVnRXZJTDgyVjY2d0lDaFZYa0IvR01TVStBSXZMT2Z0TTM0MGhIdUM2REU5ZTkwWlJMQnFoR0ExMFdNbEJWZzdSNC91YkY0aDZsbmhzWGozTDRYQnhJNVNrTnhvSGRrcE9COU16YVA4YmxFNkVLT3FES0F2KzdJY0EwdnVuZDFnWExwTmRzMkduTW5nZW1qOUhJZWh1eTNLY0taNHlheFo1YkRKVEpLZlFrTlFDQzhOR0hIdWovQmRWUnU1RHRrZVdNMFFpN2FKeW5lSXRxOGhtbXdxcVNMTnpTOTZtcHpBdzF3RzFXTHVML1A3TGxJekVWa2ZJUFc0SW1zRXhsSG5FUG0ySld1RUNMQ1pRL25NODdhQXVXekROektCYW51LzZhdXhnSDB2Wnc5YWowTmxNNFFRS0JnUURPM3Y0YlN4bWluZGJpVEdSaXdFVXVyODh4TVA3M2U5RSt2SHlzb3JZMWZycFpkdXJHOVlFb09MUFN1YnQ5WkhZNFhGOFhxRWZ4bE94d294eDVzcU9PcGNMTnFnOWhTSWxPaXEyYmVnN2V2RGpOMml6b3JKRFl3VEhGQ0Era25FbmFpL0J2TU16N3AyVVkrUEEzUnJ4Z25BK3RkQlErZWlSZ1c0WmhnMkhWcndLQmdRRDZlVEpwRTRxZVFYdmpnMy9FS081UkllRklZOHphTGMvMVVHODBqNmVvbStNK3UyTmdUVDJqVmNyMkdQbjZTbHRNRlJNem5qOVJHYmQ1MCt5a2k0Y1NYU1JPdE44alV2M0FseHJtZzEwVTVtSWIrUXFIZ3g2QldyeXkvakxHYXVvMUJnVFg1dDZ0VXVEUUZuVDJSM2xoNGRNZ044T3V4VlR3OCtadGloSllJUUtCZ1FERE00ZHpHWnBHNThrc0lBbFpaVFBpcWVKSCtJT2Q0eWUrbXZ6SnFYOWxXdjljQytuZGN5czhXTVRWd293MzllUFhxdEhQOE9weCtxUmdaSWtxREhabzArRE5UL3JUUVM3Ty9leHpHT21QSXV3MjBmZ3VWU2NZWUxRbHgwVjdmajN5Q3JvRk1YYzZ2dW1XZHMrMFdQckg3bnFjb1R1NCtHZjZ4R0k1QVUvLzRRS0JnUUR6TFcvdjdIVU1xTzhyT0tSM1FuWCtkekpPSWZibGJNMFdrdjBrdnNROFF2MGlEclN3N3MwRkkycGwvR0hXeXhKUWo3V1F5L2NWT2k2VUxWajNlQyt2ZUphamc1K1FvQ2FWTVIrQTVkRWRWWCt6UU5za0xmMFVBWkJyQjdrc1F1a1lpYnR5RWtmblp5dTFXOWc2czdINWdsS0VXUiszTXdjQTJRdkRGZVl4Z1FLQmdDWVdlKzQ4bVVaUEl5ZnR4NVFaQllnYTE2blpndzYxZmxtdEdpQlVGWGVMR3BTaU1XNXc5R3RYVDZPbFh1Zy91TkNKbHR4TDE4c0NEeDNVaU9DNWFTMEN4OTc5TlFrSm1YRWw1UDNtMFNGaVU4VlZ0SFp1dHd3SWFKTFZockZ1T3NJV1BtRFN4aHhMaFpPNmJ5aWRwbHlXLzl1eGpwMlZrQ0Y3OGd5QXRRSWsKLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
                   createdAt: "2024-01-11T10:00:06.618993Z"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4254,7 +4276,7 @@ paths:
                 $ref: "#/components/schemas/GetAllSigningKeysResponse"
 
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4304,7 +4326,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/DeleteSigningKeyResponse"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4381,7 +4403,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/getPublicPemUsingSigningKeyIdResponseDTO"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4420,7 +4442,7 @@ paths:
         If you manage a video streaming service and want to analyze content performance across devices and browsers. By calling the List Video Views endpoint with filters such as `browser_name` and `device_type`, you can identify which platforms are most popular with your audience. This information helps optimize content for widely used platforms and troubleshoot playback issues on less common devices.
 
 
-          Related guide: <a href="https://fastpix.com/docs/concepts/audience-metrics">Audience metrics</a>, <a href="https://fastpix.com/docs/working-with-video-data/explore-the-dashboard#1-views-dashboard">Views dashboard</a>
+          Related guide: <a href="https://fastpix.com/docs/video-data/audience-metrics">Audience metrics</a>, <a href="https://fastpix.com/docs/video-data/explore-the-dashboard#1-views-dashboard">Views dashboard</a>
       parameters:
         - in: query
           name: timespan[]
@@ -4607,7 +4629,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4631,7 +4653,7 @@ paths:
         If a developer receives a report of a poor viewing experience for a specific user. By using this endpoint with the users `viewId`, the developer can retrieve metrics like buffering duration, playback errors, and session length. This data allows the developer to pinpoint issues (such as poor connectivity or a browser-specific problem) and take steps to improve the user experience.
 
 
-        Related guide: <a href="https://fastpix.com/docs/concepts/what-video-data-do-we-capture#/">What Video Data do we capture?</a>
+        Related guide: <a href="https://fastpix.com/docs/video-data/what-video-data-do-we-capture">What Video Data do we capture?</a>
       parameters:
         - in: path
           name: viewId
@@ -4686,7 +4708,7 @@ paths:
                     errorMessage: null
                     exitBeforeVideoStart: false
                     experimentName: null
-                    fpApiVersion: 1.0
+                    fpApiVersion: "1.0"
                     fpEmbed: false
                     fpEmbedVersion: 1.0.0
                     fpLiveStreamId: null
@@ -4697,9 +4719,9 @@ paths:
                     insertTimestamp: 2025-09-24T07:33:53.39Z
                     ipAddress: 192.168.136.251
                     jumpLatency: 72.0
-                    latitude: 17.366900
+                    latitude: "17.366900"
                     liveStreamLatency: null
-                    longitude: 78.524200
+                    longitude: "78.524200"
                     maxDownscaling: 0.0
                     maxRequestLatency: 0.0
                     maxUpscaling: 0.0
@@ -4732,7 +4754,7 @@ paths:
                     region: Telangana
                     renderQualityScore: 1.0
                     sessionId: 8c7859bf-6d0c-4de8-a1d7-a3d8bdecc977
-                    sign: 1
+                    sign: "1"
                     stabilityScore: 1.0
                     startupScore: 0.8901746967842439
                     subPropertyId: null
@@ -4816,7 +4838,7 @@ paths:
                   data:
                     $ref: "#/components/schemas/Views"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4845,7 +4867,7 @@ paths:
           5. You receive a response containing the list of top video views matching the specified criteria.
 
 
-          Related guide: <a href="https://fastpix.com/docs/working-with-video-data/identify-top-performing-content">Get top-performing content</a>
+          Related guide: <a href="https://fastpix.com/docs/video-data/identify-top-performing-content">Get top-performing content</a>
       parameters:
         - in: query
           name: timespan[]
@@ -4917,7 +4939,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -4934,7 +4956,7 @@ paths:
 
         The dimensions retrieved from this endpoint can be used in conjunction with the <a href="https://fastpix.com/docs/video-data-api/views/list-video-views">list video views</a> and <a href="https://fastpix.com/docs/video-data-api/views/list-by-top-content">list by top content</a> endpoints to filter results based on specific criteria. For example, you can filter views by `browser_name`, `os_name`, `device_type`, and more.
 
-        Related guides: <a href="https://fastpix.com/docs/concepts/what-video-data-do-we-capture#/">What Video Data do we capture?</a> ,   <a href="https://fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics">Use passable dimensions</a>
+        Related guides: <a href="https://fastpix.com/docs/video-data/what-video-data-do-we-capture">What Video Data do we capture?</a> ,   <a href="https://fastpix.com/docs/video-data/pass-custom-metadata-to-metrics">Use passable dimensions</a>
       operationId: list_dimensions
       responses:
         "200":
@@ -5009,7 +5031,7 @@ paths:
                       - custom_9
                       - custom_10
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5025,14 +5047,14 @@ paths:
         This endpoint returns the filter values associated with a specific dimension, along with the total number of video views for each value. For example, it can list all `browser_name` (dimension) and show how many views occurred for all available browsers like Chrome, Safari (filter values). 
 
 
-        In order to use the <a href="https://fastpix.com/docs/working-with-video-data/use-custom-dimensions">Custom Dimensions</a>, you must enable them in the dashboard under settings option based on the plan you have opted for.
+        In order to use the <a href="https://fastpix.com/docs/video-data/use-custom-dimensions">Custom Dimensions</a>, you must enable them in the dashboard under settings option based on the plan you have opted for.
 
         #### Example
 
         A developer wants to know how their video content performs across different browsers. By calling this endpoint for the `device_type` dimension, they can retrieve a breakdown of video views by each device (for example, Desktop, Mobile, Tablet). This data helps the developer understand where optimizations or troubleshooting is necessary.
 
 
-        Related guide: <a href="https://fastpix.com/docs/working-with-video-data/explore-the-dashboard#filters-and-timeframes">Filters and timespan</a>
+        Related guide: <a href="https://fastpix.com/docs/video-data/explore-the-dashboard#filters-and-timeframes">Filters and timespan</a>
       operationId: list_filter_values_for_dimension
       parameters:
         - in: path
@@ -5159,7 +5181,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5203,7 +5225,7 @@ paths:
           * **field:** The grouping field value based on the groupBy parameter. 
 
 
-        Related guide: <a href="https://fastpix.com/docs/concepts/what-video-data-do-we-capture">Understand data definitions</a>
+        Related guide: <a href="https://fastpix.com/docs/video-data/understand-data-definitions">Understand data definitions</a>
       parameters:
         - in: path
           name: metricId
@@ -5368,7 +5390,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5408,7 +5430,7 @@ paths:
           * **globalValue:** A global metric value that reflects the overall performance of the specified metric across the entire dataset for the given timespan. This value is not affected by specific filters. 
 
 
-          Related guide: <a href="https://fastpix.com/docs/concepts/what-video-data-do-we-capture">Understand data definitions</a>
+          Related guide: <a href="https://fastpix.com/docs/video-data/understand-data-definitions">Understand data definitions</a>
       parameters:
         - in: path
           name: metricId
@@ -5520,7 +5542,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5677,7 +5699,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5711,7 +5733,7 @@ paths:
           3. You Receive a response containing the comparison values for the specified metrics across the selected dimensions. 
         
         
-          Related guide: <a href="https://fastpix.com/docs/working-with-video-data/explore-the-dashboard#compare-metrics">Compare metrics in dashboard</a>
+          Related guide: <a href="https://fastpix.com/docs/video-data/explore-the-dashboard#compare-metrics">Compare metrics in dashboard</a>
       parameters:
         - in: query
           name: timespan[]
@@ -5867,7 +5889,7 @@ paths:
                     - 1610025947
 
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -5897,7 +5919,7 @@ paths:
         * **code:** The error code associated with the specific error. 
 
 
-        Related guide: <a href="https://fastpix.com/docs/working-with-video-data/troubleshoot-playback-errors">Troubleshoot errors</a>
+        Related guide: <a href="https://fastpix.com/docs/video-data/troubleshoot-playback-errors">Troubleshoot errors</a>
       parameters:
         - in: query
           name: timespan[]
@@ -5958,7 +5980,7 @@ paths:
                         id: 9pa85f64-5717-4562-b3fc-2c963f66afa6
                         description: a description for the specific error
                         count: 4
-                        code: 1003
+                        code: "1003"
                     topErrors:
                       - percentage: 0.0222222222222222
                         uniqueViewersEffectedPercentage: 0.0122222222222222
@@ -5966,7 +5988,7 @@ paths:
                         message: "com.fastpix.stats.sdk.h71.a - android.media.mediadrm$mediadrmstateexception: failed to handle key response: drm vendor-defined error: -2998"
                         lastSeen: "2023-12-01T11:31:07Z"
                         count: 4
-                        code: 1003
+                        code: "1003"
                   timespan:
                     - 1610025789
                     - 1610025947
@@ -5986,7 +6008,7 @@ paths:
                   timespan:
                     $ref: "#/components/schemas/TimeSpan"
         "default":
-          description: See the range of possible <a href="https://fastpix.com/docs/error-codes">error</a> responses and their status codes.
+          description: See the range of possible <a href="https://fastpix.com/docs/error-codes/error-codes">error</a> responses and their status codes.
           content:
             application/json:
               schema:
@@ -6065,7 +6087,6 @@ components:
         - deny
       description: Policy action type
 
-    # Reusable access restriction schemas
     DomainRestrictions:
       type: object
       description: Restrictions based on the originating domain of a request
@@ -6345,6 +6366,8 @@ components:
             - "720"
             - 480p
             - "480"
+            - 360p
+            - "360"
           description: The actual resolution of the uploaded media. This represents the native quality of the source media.
         status:
           type: string
@@ -6413,6 +6436,11 @@ components:
           nullable: true
           example: true
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -6454,11 +6482,6 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
-        optimizeAudio:
-          type: boolean
-          nullable: true
-          example: false
-          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -6482,7 +6505,7 @@ components:
           format: date-time
           example: "2023-10-20T10:50:34.594302Z"
           description: Time the media was updated, defined as a localDateTime (UTC Time).
-    GetMediaResponse:
+    GetMediaDetailResponse:
       type: object
       properties:
         thumbnail:
@@ -6565,6 +6588,8 @@ components:
             - "720"
             - 480p
             - "480"
+            - 360p
+            - "360"
           description: The actual resolution of the uploaded media. This represents the native quality of the source media.
         status:
           type: string
@@ -6633,6 +6658,12 @@ components:
           nullable: true
           example: true
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: |
+            Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -6674,11 +6705,6 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
-        optimizeAudio:
-          type: boolean
-          nullable: true
-          example: false
-          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -6762,6 +6788,8 @@ components:
             - "720"
             - 480p
             - "480"
+            - 360p
+            - "360"
           description: The actual resolution of the uploaded media. This represents the native quality of the source media.
         status:
           type: string
@@ -6780,6 +6808,11 @@ components:
           type: boolean
           example: false
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -6952,6 +6985,8 @@ components:
             - "720"
             - 480p
             - "480"
+            - 360p
+            - "360"
           description: The actual resolution of the uploaded media. This represents the native quality of the source media.
         status:
           type: string
@@ -7020,6 +7055,11 @@ components:
           nullable: true
           example: true
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -7065,11 +7105,6 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
-        optimizeAudio:
-          type: boolean
-          nullable: true
-          example: false
-          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -7163,6 +7198,8 @@ components:
             - "720"
             - 480p
             - "480"
+            - 360p
+            - "360"
           description: The actual resolution of the uploaded media. This represents the native quality of the source media.
         status:
           type: string
@@ -7231,6 +7268,11 @@ components:
           nullable: true
           example: true
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it.
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -7276,11 +7318,6 @@ components:
           nullable: true
           example: true
           description: Indicates whether subtitles are available for the media.
-        optimizeAudio:
-          type: boolean
-          nullable: true
-          example: false
-          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: "00:00:10"
@@ -7355,7 +7392,6 @@ components:
             - 1080p
             - 720p
             - 480p
-            - 360p
           description: The maximum resolution specified by the user for the media.
         sourceResolution:
           type: string
@@ -7441,6 +7477,11 @@ components:
           type: boolean
           example: true
           description: The sourceAccess parameter determines whether the original media file is accessible. Set to true to enable access or false to restrict it
+        optimizeAudio:
+          type: boolean
+          nullable: true
+          example: false
+          description: Whether the audio track of the media has been volume-normalized.
         playbackIds:
           type: array
           items:
@@ -7485,11 +7526,6 @@ components:
           type: boolean
           description: Specifies whether subtitle tracks are available for the media.
           example: false
-        optimizeAudio:
-          type: boolean
-          nullable: true
-          example: false
-          description: Enhance the quality and volume of the audio track. This is available for pre-recorded content only.
         duration:
           type: string
           example: '00:00:10'
@@ -7549,6 +7585,7 @@ components:
           description: The AI-generated summary of the media content. This field contains the processed textual output produced by the AI once summarization is complete.
           additionalProperties: true
       description: Represents an AI response record containing status and data for AI-generated features like summary, chapters, named entities, or moderation.
+
     VideoTrack:
       type: object
       description: A media consists of different media tracks, like video, audio, and subtitle, all combined.
@@ -7580,6 +7617,10 @@ components:
           type: string
           example: available
           description: Indicates the current state of the track. 'available' means the track has been processed successfully and is ready to be used or played.
+        title:
+          type: string
+          example: My track title
+          description: Title of the track.
       example:
         tracks:
           - id: 9oa85f64-5717-4562-b3fc-2c963f66afa6
@@ -7611,14 +7652,14 @@ components:
           type: number
           example: 1080
           description: Track height denotes the range of height applicable to a specific track. Currently, this setting can be modified only for video tracks.
-        frameRate:
-          type: string
-          example: 30/1
-          description: Frame rate quantifies the speed at which frames are displayed per second. It represents the range of frames available for a specific track. The indeterminable frame rate of the input file is indicated by a value of -1.
         status:
           type: string
           example: available
           description: Indicates the current state of the track. 'available' means the track has been processed successfully and is ready to be used or played.
+        title:
+          type: string
+          example: My track title
+          description: Title of the track.
       example:
         tracks:
           - id: 9oa85f64-5717-4562-b3fc-2c963f66afa6
@@ -7645,6 +7686,10 @@ components:
           type: string
           example: available
           description: Indicates the current state of the track. 'available' means the track has been processed successfully and is ready to be used or played.
+        title:
+          type: string
+          example: My track title
+          description: Title of the track.
         languageName:
           type: string
           example: english
@@ -7673,6 +7718,10 @@ components:
           type: string
           example: available
           description: Indicates the current state of the track. 'available' means the track has been processed successfully and is ready to be used or played.
+        title:
+          type: string
+          example: My track title
+          description: Title of the track.
         languageName:
           type: string
           example: english
@@ -7788,7 +7837,7 @@ components:
             - 1440p
             - 2160p
             - null
-          description: The maximum resolution for the playback ID.
+          description: The maximum resolution for the playback ID. `null` when no resolution cap is set.
           example: 1080p
 
     Unused-uploads-playbackId:
@@ -7882,7 +7931,7 @@ components:
             If you also need a watermark, click **Add item** again and select **WatermarkInput**.  
             Repeat this process for **AudioInput** or **SubtitleInput** as needed.
             For a complete explanation of how media uploads from URL and processing work, refer to the  
-                    <a href="https://fastpix.com/docs/get-started/overview" target="_blank">FastPix Video on Demand Overview</a>.
+                    <a href="https://fastpix.com/docs/video-on-demand/overview" target="_blank">FastPix Video on Demand Overview</a>.
           items:
             anyOf:
               - $ref: "#/components/schemas/PullVideoInput"
@@ -8262,7 +8311,7 @@ components:
         Contains configuration details for applying a watermark overlay to a video.  
         The watermark is placed over the media content during processing.  
         For detailed setup steps and customization options, refer to the 
-        <a href="https://fastpix.com/docs/edit-and-transform-videos/add-a-watermark-to-a-video" target="_blank">FastPix Watermark Guide</a>.
+        <a href="https://fastpix.com/docs/video-on-demand/add-a-watermark-to-a-video" target="_blank">FastPix Watermark Guide</a>.
       required:
         - url
         - type
@@ -8483,6 +8532,11 @@ components:
             You can search for videos with specific key value pairs using metadata, when you tag a video in "key" : "value" pairs. Dynamic metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
         languageCode:
           $ref: "#/components/schemas/LanguageCode"
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: Italian subtitles
     GenerateTrackResponse:
       type: object
       description: Represents the response for a successfully generated subtitle track.
@@ -8575,6 +8629,11 @@ components:
             key1: value1
           description: |
             You can search for videos with specific key value pairs using metadata, when you tag a video in "key" : "value" pairs. Dynamic metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: Italian subtitles
     SubtitleInput:
       required:
         - type
@@ -8593,7 +8652,7 @@ components:
           type: string
           format: uri
           description: The direct URL of the subtitle file.
-          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          example: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageName:
           type: string
           example: english
@@ -8633,6 +8692,11 @@ components:
           description: The full name of the language corresponding to the `languageCode`.
           example: Italian
           default: Italian
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: Italian audio
 
     AddTrackResponse:
       type: object
@@ -8663,6 +8727,11 @@ components:
           type: string
           description: The full name of the language corresponding to the `languageCode`.
           example: Italian
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: Italian audio
     UpdateTrackResponse:
       type: object
       description: Contains details about the track that was added or updated.
@@ -8683,7 +8752,7 @@ components:
           type: string
           format: uri
           description: The direct URL of the track file.
-          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
+          example: http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageCode:
           type: string
           description: The BCP 47 language code representing the track's language.
@@ -8692,20 +8761,18 @@ components:
           type: string
           description: The full name of the language corresponding to the `languageCode`.
           example: french
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: French subtitles
     UpdateTrackRequest:
       type: object
-      description: Contains details about the track being added to the media file.
+      description: Contains details about the track being updated. The track's file (`url`) cannot be changed — only its language and title.
       required:
-        - url
         - languageCode
         - languageName
       properties:
-        url:
-          type: string
-          format: uri
-          description: The direct URL of the track file. It must point to a valid audio or subtitle file.
-          example: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
-          default: https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.vtt
         languageCode:
           type: string
           description: The BCP 47 language code representing the track’s language.
@@ -8716,6 +8783,11 @@ components:
           description: The full name of the language corresponding to the `languageCode`.
           example: French
           default: French
+        title:
+          type: string
+          maxLength: 255
+          description: Title of the track.
+          example: French subtitles
 
     DirectUpload:
       type: object
@@ -9812,8 +9884,10 @@ components:
         maxDuration:
           type: integer
           example: 28800
-          maximum: 28800
-          minimum: 0
+          anyOf:
+            - enum: [0]
+            - minimum: 60
+              maximum: 28800
           description: The maximum duration in seconds that a live stream can have before it ends the stream. `0` means no enforced maximum (unbounded).
         createdAt:
           type: string
@@ -9914,8 +9988,10 @@ components:
         maxDuration:
           type: integer
           example: 28800
-          maximum: 28800
-          minimum: 0
+          anyOf:
+            - enum: [0]
+            - minimum: 60
+              maximum: 28800
           description: The maximum duration in seconds that a live stream can have before it ends the stream. `0` means no enforced maximum (unbounded).
         createdAt:
           type: string
@@ -10004,8 +10080,10 @@ components:
         maxDuration:
           type: integer
           example: 28800
-          maximum: 28800
-          minimum: 0
+          anyOf:
+            - enum: [0]
+            - minimum: 60
+              maximum: 28800
           description: The maximum duration in seconds that a live stream can have before it ends the stream. `0` means no enforced maximum (unbounded).
         createdAt:
           type: string
@@ -10837,7 +10915,7 @@ components:
             Latitude refers to the geographical coordinate representing the north-south position of the viewers location, truncated to one decimal place.
           type: string
           nullable: true
-          example: 17.384
+          example: "17.384"
 
         liveStreamLatency:
           description: |
@@ -10851,7 +10929,7 @@ components:
             Longitude denotes the geographical coordinate representing the east-west position of the viewers location, truncated to one decimal place.
           type: string
           nullable: true
-          example: 78.4564
+          example: "78.4564"
         maxDownscaling:
           description: |
             Maximum Downscale Percentage represents the highest percentage of downscaling applied to the video during the view.
@@ -11446,7 +11524,7 @@ components:
             description: Error code associated with the specific error.
             type: string
             nullable: true
-            example: 1003
+            example: "1003"
     ErrorDetails:
       description: The endpoint retrieves a comprehensive list of errors that have occurred by providing detailed information about each error instance.
       type: array
@@ -11497,7 +11575,7 @@ components:
             description: Error code associated with the specific error.
             type: string
             nullable: true
-            example: 1003
+            example: "1003"
     MetricsComparisonDetails:
       description: Compare multiple metrics across specified dimensions.
       type: object
