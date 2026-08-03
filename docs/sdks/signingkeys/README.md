@@ -192,8 +192,8 @@ In the response, the API returns the workspaceId and publicKey associated with t
 
 ```
 { 
-  "kid": "359302ee-2446-4afe-9348-8b4656b9ddb1", 
-  "aud": "media:6cee6f85-9334-4a51-9ce3-e0241d94ceef", 
+  "kid": "your-signing-key-id", 
+  "aud": "media:your-playback-id", 
   "iss": "fastpix.com", 
   "sub": "", 
   "iat": 1706703204, 

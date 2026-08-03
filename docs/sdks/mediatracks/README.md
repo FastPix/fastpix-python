@@ -28,7 +28,7 @@ This endpoint allows you to add an audio or subtitle track to an existing media 
 3. Finally, an update event <a href="https://fastpix.com/docs/webhooks/media-events#videomediaupdated">video.media.updated</a> must notify your system about the media's updated status.
 
 #### Example
-Suppose you have a video uploaded to the FastPix platform, and you want to add an Italian audio track to it. By calling this API, you can attach an external audio file (https://static.fastpix.com/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
+Suppose you have a video uploaded to the FastPix platform, and you want to add an your-track-title track to it. By calling this API, you can attach an external audio file (https://static.fastpix.com/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
 
 Related guides: <a href="https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video">Add own subtitle tracks</a>, <a href="https://fastpix.com/docs/video-on-demand/add-audio-to-a-video">Add own audio tracks</a>
 
@@ -120,7 +120,7 @@ with Fastpix(
 ) as fastpix:
 
    
-    res = fastpix.manage_videos.update_media_track(track_id="your-track-id", media_id="your-media-id", language_code="fr", language_name="french", title="French subtitles")
+    res = fastpix.manage_videos.update_media_track(track_id="your-track-id", media_id="your-media-id", language_code="fr", language_name="french", title="your-track-title")
     
     
     # Handle response (convert datetimes to JSON-serializable strings)
@@ -136,7 +136,7 @@ with Fastpix(
 | `media_id`                                                                                | *str*                                                                                     | :heavy_check_mark:                                                                        | The unique identifier assigned to the media when created. The value must be a valid UUID. | your-media-id                                                                             |
 | `language_code`                                                                           | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | The BCP 47 language code representing the track’s language.                               | fr                                                                                        |
 | `language_name`                                                                           | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | The full name of the language corresponding to the `languageCode`.                        | French                                                                                    |
-| `title`                                                                                   | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | Title of the track.                                                                       | French subtitles                                                                          |
+| `title`                                                                                   | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | Title of the track.                                                                       | your-track-title                                                                          |
 | `retries`                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                          | :heavy_minus_sign:                                                                        | Configuration to override the default retry behavior of the client.                       |                                                                                           |
 
 ### Response

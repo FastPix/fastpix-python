@@ -44,7 +44,7 @@ with Fastpix(
 
     res = fastpix.start_live_stream.create_new_stream(playback_settings={}, input_media_settings={
         "metadata": {
-            "livestream_name": "fastpix_livestream",
+            "livestream_name": "your-livestream-name",
         },
     })
 
