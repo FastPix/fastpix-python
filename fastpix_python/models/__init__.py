@@ -281,6 +281,12 @@ if TYPE_CHECKING:
         GetLiveStreamViewerCountByIDRequestTypedDict,
     )
     from .get_media_clipsop import GetMediaClipsRequest, GetMediaClipsRequestTypedDict
+    from .get_media_summaryop import (
+        GetMediaSummaryRequest,
+        GetMediaSummaryRequestTypedDict,
+        GetMediaSummaryResponse,
+        GetMediaSummaryResponseTypedDict,
+    )
     from .get_mediaop import (
         GetMediaRequest,
         GetMediaRequestTypedDict,
@@ -493,7 +499,11 @@ if TYPE_CHECKING:
     from .media import (
         Media,
         MediaMaxResolution,
-        MediaMp4Support,
+        MediaMp4SupportEntry,
+        MediaMp4SupportEntryExt,
+        MediaMp4SupportEntryStatus,
+        MediaMp4SupportEntryType,
+        MediaMp4SupportEntryTypedDict,
         MediaSourceResolution,
         MediaTypedDict,
     )
@@ -813,10 +823,6 @@ if TYPE_CHECKING:
         UserAgentRestrictions,
         UserAgentRestrictionsTypedDict,
     )
-    from .validationerrorresponse import (
-        ValidationErrorResponseError,
-        ValidationErrorResponseErrorTypedDict,
-    )
     from .videoinput import (
         Segment1,
         Segment1TypedDict,
@@ -1093,6 +1099,10 @@ __all__ = [
     "GetMediaRequestTypedDict",
     "GetMediaResponse",
     "GetMediaResponseTypedDict",
+    "GetMediaSummaryRequest",
+    "GetMediaSummaryRequestTypedDict",
+    "GetMediaSummaryResponse",
+    "GetMediaSummaryResponseTypedDict",
     "GetPlaybackIDData",
     "GetPlaybackIDDataTypedDict",
     "GetPlaybackIDRequest",
@@ -1232,7 +1242,11 @@ __all__ = [
     "MediaIdsRequest",
     "MediaIdsRequestTypedDict",
     "MediaMaxResolution",
-    "MediaMp4Support",
+    "MediaMp4SupportEntry",
+    "MediaMp4SupportEntryExt",
+    "MediaMp4SupportEntryStatus",
+    "MediaMp4SupportEntryType",
+    "MediaMp4SupportEntryTypedDict",
     "MediaNotFoundError",
     "MediaNotFoundErrorTypedDict",
     "MediaOrPlaybackNotFoundError",
@@ -1465,8 +1479,6 @@ __all__ = [
     "UpdatedSourceAccessResponseTypedDict",
     "UserAgentRestrictions",
     "UserAgentRestrictionsTypedDict",
-    "ValidationErrorResponseError",
-    "ValidationErrorResponseErrorTypedDict",
     "VideoInput",
     "VideoInputTypedDict",
     "ViewNotFoundError",
@@ -1516,6 +1528,12 @@ _module_exports: dict[str, list[str]] = {
         "UpdateUserAgentRestrictionsRequestTypedDict",
         "UpdateUserAgentRestrictionsDataTypedDict",
         "UpdateUserAgentRestrictionsResponseBodyTypedDict",
+    ],
+    ".default_error": [
+        "Error",
+        "ErrorTypedDict",
+        "DefaultError",
+        "DefaultErrorTypedDict",
     ],
     ".add_media_to_playlistop": [
         "AddMediaToPlaylistRequest",
@@ -1826,6 +1844,12 @@ _module_exports: dict[str, list[str]] = {
         "GetMediaClipsRequest",
         "GetMediaClipsRequestTypedDict",
     ],
+    ".get_media_summaryop": [
+        "GetMediaSummaryRequest",
+        "GetMediaSummaryRequestTypedDict",
+        "GetMediaSummaryResponse",
+        "GetMediaSummaryResponseTypedDict",
+    ],
     ".get_mediaop": [
         "GetMediaRequest",
         "GetMediaRequestTypedDict",
@@ -2043,7 +2067,11 @@ _module_exports: dict[str, list[str]] = {
     ".media": [
         "Media",
         "MediaMaxResolution",
-        "MediaMp4Support",
+            "MediaMp4SupportEntry",
+        "MediaMp4SupportEntryExt",
+        "MediaMp4SupportEntryStatus",
+        "MediaMp4SupportEntryType",
+        "MediaMp4SupportEntryTypedDict",
         "MediaSourceResolution",
         "MediaTypedDict",
     ],
@@ -2431,10 +2459,6 @@ _module_exports: dict[str, list[str]] = {
     ".useragentrestrictions": [
         "UserAgentRestrictions",
         "UserAgentRestrictionsTypedDict",
-    ],
-    ".validationerrorresponse": [
-        "ValidationErrorResponseError",
-        "ValidationErrorResponseErrorTypedDict",
     ],
     ".videoinput": [
         "Segment1",

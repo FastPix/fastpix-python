@@ -295,9 +295,9 @@ STEPS: List[Step] = [
          needs=("media_id", "track_id"),
          request=lambda c: {"media_id": c["media_id"], "track_id": c["track_id"]},
          body={
-             "url": "https://static.fastpix.com/sample.vtt?u=" + __import__("uuid").uuid4().hex,
              "language_code": "en",
              "language_name": "English",
+             "title": "English subtitles",
          }),
     Step("update-domain-restrictions", "UPDATE",
          needs=("media_id", "media_playback_id"),

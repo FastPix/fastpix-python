@@ -17,7 +17,7 @@ import weakref
 if TYPE_CHECKING:
     from .dimensions import Dimensions
     from .drm_configurations import DRMConfigurations
-    from .errors import Errors
+    from .errors_sdk import Errors
     from .in_video_ai_features import InVideoAIFeatures
     from .input_video import InputVideo
     from .live_playback import LivePlayback
@@ -100,7 +100,7 @@ class Fastpix(BaseSDK):
         "views": ("fastpix_python.views_sdk", "ViewsSDK"),
         "dimensions": ("fastpix_python.dimensions", "Dimensions"),
         "metrics": ("fastpix_python.metrics", "Metrics"),
-        "errors": ("fastpix_python.errors", "Errors"),
+        "errors": ("fastpix_python.errors_sdk", "Errors"),
     }
 
     def __init__(

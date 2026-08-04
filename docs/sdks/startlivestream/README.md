@@ -44,12 +44,12 @@ with Fastpix(
 
     res = fastpix.start_live_stream.create_new_stream(playback_settings={}, input_media_settings={
         "metadata": {
-            "livestream_name": "fastpix_livestream",
+            "livestream_name": "your-livestream-name",
         },
     })
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

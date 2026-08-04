@@ -21,7 +21,7 @@ Retrieves a list of all media clips generated from a specific livestream. Each m
 #### Use case
 Suppose you’re hosting a live gaming event and want to showcase key moments from the stream — such as top plays or final match highlights. You can use this endpoint to fetch all clips generated from that livestream, display them in your dashboard, or use them for post-event editing and sharing.
 
-Related guide: <a href="https://fastpix.com/docs/edit-and-transform-live-stream/clip-moments-from-a-live-stream">Instant live clipping</a>
+Related guide: <a href="https://fastpix.com/docs/live-streaming/clip-moments-from-a-live-stream">Instant live clipping</a>
 
 ### Example Usage
 
@@ -39,10 +39,10 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.manage_videos.list_live_clips(livestream_id="b6f71268143f70c798a7851a0a92dcbf", limit=20, offset=1, order_by="desc")
+    res = fastpix.manage_videos.list_live_clips(livestream_id="your-stream-id", limit=20, offset=1, order_by="desc")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -50,7 +50,7 @@ with Fastpix(
 
 | Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               | Example                                                                                   |
 | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `livestream_id`                                                                           | *str*                                                                                     | :heavy_check_mark:                                                                        | The stream Id is unique identifier assigned to the live stream.                           | b6f71268143f70c798a7851a0a92dcbf                                                          |
+| `livestream_id`                                                                           | *str*                                                                                     | :heavy_check_mark:                                                                        | The stream Id is unique identifier assigned to the live stream.                           | your-stream-id                                                         |
 | `limit`                                                                                   | *Optional[int]*                                                                           | :heavy_minus_sign:                                                                        | Limit specifies the maximum number of items to display per page.                          | 20                                                                                        |
 | `offset`                                                                                  | *Optional[int]*                                                                           | :heavy_minus_sign:                                                                        | Offset determines the starting point for data retrieval within a paginated list.          | 1                                                                                         |
 | `order_by`                                                                                | [Optional[models.SortOrder]](../../models/sortorder.md)                                   | :heavy_minus_sign:                                                                        | The values in the list can be arranged in two ways: DESC (Descending) or ASC (Ascending). | desc                                                                                      |
@@ -103,7 +103,7 @@ with Fastpix(
     res = fastpix.manage_videos.get_media(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -159,7 +159,7 @@ with Fastpix(
     res = fastpix.manage_videos.retrieve_media_input_info(media_id="your-media-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

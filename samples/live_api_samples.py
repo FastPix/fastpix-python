@@ -82,7 +82,7 @@ def setup_simulcast_streaming(stream_id):
         youtube_simulcast = fastpix.simulcast_stream.create_simulcast_of_stream(
             stream_id=stream_id,
             platform="youtube",
-            rtmp_url="rtmp://a.rtmp.youtube.com/live2/your-stream-key"
+            rtmp_url="rtmps://a.rtmps.youtube.com/live2/your-stream-key"
         )
         print(f"✅ YouTube simulcast created: {youtube_simulcast.id}")
         
@@ -90,7 +90,7 @@ def setup_simulcast_streaming(stream_id):
         twitch_simulcast = fastpix.simulcast_stream.create_simulcast_of_stream(
             stream_id=stream_id,
             platform="twitch",
-            rtmp_url="rtmp://live.twitch.tv/live/your-stream-key"
+            rtmp_url="rtmps://live.twitch.tv/app/your-stream-key"
         )
         print(f"✅ Twitch simulcast created: {twitch_simulcast.id}")
         

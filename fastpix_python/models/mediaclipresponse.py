@@ -21,11 +21,17 @@ r"""The maximum resolution specified for the media."""
 
 MediaClipResponseSourceResolution = Literal[
     "2160p",
+    "2160",
     "1440p",
+    "1440",
     "1080p",
+    "1080",
     "720p",
+    "720",
     "480p",
+    "480",
     "360p",
+    "360",
 ]
 r"""The actual resolution of the uploaded media."""
 
@@ -132,6 +138,8 @@ class MediaClipResponseTrackTypedDict(TypedDict):
     r"""The language code of the audio or subtitle track."""
     language_name: NotRequired[str]
     r"""The language name of the audio or subtitle track."""
+    title: NotRequired[str]
+    r"""Title of the track."""
 
 
 class MediaClipResponseTrack(BaseModel):
@@ -155,6 +163,9 @@ class MediaClipResponseTrack(BaseModel):
 
     language_name: Annotated[Optional[str], pydantic.Field(alias="languageName")] = None
     r"""The language name of the audio or subtitle track."""
+
+    title: Optional[str] = None
+    r"""Title of the track."""
 
 
 class GeneratedSubtitleTypedDict(TypedDict):
@@ -192,6 +203,8 @@ class MediaClipResponseDataTypedDict(TypedDict):
     r"""Indicates whether the media contains only audio."""
     subtitle_available: NotRequired[bool]
     r"""Indicates whether subtitles are available for the media."""
+    optimize_audio: NotRequired[bool]
+    r"""Whether the audio track of the media has been volume-normalized."""
     duration: NotRequired[str]
     r"""The total duration of the media."""
     aspect_ratio: NotRequired[str]
@@ -257,6 +270,11 @@ class MediaClipResponseData(BaseModel):
         Optional[bool], pydantic.Field(alias="subtitleAvailable")
     ] = None
     r"""Indicates whether subtitles are available for the media."""
+
+    optimize_audio: Annotated[
+        Optional[bool], pydantic.Field(alias="optimizeAudio")
+    ] = None
+    r"""Whether the audio track of the media has been volume-normalized."""
 
     duration: Optional[str] = None
     r"""The total duration of the media."""

@@ -15,11 +15,11 @@ This endpoint enables you to generate chapters for an existing media file.
 2. Include the `chapters` parameter in the request body to enable.
 3. The response contains the updated media data, confirming the changes made.
 
-You can use the <a href="https://fastpix.com/docs/ai-events/in-video-ai-events#videomediaaichaptersready">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
+You can use the <a href="https://fastpix.com/docs/webhooks/in-video-ai-events#videomediaaichaptersready">video.mediaAI.chapters.ready</a> webhook event to track and notify about the chapters generation.
 
 **Use case:** This is particularly useful when a user uploads a video and later decides to enable chapters without re-uploading the entire video.
 
-Related guide: <a href="https://fastpix.com/docs/video-intelligence/generate-video-chapters">Video chapters</a>
+Related guide: <a href="https://fastpix.com/docs/in-video-ai/generate-video-chapters">Video chapters</a>
 
 ### Example Usage
 
@@ -41,7 +41,7 @@ with Fastpix(
     res = fastpix.in_video_ai_features.update_media_chapters(media_id="your-media-id", chapters=True )
     
     # Handle response (convert datetimes to JSON-serializable strings)
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

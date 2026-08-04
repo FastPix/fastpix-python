@@ -90,6 +90,8 @@ class GenerateTrackResponseTypedDict(TypedDict):
     r"""The full name of the language for the generated track."""
     metadata: NotRequired[Dict[str, str]]
     r"""You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\" : \"value\" pairs. Dynamic Metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed."""
+    title: NotRequired[str]
+    r"""Title of the track."""
 
 
 class GenerateTrackResponse(BaseModel):
@@ -114,3 +116,6 @@ class GenerateTrackResponse(BaseModel):
 
     metadata: Optional[Dict[str, str]] = None
     r"""You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\" : \"value\" pairs. Dynamic Metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed."""
+
+    title: Optional[str] = None
+    r"""Title of the track."""

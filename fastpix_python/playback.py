@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import Mapping, NoReturn, Optional, Union
+from typing import List, Mapping, NoReturn, Optional, Union
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -926,7 +926,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateDomainRestrictionsResponse:
+    ) -> models.UpdateDomainRestrictionsResponseBody:
         r"""Update domain restrictions for a playback ID
 
         This endpoint updates domain-level restrictions for a specific playback ID associated with a media asset.
@@ -1050,7 +1050,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateUserAgentRestrictionsResponse:
+    ) -> models.UpdateUserAgentRestrictionsResponseBody:
         r"""Update user-agent restrictions for a playback ID
 
         This endpoint allows updating user-agent restrictions for a specific playback ID associated with a media asset.

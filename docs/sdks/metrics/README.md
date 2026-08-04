@@ -60,7 +60,7 @@ with Fastpix(
     res = fastpix.metrics.list_breakdown_values(metric_id="quality_of_experience_score", timespan="24:hours", filterby="browser_name:Chrome", limit=10, offset=1, group_by="browser_name", order_by="views", sort_order="asc", measurement="avg")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -131,7 +131,7 @@ with Fastpix(
     res = fastpix.metrics.list_overall_values(metric_id="quality_of_experience_score", measurement="avg", timespan="24:hours", filterby="browser_name:Chrome")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -184,7 +184,7 @@ with Fastpix(
     res = fastpix.metrics.get_timeseries_data(metric_id="quality_of_experience_score", group_by="minute", sort_order="asc", measurement="avg", timespan="24:hours", filterby="browser_name:Chrome")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -252,7 +252,7 @@ with Fastpix(
     res = fastpix.metrics.list_comparison_values(timespan="24:hours", filterby="browser_name:Chrome", dimension="browser_name", value="Chrome")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

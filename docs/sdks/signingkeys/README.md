@@ -47,7 +47,7 @@ with Fastpix(
     res = fastpix.signing_keys.create_signing_key()
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -100,7 +100,7 @@ with Fastpix(
     res = fastpix.signing_keys.list_signing_keys(limit=25, offset=1)
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -159,7 +159,7 @@ with Fastpix(
     )
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -192,8 +192,8 @@ In the response, the API returns the workspaceId and publicKey associated with t
 
 ```
 { 
-  "kid": "359302ee-2446-4afe-9348-8b4656b9ddb1", 
-  "aud": "media:6cee6f85-9334-4a51-9ce3-e0241d94ceef", 
+  "kid": "your-signing-key-id", 
+  "aud": "media:your-playback-id", 
   "iss": "fastpix.com", 
   "sub": "", 
   "iat": 1706703204, 
@@ -232,10 +232,10 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.signing_keys.get_signing_key_by_id(signing_key_id="5ta85f64-5717-4562-b3fc-2c963f66afa6")
+    res = fastpix.signing_keys.get_signing_key_by_id(signing_key_id="signing_key_id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 

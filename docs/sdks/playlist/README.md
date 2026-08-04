@@ -109,7 +109,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.get_playlist_by_id(playlist_id="<id>")
+    res = fastpix.playlist.get_playlist_by_id(playlist_id="your-playlist-id")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -158,7 +158,7 @@ with Fastpix(
         password="your-secret-key",
     ),
 ) as fastpix:
-    res = fastpix.playlist.delete_a_playlist(playlist_id="<id>")
+    res = fastpix.playlist.delete_a_playlist(playlist_id="your-playlist-id")
 
     
     print(json.dumps(to_api_payload(res), indent=2))
@@ -223,7 +223,7 @@ with Fastpix(
 | Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                | Example                                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `playlist_id`                                                                                                              | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The unique id of the playlist you want to perform the operation on.                                                        |                                                                                                                            |
-| `media_ids`                                                                                                                | List[*str*]                                                                                                                | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        | [<br/>"a1cd180e-f9b5-4e99-9d44-b9c9baabad89",<br/>"245800c3-7b73-47d9-a201-e961260dcb30",<br/>"41316aac-5396-4278-8f44-08d5f2495b12"<br/>] |
+| `media_ids`                                                                                                                | List[*str*]                                                                                                                | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        | [<br/>"your-media-id-1",<br/>"your-media-id-2",<br/>"your-media-id-3"<br/>] |
 | `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |                                                                                                                            |
 
 ### Response
@@ -263,7 +263,7 @@ with Fastpix(
     ),
 ) as fastpix:
     res = fastpix.playlist.delete_media_from_playlist(
-        playlist_id="<id>",
+        playlist_id="your-playlist-id",
         media_ids=[
             "your-media-id-1",
             "your-media-id-2",
@@ -281,7 +281,7 @@ with Fastpix(
 | Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                | Example                                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `playlist_id`                                                                                                              | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The unique id of the playlist you want to perform the operation on.                                                        |                                                                                                                            |
-| `media_ids`                                                                                                                | List[*str*]                                                                                                                | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        | [<br/>"a1cd180e-f9b5-4e99-9d44-b9c9baabad89",<br/>"245800c3-7b73-47d9-a201-e961260dcb30",<br/>"41316aac-5396-4278-8f44-08d5f2495b12"<br/>] |
+| `media_ids`                                                                                                                | List[*str*]                                                                                                                | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        | [<br/>"your-media-id-1",<br/>"your-media-id-2",<br/>"your-media-id-3"<br/>] |
 | `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |                                                                                                                            |
 
 ### Response

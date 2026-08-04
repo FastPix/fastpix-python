@@ -266,7 +266,7 @@ class ManageVideos(BaseSDK):
         #### How it works
         To use this endpoint, provide the `livestreamId` as a parameter. The API then returns a paginated list of clipped media items created from that livestream. Pagination ensures optimal performance and usability when dealing with a large number of media files, making it easier to organize and manage content in bulk.
 
-        Related guide: <a href=\"https://fastpix.com/docs/edit-and-transform-live-stream/clip-moments-from-a-live-stream\">Instant live clipping</a>
+        Related guide: <a href=\"https://fastpix.com/docs/live-streaming/clip-moments-from-a-live-stream\">Instant live clipping</a>
 
 
         :param livestream_id: The stream Id is unique identifier assigned to the live stream.
@@ -367,7 +367,7 @@ class ManageVideos(BaseSDK):
         #### How it works
         To use this endpoint, provide the `livestreamId` as a parameter. The API then returns a paginated list of clipped media items created from that livestream. Pagination ensures optimal performance and usability when dealing with a large number of media files, making it easier to organize and manage content in bulk.
 
-        Related guide: <a href=\"https://fastpix.com/docs/edit-and-transform-live-stream/clip-moments-from-a-live-stream\">Instant live clipping</a>
+        Related guide: <a href=\"https://fastpix.com/docs/live-streaming/clip-moments-from-a-live-stream\">Instant live clipping</a>
 
 
         :param livestream_id: The stream Id is unique identifier assigned to the live stream.
@@ -691,7 +691,7 @@ class ManageVideos(BaseSDK):
 
         3. Receive a response containing the updated media data, confirming the changes made.
 
-        Once you have made the update request, you can also look for the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> to notify your system about update status.
+        Once you have made the update request, you can also look for the webhook event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> to notify your system about update status.
 
         #### Example
         Imagine a scenario where a user uploads a video and later realizes they need to change the title, add a new description or tags. You can use this endpoint to update the media metadata without having to re-upload the entire video.
@@ -806,7 +806,7 @@ class ManageVideos(BaseSDK):
 
         3. Receive a response containing the updated media data, confirming the changes made.
 
-        Once you have made the update request, you can also look for the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> to notify your system about update status.
+        Once you have made the update request, you can also look for the webhook event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> to notify your system about update status.
 
         #### Example
         Imagine a scenario where a user uploads a video and later realizes they need to change the title, add a new description or tags. You can use this endpoint to update the media metadata without having to re-upload the entire video.
@@ -919,7 +919,7 @@ class ManageVideos(BaseSDK):
 
         2. Since this action is irreversible, ensure that you no longer need the media before proceeding. Once deleted, the media cannot be retrieved or played back.
 
-        3. Webhook event to look for: <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediadeleted\">video.media.deleted</a>
+        3. Webhook event to look for: <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediadeleted\">video.media.deleted</a>
 
         #### Example
         A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
@@ -1021,7 +1021,7 @@ class ManageVideos(BaseSDK):
 
         2. Since this action is irreversible, ensure that you no longer need the media before proceeding. Once deleted, the media cannot be retrieved or played back.
 
-        3. Webhook event to look for: <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediadeleted\">video.media.deleted</a>
+        3. Webhook event to look for: <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediadeleted\">video.media.deleted</a>
 
         #### Example
         A user on a video-sharing platform decides to remove an old video from their profile, or suppose you're running a content moderation system, and one of the videos uploaded by a user violates your platform's policies. Using this endpoint, the media is permanently deleted from your library, ensuring it's no longer accessible or viewable by other users.
@@ -1116,7 +1116,7 @@ class ManageVideos(BaseSDK):
     ) -> models.AddTrackResponse:
         r"""Add audio / subtitle track
 
-        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload.
+        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -1130,17 +1130,17 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        1. After successfully adding a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackcreated\">video.media.track.created</a>.
+        1. After successfully adding a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackcreated\">video.media.track.created</a>.
 
-        2. Once the track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
+        2. Once the track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
 
-        3. Finally, an update event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
+        3. Finally, an update event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
 
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to add an Italian audio track to it. By calling this API, you can attach an external audio file (https://static.fastpix.com/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -1246,7 +1246,7 @@ class ManageVideos(BaseSDK):
     ) -> models.AddTrackResponse:
         r"""Add audio / subtitle track
 
-        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload.
+        This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -1260,17 +1260,17 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        1. After successfully adding a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackcreated\">video.media.track.created</a>.
+        1. After successfully adding a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackcreated\">video.media.track.created</a>.
 
-        2. Once the track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
+        2. Once the track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
 
-        3. Finally, an update event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
+        3. Finally, an update event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
 
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to add an Italian audio track to it. By calling this API, you can attach an external audio file (https://static.fastpix.com/music-1.mp3) to the media file. Similarly, if you need to add subtitles in different languages, you can specify type: `subtitle` with the corresponding subtitle `url`, `languageCode` and `languageName`.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -1382,7 +1382,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        Once the upload is cancelled, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled-event\">video.media.upload.cancelled</a>.
+        Once the upload is cancelled, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediauploadcancelled-event\">video.media.upload.cancelled</a>.
 
         #### Example
 
@@ -1485,7 +1485,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        Once the upload is cancelled, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediauploadcancelled-event\">video.media.upload.cancelled</a>.
+        Once the upload is cancelled, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediauploadcancelled-event\">video.media.upload.cancelled</a>.
 
         #### Example
 
@@ -1573,9 +1573,9 @@ class ManageVideos(BaseSDK):
         *,
         track_id: str,
         media_id: str,
-        url: Optional[str] = None,
         language_code: Optional[str] = None,
         language_name: Optional[str] = None,
+        title: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1583,7 +1583,7 @@ class ManageVideos(BaseSDK):
     ) -> models.UpdateTrackResponse:
         r"""Update audio / subtitle track
 
-        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new track `url`, `languageName`, and `languageCode`, ensuring all three parameters are included in the request.
+        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new `languageName` and `languageCode`, ensuring both parameters are included in the request. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -1598,11 +1598,11 @@ class ManageVideos(BaseSDK):
 
         After updating a track, your system will receive webhook notifications:
 
-        1. After successfully updating a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackupdated\">video.media.track.updated</a>.
+        1. After successfully updating a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackupdated\">video.media.track.updated</a>.
 
-        2. Once the new track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
+        2. Once the new track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
 
-        3. Once the media file is updated with the new track details, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
+        3. Once the media file is updated with the new track details, a <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
 
 
         #### Example
@@ -1611,14 +1611,14 @@ class ManageVideos(BaseSDK):
         - The original track file has errors and needs correction.
         - You want to improve subtitle translations or replace an audio track with a better-quality version.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param track_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
-        :param url: The direct URL of the track file. It should point to a valid audio or subtitle file.
         :param language_code: The BCP 47 language code representing the track's language.
         :param language_name: The full name of the language corresponding to the `languageCode`.
+        :param title: Title of the track.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1638,9 +1638,9 @@ class ManageVideos(BaseSDK):
             track_id=track_id,
             media_id=media_id,
             update_track_request=models.UpdateTrackRequest(
-                url=url,
                 language_code=language_code,
                 language_name=language_name,
+                title=title,
             ),
         )
 
@@ -1712,9 +1712,9 @@ class ManageVideos(BaseSDK):
         *,
         track_id: str,
         media_id: str,
-        url: Optional[str] = None,
         language_code: Optional[str] = None,
         language_name: Optional[str] = None,
+        title: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1722,7 +1722,7 @@ class ManageVideos(BaseSDK):
     ) -> models.UpdateTrackResponse:
         r"""Update audio / subtitle track
 
-        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new track `url`, `languageName`, and `languageCode`, ensuring all three parameters are included in the request.
+        This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new `languageName` and `languageCode`, ensuring both parameters are included in the request. You can optionally provide a `title` for the track.
 
 
         #### How it works
@@ -1737,11 +1737,11 @@ class ManageVideos(BaseSDK):
 
         After updating a track, your system will receive webhook notifications:
 
-        1. After successfully updating a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackupdated\">video.media.track.updated</a>.
+        1. After successfully updating a track, your system will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackupdated\">video.media.track.updated</a>.
 
-        2. Once the new track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
+        2. Once the new track is processed and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediatrackready\">video.media.track.ready</a>.
 
-        3. Once the media file is updated with the new track details, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
+        3. Once the media file is updated with the new track details, a <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
 
 
         #### Example
@@ -1750,14 +1750,14 @@ class ManageVideos(BaseSDK):
         - The original track file has errors and needs correction.
         - You want to improve subtitle translations or replace an audio track with a better-quality version.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param track_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
-        :param url: The direct URL of the track file. It should point to a valid audio or subtitle file.
         :param language_code: The BCP 47 language code representing the track's language.
         :param language_name: The full name of the language corresponding to the `languageCode`.
+        :param title: Title of the track.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1777,9 +1777,9 @@ class ManageVideos(BaseSDK):
             track_id=track_id,
             media_id=media_id,
             update_track_request=models.UpdateTrackRequest(
-                url=url,
                 language_code=language_code,
                 language_name=language_name,
+                title=title,
             ),
         )
 
@@ -1872,7 +1872,7 @@ class ManageVideos(BaseSDK):
 
         1. After successfully deleting a track, your system will receive the webhook event **video.media.track.deleted**.
 
-        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
+        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
 
 
         #### Example
@@ -1882,7 +1882,7 @@ class ManageVideos(BaseSDK):
         - The content owner requests the removal of a specific subtitle or audio track.
         - A new version of the track will be uploaded to replace the existing one.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -1988,7 +1988,7 @@ class ManageVideos(BaseSDK):
 
         1. After successfully deleting a track, your system will receive the webhook event **video.media.track.deleted**.
 
-        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
+        2. Once the media file is updated to reflect the track removal, a <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> event will be triggered.
 
 
         #### Example
@@ -1998,7 +1998,7 @@ class ManageVideos(BaseSDK):
         - The content owner requests the removal of a specific subtitle or audio track.
         - A new version of the track will be uploaded to replace the existing one.
 
-        Related guides: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/add-audio-to-a-video\">Add own audio tracks</a>
+        Related guides: <a href=\"https://fastpix.com/docs/video-on-demand/add-subtitles-to-a-video\">Add own subtitle tracks</a>, <a href=\"https://fastpix.com/docs/video-on-demand/add-audio-to-a-video\">Add own audio tracks</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -2086,6 +2086,7 @@ class ManageVideos(BaseSDK):
         language_name: str,
         language_code: models.LanguageCode,
         metadata: Optional[Dict[str, str]] = None,
+        title: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2105,11 +2106,11 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        1. Once the subtitle track is generated and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
+        1. Once the subtitle track is generated and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasubtitlegenerated\">video.media.subtitle.generated</a>.
 
-        2. Finally, an update event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
+        2. Finally, an update event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
 
-        </br> Related guide: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically\">Add auto-generated subtitles</a>
+        </br> Related guide: <a href=\"https://fastpix.com/docs/video-on-demand/generate-subtitles-automatically\">Add auto-generated subtitles</a>
 
 
         :param media_id: A universally unique identifier (UUID) assigned to the media by FastPix.
@@ -2117,6 +2118,7 @@ class ManageVideos(BaseSDK):
         :param language_name: The full name of the language in which subtitles will be generated.
         :param language_code: Language code for content localization
         :param metadata: You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\" : \"value\" pairs. Dynamic Metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
+        :param title: Title of the track.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -2139,6 +2141,7 @@ class ManageVideos(BaseSDK):
                 language_name=language_name,
                 metadata=metadata,
                 language_code=language_code,
+                title=title,
             ),
         )
 
@@ -2215,6 +2218,7 @@ class ManageVideos(BaseSDK):
         language_name: str,
         language_code: models.LanguageCode,
         metadata: Optional[Dict[str, str]] = None,
+        title: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2234,11 +2238,11 @@ class ManageVideos(BaseSDK):
 
         #### Webhook Events
 
-        1. Once the subtitle track is generated and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasubtitlegeneratedready\">video.media.subtitle.generated.ready</a>.
+        1. Once the subtitle track is generated and ready, you will receive the webhook event <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasubtitlegenerated\">video.media.subtitle.generated</a>.
 
-        2. Finally, an update event <a href=\"https://fastpix.com/docs/vod-events/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
+        2. Finally, an update event <a href=\"https://fastpix.com/docs/webhooks/media-events#videomediaupdated\">video.media.updated</a> will notify your system about the media's updated status.
 
-        </br> Related guide: <a href=\"https://fastpix.com/docs/manage-audio-and-subtitle-tracks/generate-subtitles-automatically\">Add auto-generated subtitles</a>
+        </br> Related guide: <a href=\"https://fastpix.com/docs/video-on-demand/generate-subtitles-automatically\">Add auto-generated subtitles</a>
 
 
         :param media_id: A universally unique identifier (UUID) assigned to the media by FastPix.
@@ -2246,6 +2250,7 @@ class ManageVideos(BaseSDK):
         :param language_name: The full name of the language in which subtitles will be generated.
         :param language_code: Language code for content localization
         :param metadata: You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\" : \"value\" pairs. Dynamic Metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed.
+        :param title: Title of the track.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -2268,6 +2273,7 @@ class ManageVideos(BaseSDK):
                 language_name=language_name,
                 metadata=metadata,
                 language_code=language_code,
+                title=title,
             ),
         )
 
@@ -2357,7 +2363,7 @@ class ManageVideos(BaseSDK):
         2. Include the updated `sourceAccess` parameter in the request body.
 
         3. Receive a response confirming the update to the media's source access status.
-        4. Webhook events: <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
+        4. Webhook events: <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -2467,7 +2473,7 @@ class ManageVideos(BaseSDK):
         2. Include the updated `sourceAccess` parameter in the request body.
 
         3. Receive a response confirming the update to the media's source access status.
-        4. Webhook events: <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
+        4. Webhook events: <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasourceready\">video.media.source.ready</a>, <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediasourcedeleted\">video.media.source.deleted</a>
 
 
         :param media_id: When creating the media, FastPix assigns a universally unique identifier with a maximum length of 255 characters.
@@ -2560,7 +2566,7 @@ class ManageVideos(BaseSDK):
         self,
         *,
         media_id: str,
-        mp4_support: Optional[models.UpdatedMp4SupportMp4Support] = None,
+        mp4_support: models.UpdatedMp4SupportMp4Support,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2590,7 +2596,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        - <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+        - <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system will generate an MP4 rendition of the video up to 4K resolution, making it available for download via the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`).
@@ -2692,7 +2698,7 @@ class ManageVideos(BaseSDK):
         self,
         *,
         media_id: str,
-        mp4_support: Optional[models.UpdatedMp4SupportMp4Support] = None,
+        mp4_support: models.UpdatedMp4SupportMp4Support,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2722,7 +2728,7 @@ class ManageVideos(BaseSDK):
 
         #### Webhook events
 
-        - <a href=\"https://fastpix.com/docs/vod-events/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
+        - <a href=\"https://fastpix.com/docs/webhooks/transform-media-events#videomediamp4supportready\">video.media.mp4Support.ready</a> – Triggered when the MP4 support setting is successfully updated.
 
         #### Example
         Suppose you have a video uploaded to the FastPix platform, and you want to allow users to download the video in MP4 format. By setting \"mp4Support\": \"capped_4k\", the system will generate an MP4 rendition of the video up to 4K resolution, making it available for download via the stream URL(`https://stream.fastpix.com/{playbackId}/{capped-4k.mp4 | audio.m4a}`).
@@ -3018,6 +3024,196 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.RetrieveMediaInputInfoResponse, http_res
             )
+        self._raise_for_status_async(
+            http_res,
+            [
+                ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
+                ("403", errors.ForbiddenErrorData, errors.ForbiddenError),
+                ("404", errors.MediaNotFoundErrorData, errors.MediaNotFoundError),
+                ("422", errors.ValidationErrorResponseData, errors.ValidationErrorResponse),
+            ],
+        )
+
+    def get_summary(
+        self,
+        *,
+        media_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetMediaSummaryResponse:
+        r"""Get the summary of a video
+
+        This endpoint returns the generated summary of a video.
+
+        The summary is created using the **InVideo Summary** feature, which processes the video content and produces a textual summary.
+
+        To use this endpoint, you must first generate the video summary using the Generate Video Summary endpoint. This endpoint can return the summary only after that process is complete.
+
+        If the summary has not been generated or the feature is disabled for the requested media, the endpoint returns an error indicating that the summary is unavailable.
+
+
+        :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetMediaSummaryRequest(
+            media_id=media_id,
+        )
+
+        req = self._build_request(BuildRequestData(
+            method="GET",
+            path="/on-demand/{mediaId}/summary",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(1000, 10000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["408", "429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="get-media-summary",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "403", "404", "422", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
+        self._raise_for_status(
+            http_res,
+            [
+                ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
+                ("403", errors.ForbiddenErrorData, errors.ForbiddenError),
+                ("404", errors.MediaNotFoundErrorData, errors.MediaNotFoundError),
+                ("422", errors.ValidationErrorResponseData, errors.ValidationErrorResponse),
+            ],
+        )
+
+    async def get_summary_async(
+        self,
+        *,
+        media_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetMediaSummaryResponse:
+        r"""Get the summary of a video
+
+        This endpoint returns the generated summary of a video.
+
+        The summary is created using the **InVideo Summary** feature, which processes the video content and produces a textual summary.
+
+        To use this endpoint, you must first generate the video summary using the Generate Video Summary endpoint. This endpoint can return the summary only after that process is complete.
+
+        If the summary has not been generated or the feature is disabled for the requested media, the endpoint returns an error indicating that the summary is unavailable.
+
+
+        :param media_id: The unique identifier assigned to the media when created. The value must be a valid UUID.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetMediaSummaryRequest(
+            media_id=media_id,
+        )
+
+        req = self._build_request_async(BuildRequestData(
+            method="GET",
+            path="/on-demand/{mediaId}/summary",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(1000, 10000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["408", "429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="get-media-summary",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "403", "404", "422", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
         self._raise_for_status_async(
             http_res,
             [

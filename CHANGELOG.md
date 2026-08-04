@@ -5,6 +5,55 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.5]
+
+### Fixed
+
+- **`import fastpix_python` crashed on Python 3.9–3.13** — `playback.py` used
+  `List` without importing it, raising `NameError` at import time. Affected
+  1.1.3 and 1.1.4; masked on 3.14 by lazy annotations.
+- **Playback restriction methods had invalid return annotations** — corrected to
+  the actual `...ResponseBody` types.
+- **`models.DefaultError` was unregistered**, so the playback error path failed
+  to resolve.
+- **`fastpix.errors.list_errors` was unreachable** — `errors.py` was shadowed by
+  the `errors/` exception package; the resource module is now `errors_sdk.py`.
+- **`mp4Support` is a list of renditions**, not a string — deserialization
+  failed on `get_media`, `list_media`, `updated_media`, `updated_source_access`,
+  `updated_mp4Support`, `list_live_clips`.
+- **`updated_mp4_support()` sent an empty body** when `mp4_support` was omitted
+  (`400`). Now required.
+- **`sourceResolution` rejected bare numeric values** (`"1080"`, `"720"`). Both
+  forms are accepted, and the `360` tier was added.
+- **`maxDuration` and `resolution` rejected uncapped resources** — `maxDuration`
+  is now `0` or `60`–`28800`, and `CreatePlaybackId.resolution` is nullable.
+- **Version metadata disagreed** — `setup.py` `1.1.3` vs `1.1.5` elsewhere.
+
+### Added
+
+- **`get_summary()` / `get_summary_async()`** — `GET /on-demand/{mediaId}/summary`.
+- **Track `title`** on the track models and on `update_media_track()` /
+  `generate_subtitle_track()`.
+- **`optimize_audio`** on the live-clip response.
+
+### Removed
+
+- **`models.MediaMp4Support`** — use `models.MediaMp4SupportEntry`.
+- **`update_media_track()` no longer accepts `url`** — raises `TypeError`.
+- **Dead `ValidationErrorResponseError` export** — it pointed at a module that
+  was never generated, so importing it always raised `ImportError`.
+
+### Documentation
+
+- MP4 model pages point at `MediaMp4SupportEntry`; `mp4_support` marked required.
+- Doc links migrated to the restructured site;
+  `video.media.subtitle.generated.ready` → `video.media.subtitle.generated`.
+
+> The spec marks `mp4Support` on the update-mp4Support body both `required` and
+> `default: capped_4k`, which conflict. The SDK implements `required`.
+
+---
+
 ## [1.1.4]
 
 ### Changed

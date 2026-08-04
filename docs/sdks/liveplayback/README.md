@@ -37,7 +37,7 @@ with Fastpix(
     res = fastpix.live_playback.create_playback_id_of_stream(stream_id="your-stream-id", access_policy="public")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -88,7 +88,7 @@ with Fastpix(
     )
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -133,10 +133,10 @@ with Fastpix(
     ),
 ) as fastpix:
 
-    res = fastpix.live_playback.get_live_stream_playback_id(stream_id="61a264dcc447b63da6fb79ef925cd76d", playback_id="61a264dcc447b63da6fb79ef925cd76d")
+    res = fastpix.live_playback.get_live_stream_playback_id(stream_id="your-stream-id", playback_id="your-playback-id")
 
     # Handle response
-    print(json.dumps(res.model_dump(mode="json", by_alias=True), indent=2))
+    print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 
 ```
 
@@ -144,8 +144,8 @@ with Fastpix(
 
 | Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           | Example                                                                               |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `stream_id`                                                                           | *str*                                                                                 | :heavy_check_mark:                                                                    | After creating a new live stream, FastPix assigns a unique identifier to the stream.  | 61a264dcc447b63da6fb79ef925cd76d                                                      |
-| `playback_id`                                                                         | *str*                                                                                 | :heavy_check_mark:                                                                    | After creating a new playbackId, FastPix assigns a unique identifier to the playback. | 61a264dcc447b63da6fb79ef925cd76d                                                      |
+| `stream_id`                                                                           | *str*                                                                                 | :heavy_check_mark:                                                                    | After creating a new live stream, FastPix assigns a unique identifier to the stream.  | your-stream-id                                                      |
+| `playback_id`                                                                         | *str*                                                                                 | :heavy_check_mark:                                                                    | After creating a new playbackId, FastPix assigns a unique identifier to the playback. | your-playback-id                                                      |
 | `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |                                                                                       |
 
 ### Response
