@@ -1,7 +1,19 @@
 # FastPix Python SDK
 
+[![PyPI version](https://img.shields.io/pypi/v/fastpix-python)](https://pypi.org/project/fastpix-python/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/fastpix-python)](https://pypi.org/project/fastpix-python/)
+[![license](https://img.shields.io/pypi/l/fastpix-python)](https://github.com/FastPix/fastpix-python/blob/main/LICENSE)
+[![Python versions](https://img.shields.io/pypi/pyversions/fastpix-python)](https://pypi.org/project/fastpix-python/)
+
 A robust, type-safe Python SDK designed for seamless integration with the FastPix API platform.
 
+The FastPix Python SDK is a type-safe Python client for the FastPix video API. From any Python 3.9+ app you can upload and manage videos, run live streams and simulcasts, create and secure playback IDs, manage playlists and signing keys, pull video analytics (views, metrics, dimensions, and errors), and drive in-video AI features such as subtitles, chapters, summaries, and content moderation.
+
+**Works with:** Python 3.9.2+ · pip / uv / Poetry · sync and async clients · Pydantic models · any Python app or framework (Django, FastAPI, scripts)
+
+📖 **Docs:** https://fastpix.com/docs/language-sdks/python-sdk &nbsp;·&nbsp; 🚀 **Free account:** https://dashboard.fastpix.com
+
+<br />
 
 ## Introduction
 
@@ -19,11 +31,13 @@ The FastPix Python SDK simplifies integration with the FastPix platform. It prov
 
 > Pro Tip: We recommend using Python 3.11+ for optimal performance and the latest language features.
 
+<br />
+
 ### Getting Started with FastPix
 
 To get started with the FastPix Python SDK, ensure you have the following:
 
-- The FastPix APIs are authenticated using a **Username** and a **Password**. You must generate these credentials to use the SDK.
+- The FastPix APIs use **Basic Auth** with an **Access Token** as the username and a **Secret Key** as the password.
 - Follow the steps in the [Authentication with Basic Auth](https://fastpix.com/docs/getting-started/activate-your-account#authentication-format) guide to obtain your credentials.
 
 ### Environment Variables (Optional)
@@ -43,13 +57,19 @@ export FASTPIX_PASSWORD="your-secret-key"
 * [FastPix Python SDK](#fastpix-python-sdk)
   * [Setup](#setup)
   * [Example Usage](#example-usage)
+  * [Verify your integration](#verify-your-integration)
+  * [Next steps](#next-steps)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Debugging](#debugging)
+  * [FAQ](#faq)
+  * [Which FastPix SDK should I use?](#which-fastpix-sdk-should-i-use)
   * [Development](#development)
+
+ <br /> 
 
 ## Setup
 
@@ -122,6 +142,8 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 - [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 
+<br />
+
 ### Initialization
 
 Initialize the FastPix SDK with your credentials:
@@ -150,6 +172,8 @@ fastpix = Fastpix(
     ),
 )
 ```
+
+<br />
 
 ## Example Usage
 
@@ -181,6 +205,55 @@ with Fastpix(
 
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
+
+<br />
+
+### Verify your integration
+
+Run the example above to verify that your FastPix Python SDK integration is working.
+
+A successful response includes:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "..."
+  }
+}
+```
+
+The data.id value is the unique media ID assigned to the uploaded media.
+
+If the request fails, check that:
+
+- Your FastPix access token and secret key are correct.
+- Your credentials belong to the same FastPix workspace.
+- Your environment variables are set correctly.
+- The fastpix-python package is installed in your active Python environment.
+- You have an active internet connection.
+
+> **Security**: \
+Never commit your access token or secret key to version control. Use environment variables or a secure credential-management system.
+
+<br />
+
+## Next steps
+
+After verifying your integration, you can use the SDK to:
+
+- **Manage media** — list, retrieve, update, and delete media.
+- **Create playback IDs** — generate playback access for your media.
+- **Manage live streams** — create and manage live streaming sessions.
+- **Create playlists** — organize media into playlists.
+- **Manage signing keys** — create and manage keys for secure playback.
+- **Analyze video performance** — retrieve metrics, views, dimensions, and errors.
+- **Use in-video AI** — generate subtitles, summaries, chapters, and named entities.
+- **Manage media tracks** — add, update, and delete audio or subtitle tracks.
+
+See [Available Resources and Operations](#available-resources-and-operations) for the complete list.
+
+<br />
 
 ## Available Resources and Operations
 
@@ -234,6 +307,8 @@ For detailed documentation, see [FastPix Video on Demand Overview](https://fastp
 - [List DRM Configs](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/drmconfigurations/README.md#list) - Get all DRM configuration options
 - [Get DRM Config](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/drmconfigurations/README.md#get_by_id) - Retrieve specific DRM configuration
 
+<br />
+
 ### Live API
 
 Stream, manage, and transform live video content with real-time broadcasting capabilities.
@@ -265,6 +340,8 @@ For detailed documentation, see [FastPix Live Stream Overview](https://fastpix.c
 - [Get Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#get_simulcast) - Retrieve simulcast settings
 - [Update Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#update_simulcast) - Modify simulcast parameters
 
+<br />
+
 ### Video Data API
 
 Monitor video performance and quality with comprehensive analytics and real-time metrics.
@@ -288,6 +365,8 @@ For detailed documentation, see [FastPix Video Data Overview](https://fastpix.co
 
 #### Errors
 - [List Errors](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/errors/README.md#list) - Retrieve playback errors and issues
+
+<br />
 
 ### Transformations
 
@@ -325,6 +404,8 @@ Enhance video content with AI-powered features including moderation, summarizati
 - [Update MP4 Support](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#update_mp4_support) - Configure MP4 download capabilities
 
 <!-- End Available Resources and Operations [operations] -->
+
+<br />
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -406,6 +487,8 @@ with Fastpix(
 ```
 <!-- End Retries [retries] -->
 
+<br />
+
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
@@ -418,6 +501,8 @@ with Fastpix(
 | `err.headers`      | `httpx.Headers`  | HTTP response headers                                  |
 | `err.body`         | `str`            | HTTP body. Can be empty string if no body is returned. |
 | `err.raw_response` | `httpx.Response` | Raw HTTP response                                      |
+
+<br />
 
 ### Example
 
@@ -476,6 +561,8 @@ with Fastpix(
 </details>
 <!-- End Error Handling [errors] -->
 
+<br />
+
 <!-- Start Server Selection [server] -->
 ## Server Selection
 
@@ -513,6 +600,8 @@ with Fastpix(
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
 ```
 <!-- End Server Selection [server] -->
+
+<br />
 
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client
@@ -612,6 +701,8 @@ s = Fastpix(
 ```
 <!-- End Custom HTTP Client [http-client] -->
 
+<br />
+
 <!-- Start Debugging [debug] -->
 ## Debugging
 
@@ -639,7 +730,73 @@ s = Fastpix(
 You can also enable a default debug logger by setting an environment variable `FASTPIX_DEBUG` to true.
 <!-- End Debugging [debug] -->
 
-# Development
+## FAQ
+
+**How do I install the FastPix Python SDK?**
+
+Run `pip install fastpix-python` (or `uv add fastpix-python` / `poetry add fastpix-python`). See [Setup](#setup) and [Installation](#installation).
+
+**How do I authenticate the SDK?**
+
+FastPix uses Basic Auth: pass your access token as `username` and your secret key as `password` in `models.Security` when constructing the client. See [Initialization](#initialization).
+
+**How do I upload a video in Python?**
+
+Create media from a URL or a direct upload through `fastpix.input_video`, for example `fastpix.input_video.create_media(...)`. See [Example Usage](#example-usage) and [Available Resources and Operations](#available-resources-and-operations).
+
+**Does the SDK support async?**
+
+Yes - it provides both synchronous and asynchronous clients. See [Custom HTTP Client](#custom-http-client).
+
+**How do I start a live stream?**
+
+Use the Live API resources to create and manage streams, simulcasts, and live playback IDs. See [Available Resources and Operations](#available-resources-and-operations).
+
+**How do I get video analytics and metrics in Python?**
+
+The Video Data API exposes metrics, views, dimensions, and errors for quality-of-experience monitoring. See [Available Resources and Operations](#available-resources-and-operations).
+
+**How do I handle API errors?**
+
+Wrap calls in try/except and catch `errors.FastpixError`, which exposes the message, status code, headers, and body. See [Error Handling](#error-handling).
+
+**How do I configure automatic retries?**
+
+Pass a `RetryConfig` per call or at client initialization to control the backoff strategy. See [Retries](#retries).
+
+**How do I use a custom HTTP client, proxy, or timeout?**
+
+Pass your own `httpx` client (sync or async) to configure timeouts, proxies, and custom headers. See [Custom HTTP Client](#custom-http-client).
+
+**How do I enable debug logging?**
+
+Pass a logger to the client or set the `FASTPIX_DEBUG` environment variable. See [Debugging](#debugging).
+
+**Which Python versions are supported?**
+
+Python 3.9.2 and above. See [Prerequisites](#prerequisites).
+
+<br />
+
+## Which FastPix SDK should I use?
+
+FastPix publishes a server SDK for every major backend language, each generated from the same API specification:
+
+| Language | Repo | Install |
+|---|---|---|
+| **Python** (this repo) | [fastpix-python](https://github.com/FastPix/fastpix-python) | `pip install fastpix-python` |
+| Node.js / TypeScript | [node-sdk](https://github.com/FastPix/node-sdk) | `npm install @fastpix/fastpix-node` |
+| PHP | [fastpix-php](https://github.com/FastPix/fastpix-php) | `composer require fastpix/sdk` |
+| Go | [fastpix-go](https://github.com/FastPix/fastpix-go) | `go get github.com/FastPix/fastpix-go` |
+| Java | [fastpix-java](https://github.com/FastPix/fastpix-java) | `io.fastpix:sdk` (Maven/Gradle) |
+| C# / .NET | [fastpix-sdk-csharp](https://github.com/FastPix/fastpix-sdk-csharp) | `dotnet add package Fastpix` |
+| Ruby | [fastpix-ruby](https://github.com/FastPix/fastpix-ruby) | `gem install fastpixapi` |
+
+To upload and play the media these SDKs create, use the FastPix browser libraries: [web-uploads-sdk](https://github.com/FastPix/web-uploads-sdk), [react-web-uploader](https://github.com/FastPix/react-web-uploader), and [web-player-component](https://github.com/FastPix/web-player-component). Browse everything in the [FastPix organization](https://github.com/orgs/FastPix/repositories).
+
+<br />
+
+## Development
 
 This Python SDK is programmatically generated from our API specifications. Any manual modifications to internal files will be overwritten during subsequent generation cycles. 
 
