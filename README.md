@@ -3,7 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/fastpix-python)](https://pypi.org/project/fastpix-python/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/fastpix-python)](https://pypi.org/project/fastpix-python/)
 [![license](https://img.shields.io/pypi/l/fastpix-python)](https://github.com/FastPix/fastpix-python/blob/main/LICENSE)
-[![Python versions](https://img.shields.io/pypi/pyversions/fastpix-python)](https://pypi.org/project/fastpix-python/)
+[![Python 3.9.2+](https://img.shields.io/badge/python-3.9.2%2B-3776AB?logo=python&logoColor=white)](https://pypi.org/project/fastpix-python/)
 
 A robust, type-safe Python SDK designed for seamless integration with the FastPix API platform.
 
@@ -19,21 +19,19 @@ The FastPix Python SDK is a type-safe Python client for the FastPix video API. F
 
 The FastPix Python SDK simplifies integration with the FastPix platform. It provides a clean, Python interface for secure and efficient communication with the FastPix API, enabling easy management of media uploads, live streaming, on‑demand content, playlists, video analytics, and signing keys for secure access and token management. It is intended for use with Python 3.9.2 and above.
 
-## Prerequisites
+## Before you begin
 
 ### Environment and Version Support
 
 | Requirement | Version | Description |
 |---|---:|---|
-| Python | `3.9.2+` | Core runtime environment |
+| Python | `3.9.2` or later | Core runtime environment |
 | pip/uv/poetry | `Latest` | Package manager for dependencies |
 | Internet | `Required` | API communication and authentication |
 
-> Pro Tip: We recommend using Python 3.11+ for optimal performance and the latest language features.
-
 <br />
 
-### Getting Started with FastPix
+### Get your FastPix credentials
 
 To get started with the FastPix Python SDK, ensure you have the following:
 
@@ -774,7 +772,7 @@ Pass a logger to the client or set the `FASTPIX_DEBUG` environment variable. See
 
 **Which Python versions are supported?**
 
-Python 3.9.2 and above. See [Prerequisites](#prerequisites).
+Python 3.9.2 and above. See [Before you begin](#before-you-begin).
 
 <br />
 
