@@ -358,24 +358,7 @@ Creating media is usually the first operation in an on-demand video workflow.
 
 The basic workflow is:
 
-```text
-Create media
-     |
-     v
-Receive media ID
-     |
-     v
-Retrieve media
-     |
-     v
-Check media status
-     |
-     v
-Create playback ID
-     |
-     v
-Play the video
-```
+<Image alt="FastPix media workflow: create media returns a media ID, retrieve the media, check status until ready, create a playback ID, then play the video." border={false} src="https://static.fastpix.com/media-workflow.png" />
 
 The media ID is the identifier you carry from one operation to the next.
 
