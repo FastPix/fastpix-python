@@ -21,6 +21,7 @@ dev = [
     "pyright ==1.1.405",
     "jsonschema >=4.0.0",
     "pyyaml >=6.0",
+    "pytest >=8.0",
 ]
 
 [tool.setuptools.packages.find]

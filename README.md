@@ -671,7 +671,7 @@ with Fastpix(
 
 ## Error Handling
 
-[`FastpixError`](./src/fastpix_python/errors/fastpixerror.py) is the base class for all HTTP error responses. It has the following properties:
+[`FastpixError`](./fastpix_python/errors/fastpixerror.py) is the base class for all HTTP error responses. It has the following properties:
 
 | Property           | Type             | Description                                            |
 | ------------------ | ---------------- | ------------------------------------------------------ |
@@ -725,7 +725,7 @@ with Fastpix(
 ### Error Classes
 
 **Primary error:**
-* [`FastpixError`](./src/fastpix_python/errors/fastpixerror.py): The base class for HTTP error responses.
+* [`FastpixError`](./fastpix_python/errors/fastpixerror.py): The base class for HTTP error responses.
 
 <details><summary>Less common errors (5)</summary>
 
@@ -737,8 +737,8 @@ with Fastpix(
     * [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
 
 
-**Inherit from [`FastpixError`](./src/fastpix_python/errors/fastpixerror.py)**:
-* [`ResponseValidationError`](./src/fastpix_python/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
+**Inherit from [`FastpixError`](./fastpix_python/errors/fastpixerror.py)**:
+* [`ResponseValidationError`](./fastpix_python/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
 <!-- End Error Handling [errors] -->
