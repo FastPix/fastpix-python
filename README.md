@@ -584,7 +584,7 @@ Enhance video content with AI-powered features including moderation, summarizati
 
 <!-- End Available Resources and Operations [operations] -->
 <br />
-<!-- Start Retries [retries] -->
+
 ## Retries
 
 Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
@@ -668,7 +668,7 @@ with Fastpix(
 ```
 <!-- End Retries [retries] -->
 <br />
-<!-- Start Error Handling [errors] -->
+
 ## Error Handling
 
 [`FastpixError`](./src/fastpix_python/errors/fastpixerror.py) is the base class for all HTTP error responses. It has the following properties:
@@ -743,7 +743,7 @@ with Fastpix(
 </details>
 <!-- End Error Handling [errors] -->
 <br />
-<!-- Start Server Selection [server] -->
+
 ## Server Selection
 
 ### Override Server URL Per-Client
@@ -783,7 +783,7 @@ with Fastpix(
 ```
 <!-- End Server Selection [server] -->
 <br />
-<!-- Start Custom HTTP Client [http-client] -->
+
 ## Custom HTTP Client
 
 The Python SDK makes API calls using the [httpx](https://www.python-httpx.org/) HTTP library. In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with your own HTTP client instance.
@@ -881,7 +881,7 @@ s = Fastpix(
 ```
 <!-- End Custom HTTP Client [http-client] -->
 <br />
-<!-- Start Debugging [debug] -->
+
 ## Debugging
 
 You can setup your SDK to emit debug logs for SDK requests and responses.
