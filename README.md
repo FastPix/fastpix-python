@@ -22,15 +22,15 @@ The FastPix Python SDK is a type-safe Python client for the FastPix video API. F
 
 If you are using the FastPix Python SDK for the first time, follow these steps in order:
 
-1. Check your Python version.
-2. Create a Python environment.
-3. Install the SDK.
-4. Configure your FastPix credentials.
-5. Verify that the SDK can be imported.
-6. Initialize the FastPix client.
-7. Create your first media asset.
-8. Save the returned media ID.
-9. Use the media ID for subsequent operations.
+1. [Check your Python version](#1-check-your-python-version)
+2. [Create a Python project](#2-create-a-python-project)
+3. [Install the SDK](#3-install-the-sdk)
+4. [Verify the installation](#4-verify-the-installation)
+5. [Configure authentication](#5-configure-authentication)
+6. [Initialize the FastPix client](#6-initialize-the-fastpix-client)
+7. [Make your first API request](#7-make-your-first-api-request)
+8. [Verify the API response](#8-verify-the-api-response)
+9. [Understand the media workflow](#9-understand-the-media-workflow)
 
 Do not skip the verification step. If installation or authentication fails, troubleshoot that problem before continuing to the next API operation.
 
@@ -57,7 +57,7 @@ You can obtain your credentials from the FastPix Dashboard. Follow the steps in 
 
 ---
 
-1. Check your Python version
+## 1. Check your Python version
 
 ```bash
 python3 --version
@@ -73,7 +73,7 @@ or a later version.
 
 If your Python version is earlier than 3.9.2, install a supported version before continuing.
 
-2. Create a Python project
+## 2. Create a Python project
 
 a. Create a new directory for your FastPix application:
 
@@ -108,7 +108,7 @@ d. Verify that the virtual environment is active:
 python --version
 ```
 
-3. Install the SDK
+## 3. Install the SDK
 
 ### Using pip
 
@@ -128,7 +128,7 @@ uv add fastpix-python
 poetry add fastpix-python
 ```
 
-4. Verify the installation
+## 4. Verify the installation
 
 Before making an API request, verify that Python can import the SDK:
 
@@ -157,7 +157,7 @@ You can verify the installed package with:
 pip show fastpix-python
 ```
 
-5. Configure authentication
+## 5. Configure authentication
 
 FastPix uses Basic Authentication.
 
@@ -212,7 +212,7 @@ Never:
 
 Use environment variables or a secure credential-management system.
 
-6. Initialize the FastPix client
+## 6. Initialize the FastPix client
 
 a. Create a file named `example.py`:
 
@@ -259,7 +259,7 @@ fastpix.input_video.create_media(...)
 
 ---
 
-7. Make your first API request
+## 7. Make your first API request
 
 The easiest way to verify the complete integration is to create media from a publicly accessible video URL.
 
@@ -315,7 +315,7 @@ python example.py
 
 ---
 
-8. Verify the API response
+## 8. Verify the API response
 
 A successful request returns a response containing a media ID.
 
@@ -352,30 +352,13 @@ Do not confuse a `media_id` with a `playback_id`.
 
 They identify different resources and are used for different operations.
 
-9. Understand the media workflow
+## 9. Understand the media workflow
 
 Creating media is usually the first operation in an on-demand video workflow.
 
 The basic workflow is:
 
-```text
-Create media
-     |
-     v
-Receive media ID
-     |
-     v
-Retrieve media
-     |
-     v
-Check media status
-     |
-     v
-Create playback ID
-     |
-     v
-Play the video
-```
+<Image alt="FastPix media workflow: create media returns a media ID, retrieve the media, check status until ready, create a playback ID, then play the video." border={false} src="https://static.fastpix.com/media-workflow.png" />
 
 The media ID is the identifier you carry from one operation to the next.
 
@@ -583,6 +566,7 @@ Enhance video content with AI-powered features including moderation, summarizati
 - [Update MP4 Support](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/managevideos/README.md#update_mp4_support) - Configure MP4 download capabilities
 
 <!-- End Available Resources and Operations [operations] -->
+
 <br />
 
 ## Retries
@@ -667,6 +651,7 @@ with Fastpix(
 
 ```
 <!-- End Retries [retries] -->
+
 <br />
 
 ## Error Handling
@@ -742,6 +727,7 @@ with Fastpix(
 
 </details>
 <!-- End Error Handling [errors] -->
+
 <br />
 
 ## Server Selection
@@ -782,6 +768,7 @@ with Fastpix(
 
 ```
 <!-- End Server Selection [server] -->
+
 <br />
 
 ## Custom HTTP Client
@@ -880,6 +867,7 @@ s = Fastpix(
 )
 ```
 <!-- End Custom HTTP Client [http-client] -->
+
 <br />
 
 ## Debugging
