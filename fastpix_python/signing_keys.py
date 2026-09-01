@@ -240,7 +240,7 @@ class SigningKeys(BaseSDK):
 
         if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CreateResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnAuthorizedResponseErrorData, errors.UnAuthorizedResponseError),
@@ -459,7 +459,7 @@ class SigningKeys(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetAllSigningKeyResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnAuthorizedResponseErrorData, errors.UnAuthorizedResponseError),
@@ -670,7 +670,7 @@ class SigningKeys(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteSigningKeyResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnAuthorizedResponseErrorData, errors.UnAuthorizedResponseError),
@@ -942,7 +942,7 @@ class SigningKeys(BaseSDK):
             return unmarshal_json_response(
                 models.GetPublicPemUsingSigningKeyIDResponseDTO, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnAuthorizedResponseErrorData, errors.UnAuthorizedResponseError),

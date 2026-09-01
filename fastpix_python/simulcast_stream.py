@@ -254,7 +254,7 @@ class SimulcastStream(BaseSDK):
 
         if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.SimulcastResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.SimulcastUnavailableErrorData, errors.SimulcastUnavailableError),
@@ -449,7 +449,7 @@ class SimulcastStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.SimulcastdeleteResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -637,7 +637,7 @@ class SimulcastStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.SimulcastResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -859,7 +859,7 @@ class SimulcastStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.SimulcastUpdateResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),

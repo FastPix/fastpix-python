@@ -227,7 +227,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetStreamsResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -418,7 +418,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ViewsCountResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -606,7 +606,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.LivestreamgetResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -800,7 +800,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.LiveStreamDeleteResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -1028,7 +1028,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.PatchResponseDTO, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.UnauthorizedErrorData, errors.UnauthorizedError),
@@ -1225,7 +1225,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.LiveStreamDeleteResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.BadRequestUnion, errors.BadRequest),
@@ -1419,7 +1419,7 @@ class ManageLiveStream(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.LiveStreamDeleteResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.StreamAlreadyDisabledErrorData, errors.StreamAlreadyDisabledError),
@@ -1625,7 +1625,7 @@ class ManageLiveStream(BaseSDK):
                 errors.UnauthorizedErrorData, http_res
             )
             raise errors.UnauthorizedError(response_data, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("403", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),

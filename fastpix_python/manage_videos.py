@@ -239,7 +239,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -441,7 +441,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListLiveClipsResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -658,7 +658,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -888,7 +888,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -1092,7 +1092,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -1351,7 +1351,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.AddMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -1557,7 +1557,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CancelUploadResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.BadRequestErrorData, errors.BadRequestError),
@@ -1835,7 +1835,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdateMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -2068,7 +2068,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -2331,7 +2331,7 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.GenerateSubtitleTrackResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -2552,7 +2552,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedSourceAccessResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -2815,7 +2815,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMp4SupportResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.DuplicateMp4SupportErrorData, errors.DuplicateMp4SupportError),
@@ -3024,7 +3024,7 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.RetrieveMediaInputInfoResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3214,7 +3214,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3433,7 +3433,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListUploadsResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3662,7 +3662,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.MediaClipResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),

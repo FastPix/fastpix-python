@@ -268,7 +268,7 @@ class InVideoAIFeatures(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdateMediaSummaryResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -492,7 +492,7 @@ class InVideoAIFeatures(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdateMediaChaptersResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -730,7 +730,7 @@ class InVideoAIFeatures(BaseSDK):
             return unmarshal_json_response(
                 models.UpdateMediaNamedEntitiesResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -972,7 +972,7 @@ class InVideoAIFeatures(BaseSDK):
             return unmarshal_json_response(
                 models.UpdateMediaModerationResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
