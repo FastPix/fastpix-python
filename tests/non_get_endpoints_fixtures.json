@@ -1,5 +1,5 @@
 {
-  "_help": "Fixtures for validate_non_get_endpoints.py. CREATE entries provide the request body for each create step; the harness captures returned IDs into a shared context and threads them through UPDATE/DELETE steps. UPDATE/DELETE entries here are reference shapes only — at runtime the harness merges them with IDs from context. Set `skip: true` to keep an entry as documentation without executing it. The harness uses snake_case for top-level kwargs; nested dicts use the SDK's TypedDict aliases (camelCase) which pydantic resolves at construction.",
+  "_help": "Fixtures for validate_non_get_endpoints.py. CREATE entries provide the request body for each create step; the harness captures returned IDs into a shared context and threads them through UPDATE/DELETE steps. UPDATE/DELETE entries here are reference shapes only \u2014 at runtime the harness merges them with IDs from context. Set `skip: true` to keep an entry as documentation without executing it. The harness uses snake_case for top-level kwargs; nested dicts use the SDK's TypedDict aliases (camelCase) which pydantic resolves at construction.",
   "operations": {
     "create-media": {
       "description": "Create an on-demand media from a public URL.",
@@ -10,23 +10,25 @@
             "url": "https://static.fastpix.com/sample.mp4"
           }
         ],
-        "metadata": { "source": "non-get-validator" },
+        "metadata": {
+          "source": "non-get-validator"
+        },
         "accessPolicy": "public",
         "maxResolution": "720p"
       }
     },
-
     "direct-upload-video-media": {
       "description": "Mint a signed URL for a direct browser upload. Non-destructive.",
       "request": {
         "corsOrigin": "*",
         "pushMediaSettings": {
           "accessPolicy": "public",
-          "metadata": { "source": "non-get-validator" }
+          "metadata": {
+            "source": "non-get-validator"
+          }
         }
       }
     },
-
     "create-a-playlist": {
       "description": "Create a manual playlist.",
       "request": {
@@ -38,12 +40,15 @@
         "metadata": {}
       }
     },
-
     "create-new-stream": {
       "description": "Create a new live stream. Costs nothing until it goes live.",
       "request": {
-        "metadata": { "source": "non-get-validator" },
-        "playbackSettings": { "accessPolicy": "public" },
+        "metadata": {
+          "source": "non-get-validator"
+        },
+        "playbackSettings": {
+          "accessPolicy": "public"
+        },
         "inputMediaSettings": {
           "maxResolution": "1080p",
           "reconnectWindow": 60,
@@ -52,12 +57,10 @@
         }
       }
     },
-
     "create_signing_key": {
       "description": "Create a new signing key for JWT minting.",
       "request": {}
     },
-
     "Add-media-track": {
       "description": "Attach a subtitle track to the media created earlier.",
       "request": {
@@ -68,7 +71,6 @@
         "closedCaptions": true
       }
     },
-
     "Generate-subtitle-track": {
       "description": "Trigger subtitle generation on an audio track.",
       "request": {
@@ -76,17 +78,30 @@
         "languageName": "English"
       }
     },
-
     "create-media-playback-id": {
       "description": "Create an additional playback ID on the media.",
-      "request": { "accessPolicy": "public" }
+      "request": {
+        "accessPolicy": "public"
+      }
     },
-
     "create-playbackId-of-stream": {
       "description": "Create an additional playback ID on the live stream.",
-      "request": { "accessPolicy": "public" }
+      "request": {
+        "accessPolicy": "public",
+        "accessRestrictions": {
+          "domains": {
+            "defaultPolicy": "allow",
+            "allow": [],
+            "deny": []
+          },
+          "userAgents": {
+            "defaultPolicy": "allow",
+            "allow": [],
+            "deny": []
+          }
+        }
+      }
     },
-
     "create-simulcast-of-stream": {
       "description": "Create a simulcast destination on the live stream.",
       "request": {
@@ -94,12 +109,14 @@
         "streamKey": "test-stream-key-non-get-validator"
       }
     },
-
     "updated-media": {
       "description": "Update metadata on the created media.",
-      "request": { "metadata": { "updatedBy": "non-get-validator" } }
+      "request": {
+        "metadata": {
+          "updatedBy": "non-get-validator"
+        }
+      }
     },
-
     "update-media-track": {
       "description": "Replace the URL/language on the created track.",
       "request": {
@@ -107,38 +124,47 @@
         "languageName": "English"
       }
     },
-
     "cancel-upload": {
       "description": "Cancel the in-progress resumable upload from direct-upload-video-media.",
       "request": {}
     },
-
     "update-media-summary": {
       "description": "Toggle summary generation.",
-      "request": { "generate": true, "summaryLength": 100 }
+      "request": {
+        "generate": true,
+        "summaryLength": 100
+      }
     },
     "update-media-chapters": {
       "description": "Toggle chapter generation.",
-      "request": { "generate": true }
+      "request": {
+        "generate": true
+      }
     },
     "update-media-named-entities": {
       "description": "Toggle named-entity extraction.",
-      "request": { "generate": true }
+      "request": {
+        "generate": true
+      }
     },
     "update-media-moderation": {
       "description": "Toggle moderation.",
-      "request": { "generate": true }
+      "request": {
+        "generate": true
+      }
     },
-
     "updated-source-access": {
       "description": "Enable source-file access.",
-      "request": { "sourceAccess": true }
+      "request": {
+        "sourceAccess": true
+      }
     },
     "updated-mp4Support": {
       "description": "Enable mp4 capped_4k support.",
-      "request": { "mp4Support": "capped_4k" }
+      "request": {
+        "mp4Support": "capped_4k"
+      }
     },
-
     "add-media-to-playlist": {
       "description": "Add the created media to the created playlist.",
       "request": {}
@@ -149,38 +175,49 @@
     },
     "update-a-playlist": {
       "description": "Rename the created playlist.",
-      "request": { "name": "Non-GET Validator Playlist (renamed)" }
+      "request": {
+        "name": "Non-GET Validator Playlist (renamed)"
+      }
     },
-
     "update-domain-restrictions": {
       "description": "Set domain restrictions on the created playback ID.",
       "request": {
-        "defaultPolicy": "allow", "allow": [], "deny": []
+        "defaultPolicy": "allow",
+        "allow": [],
+        "deny": []
       }
     },
     "update-user-agent-restrictions": {
       "description": "Set user-agent restrictions on the created playback ID.",
       "request": {
-        "defaultPolicy": "allow", "allow": [], "deny": []
+        "defaultPolicy": "allow",
+        "allow": [],
+        "deny": []
       }
     },
-
     "update-live-stream-domain-restrictions": {
       "description": "Set domain restrictions on the created live stream playback ID.",
       "request": {
-        "defaultPolicy": "allow", "allow": [], "deny": []
+        "defaultPolicy": "allow",
+        "allow": [],
+        "deny": []
       }
     },
     "update-live-stream-user-agent-restrictions": {
       "description": "Set user-agent restrictions on the created live stream playback ID.",
       "request": {
-        "defaultPolicy": "allow", "allow": [], "deny": []
+        "defaultPolicy": "allow",
+        "allow": [],
+        "deny": []
       }
     },
-
     "update-live-stream": {
       "description": "Update metadata on the created live stream.",
-      "request": { "metadata": { "updatedBy": "non-get-validator" } }
+      "request": {
+        "metadata": {
+          "updatedBy": "non-get-validator"
+        }
+      }
     },
     "enable-live-stream": {
       "description": "Enable the created live stream.",
@@ -196,20 +233,47 @@
       "expectedFailReason": "No active RTMPS encoder is broadcasting to the stream, so the API rejects 'finish' with 400.",
       "request": {}
     },
-
     "update-specific-simulcast-of-stream": {
       "description": "Toggle isEnabled on the created simulcast.",
-      "request": { "isEnabled": true }
+      "request": {
+        "isEnabled": true
+      }
     },
-
-    "delete-media-track": { "description": "Delete the created track.", "request": {} },
-    "delete-media-playback-id": { "description": "Delete the created media playback ID.", "request": {} },
-    "delete-media-from-playlist": { "description": "Remove the created media from the playlist.", "request": {} },
-    "delete-playbackId-of-stream": { "description": "Delete the created stream playback ID.", "request": {} },
-    "delete-simulcast-of-stream": { "description": "Delete the created simulcast.", "request": {} },
-    "delete-media": { "description": "Delete the created media.", "request": {} },
-    "delete-a-playlist": { "description": "Delete the created playlist.", "request": {} },
-    "delete-live-stream": { "description": "Delete the created live stream.", "request": {} },
-    "delete_signing_key": { "description": "Delete the created signing key.", "request": {} }
+    "delete-media-track": {
+      "description": "Delete the created track.",
+      "request": {}
+    },
+    "delete-media-playback-id": {
+      "description": "Delete the created media playback ID.",
+      "request": {}
+    },
+    "delete-media-from-playlist": {
+      "description": "Remove the created media from the playlist.",
+      "request": {}
+    },
+    "delete-playbackId-of-stream": {
+      "description": "Delete the created stream playback ID.",
+      "request": {}
+    },
+    "delete-simulcast-of-stream": {
+      "description": "Delete the created simulcast.",
+      "request": {}
+    },
+    "delete-media": {
+      "description": "Delete the created media.",
+      "request": {}
+    },
+    "delete-a-playlist": {
+      "description": "Delete the created playlist.",
+      "request": {}
+    },
+    "delete-live-stream": {
+      "description": "Delete the created live stream.",
+      "request": {}
+    },
+    "delete_signing_key": {
+      "description": "Delete the created signing key.",
+      "request": {}
+    }
   }
 }

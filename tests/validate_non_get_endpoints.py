@@ -788,7 +788,10 @@ def main() -> int:
         timeout=180.0,
     )
     security = models.Security(username=user, password=pwd)
-    sdk = fastpix_cls(security=security, client=client)
+    sdk_kwargs: Dict[str, Any] = {"security": security, "client": client}
+    if os.environ.get("FASTPIX_BASE_URL"):
+        sdk_kwargs["server_url"] = os.environ["FASTPIX_BASE_URL"].rstrip("/")
+    sdk = fastpix_cls(**sdk_kwargs)
     ctx: Dict[str, Any] = {}
 
     total = len(STEPS)

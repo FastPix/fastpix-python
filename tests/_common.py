@@ -51,6 +51,9 @@ def load_spec(path: Path = SPEC_PATH) -> Dict[str, Any]:
 
 
 def spec_server_url(spec: Mapping[str, Any]) -> str:
+    override = os.environ.get("FASTPIX_BASE_URL")
+    if override:
+        return override.rstrip("/")
     servers = spec.get("servers") or []
     if not servers:
         raise RuntimeError("Spec has no servers[] entry.")
@@ -533,6 +536,9 @@ def build_sdk(client: Optional[Any] = None) -> Any:
     kwargs: Dict[str, Any] = {"security": security}
     if client is not None:
         kwargs["client"] = client
+    base_override = os.environ.get("FASTPIX_BASE_URL")
+    if base_override:
+        kwargs["server_url"] = base_override.rstrip("/")
     return fastpix_cls(**kwargs)
 
 
