@@ -46,6 +46,7 @@ with Fastpix(
         "metadata": {
             "livestream_name": "your-livestream-name",
         },
+        "enable_recording": True,
     })
 
     # Handle response

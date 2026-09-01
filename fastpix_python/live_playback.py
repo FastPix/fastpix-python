@@ -54,7 +54,7 @@ class LivePlayback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaybackIDSuccessResponseData:
+    ) -> models.PlaybackIDSuccessResponse:
         r"""Create a playbackId
 
         Generates a new playback ID for the live stream, allowing viewers to access the stream through this ID. The playback ID can be shared with viewers for direct access to the live broadcast.
@@ -168,7 +168,7 @@ class LivePlayback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaybackIDSuccessResponseData:
+    ) -> models.PlaybackIDSuccessResponse:
         r"""Create a playbackId
 
         Generates a new playback ID for the live stream, allowing viewers to access the stream through this ID. The playback ID can be shared with viewers for direct access to the live broadcast.
@@ -464,7 +464,7 @@ class LivePlayback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaybackIDSuccessResponseData:
+    ) -> models.PlaybackIDSuccessResponse:
         r"""Get playbackId details
 
         Retrieves details about a previously created playback ID. If you provide the distinct `playbackId` that was given back to you in the previous stream or create playbackId request, FastPix will provide the relevant playback details such as the access policy.
@@ -558,7 +558,7 @@ class LivePlayback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaybackIDSuccessResponseData:
+    ) -> models.PlaybackIDSuccessResponse:
         r"""Get playbackId details
 
         Retrieves details about a previously created playback ID. If you provide the distinct `playbackId` that was given back to you in the previous stream or create playbackId request, FastPix will provide the relevant playback details such as the access policy.

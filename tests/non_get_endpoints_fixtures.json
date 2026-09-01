@@ -47,7 +47,8 @@
         "inputMediaSettings": {
           "maxResolution": "1080p",
           "reconnectWindow": 60,
-          "mediaPolicy": "public"
+          "mediaPolicy": "public",
+          "enableRecording": true
         }
       }
     },
@@ -154,13 +155,26 @@
     "update-domain-restrictions": {
       "description": "Set domain restrictions on the created playback ID.",
       "request": {
-        "domains": { "defaultPolicy": "allow", "allow": [], "deny": [] }
+        "defaultPolicy": "allow", "allow": [], "deny": []
       }
     },
     "update-user-agent-restrictions": {
       "description": "Set user-agent restrictions on the created playback ID.",
       "request": {
-        "userAgents": { "defaultPolicy": "allow", "allow": [], "deny": [] }
+        "defaultPolicy": "allow", "allow": [], "deny": []
+      }
+    },
+
+    "update-live-stream-domain-restrictions": {
+      "description": "Set domain restrictions on the created live stream playback ID.",
+      "request": {
+        "defaultPolicy": "allow", "allow": [], "deny": []
+      }
+    },
+    "update-live-stream-user-agent-restrictions": {
+      "description": "Set user-agent restrictions on the created live stream playback ID.",
+      "request": {
+        "defaultPolicy": "allow", "allow": [], "deny": []
       }
     },
 

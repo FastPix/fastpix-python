@@ -23,14 +23,21 @@ def main():
         # 1. Create a live stream.
         stream = fastpix.start_live_stream.create_new_stream(
             playback_settings={},
-            input_media_settings={"metadata": {"livestream_name": "fastpix_livestream"}},
+            input_media_settings={"metadata": {"livestream_name": "fastpix_livestream"}, "enable_recording": True},
         )
         _print("create stream", stream)
         stream_id = stream.data.stream_id
 
         # 2. Give it a playback id.
-        _print("create playback id", fastpix.live_playback.create_playback_id_of_stream(
+        playback = fastpix.live_playback.create_playback_id_of_stream(
             stream_id=stream_id, access_policy="public",
+        )
+        _print("create playback id", playback)
+        playback_id = playback.data.id
+
+        # Restrict playback to example.com only.
+        _print("update domain restrictions", fastpix.live_playback.update_live_stream_domain_restrictions(
+            stream_id=stream_id, playback_id=playback_id, default_policy="deny", allow=["example.com"], deny=[],
         ))
 
         # 3. Read + update + toggle state.
