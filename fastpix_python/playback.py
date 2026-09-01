@@ -301,7 +301,7 @@ class Playback(BaseSDK):
             return unmarshal_json_response(
                 models.CreateMediaPlaybackIDResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -511,7 +511,7 @@ class Playback(BaseSDK):
             return unmarshal_json_response(
                 models.DeleteMediaPlaybackIDResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -709,7 +709,7 @@ class Playback(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetPlaybackIDResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -1159,3 +1159,248 @@ class Playback(BaseSDK):
 
         raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
 
+    async def update_domain_restrictions_async(
+        self,
+        *,
+        media_id: str,
+        playback_id: str,
+        default_policy: Optional[
+            models.UpdateDomainRestrictionsDefaultPolicy
+        ] = "allow",
+        allow: Optional[List[str]] = None,
+        deny: Optional[List[str]] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.UpdateDomainRestrictionsResponseBody:
+        r"""Update domain restrictions for a playback ID
+
+        This endpoint updates domain-level restrictions for a specific playback ID associated with a media asset.
+        It allows you to restrict playback to specific domains or block known unauthorized domains.
+
+        **How it works:**
+        1. Make a `PATCH` request to this endpoint with your desired domain access configuration.
+        2. Set a default policy (`allow` or `deny`) and specify domain names in the `allow` or `deny` lists.
+        3. This is commonly used to restrict video playback to your website or approved client domains.
+
+        **Example:**
+        A streaming service can allow playback only from `example.com` and deny all others by setting: `\"defaultPolicy\": \"deny\"` and `\"allow\": [\"example.com\"]`.
+
+
+        :param media_id:
+        :param playback_id:
+        :param default_policy: Specify the fallback behavior for domains that are not listed in the `allow` or `deny` lists.
+        :param allow: List of domains explicitly allowed to play the media.
+        :param deny: List of domains explicitly denied from accessing the media.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.UpdateDomainRestrictionsRequest(
+            media_id=media_id,
+            playback_id=playback_id,
+            body=models.UpdateDomainRestrictionsRequestBody(
+                default_policy=default_policy,
+                allow=allow,
+                deny=deny,
+            ),
+        )
+
+        req = self._build_request_async(BuildRequestData(
+            method="PATCH",
+            path="/on-demand/{mediaId}/playback-ids/{playbackId}/domains",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.body,
+                False,
+                False,
+                "json",
+                models.UpdateDomainRestrictionsRequestBody,
+            ),
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="update-domain-restrictions",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(
+                models.UpdateDomainRestrictionsResponseBody, http_res
+            )
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.FastpixDefaultError(
+                API_ERROR_MESSAGE, http_res, http_res_text
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.FastpixDefaultError(
+                API_ERROR_MESSAGE, http_res, http_res_text
+            )
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.DefaultError, http_res)
+
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
+
+    async def update_user_agent_restrictions_async(
+        self,
+        *,
+        media_id: str,
+        playback_id: str,
+        default_policy: Optional[
+            models.UpdateUserAgentRestrictionsDefaultPolicy
+        ] = "allow",
+        allow: Optional[List[str]] = None,
+        deny: Optional[List[str]] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.UpdateUserAgentRestrictionsResponseBody:
+        r"""Update user-agent restrictions for a playback ID
+
+        This endpoint allows updating user-agent restrictions for a specific playback ID associated with a media asset.
+        It can be used to allow or deny specific user-agents during playback request evaluation.
+
+        **How it works:**
+        1. Make a `PATCH` request to this endpoint with your desired user-agent access configuration.
+        2. Specify a default policy (`allow` or `deny`) and provide specific `allow` or `deny` lists.
+        3. Use this to restrict access to specific browsers, devices, or bots.
+
+        **Example:**
+        A developer may configure a playback ID to deny access from known scraping user-agents while allowing all others by default.
+
+
+        :param media_id:
+        :param playback_id:
+        :param default_policy: The default behavior when a user-agent is not listed in `allow` or `deny`.
+        :param allow: List of user-agent substrings explicitly allowed.
+        :param deny: List of user-agent substrings explicitly denied.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.UpdateUserAgentRestrictionsRequest(
+            media_id=media_id,
+            playback_id=playback_id,
+            body=models.UpdateUserAgentRestrictionsRequestBody(
+                default_policy=default_policy,
+                allow=allow,
+                deny=deny,
+            ),
+        )
+
+        req = self._build_request_async(BuildRequestData(
+            method="PATCH",
+            path="/on-demand/{mediaId}/playback-ids/{playbackId}/user-agents",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value=CONTENT_TYPE_JSON,
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.body,
+                False,
+                False,
+                "json",
+                models.UpdateUserAgentRestrictionsRequestBody,
+            ),
+            timeout_ms=timeout_ms,
+        ))
+
+        if retries == UNSET and self.sdk_configuration.retry_config is not UNSET:
+            retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="update-user-agent-restrictions",
+                oauth2_scopes=None,
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(
+                models.UpdateUserAgentRestrictionsResponseBody, http_res
+            )
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.FastpixDefaultError(
+                API_ERROR_MESSAGE, http_res, http_res_text
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.FastpixDefaultError(
+                API_ERROR_MESSAGE, http_res, http_res_text
+            )
+        if utils.match_response(http_res, "default", CONTENT_TYPE_JSON):
+            return unmarshal_json_response(models.DefaultError, http_res)
+
+        raise errors.FastpixDefaultError(UNEXPECTED_RESPONSE_MESSAGE, http_res)
