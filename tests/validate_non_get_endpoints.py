@@ -791,6 +791,12 @@ def main() -> int:
     sdk_kwargs: Dict[str, Any] = {"security": security, "client": client}
     if os.environ.get("FASTPIX_BASE_URL"):
         sdk_kwargs["server_url"] = os.environ["FASTPIX_BASE_URL"].rstrip("/")
+    # Cap retries: the SDK's per-method default backoff runs up to an hour on
+    # persistent 429/5xx, which stalls the harness on a single broken endpoint.
+    from fastpix_python.utils import BackoffStrategy, RetryConfig
+    sdk_kwargs["retry_config"] = RetryConfig(
+        "backoff", BackoffStrategy(1000, 10000, 1.5, 30000), False
+    )
     sdk = fastpix_cls(**sdk_kwargs)
     ctx: Dict[str, Any] = {}
 

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Set, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SPEC_PATH = REPO_ROOT / "fixed.yaml"
+SPEC_PATH = REPO_ROOT / "openapi.yaml"
 ARTIFACTS_GET = REPO_ROOT / "tests" / "artifacts"
 ARTIFACTS_NON_GET = REPO_ROOT / "tests" / "artifacts_non_get"
 PLACEHOLDER_UUID = "00000000-0000-0000-0000-000000000000"
@@ -46,6 +46,12 @@ def load_spec(path: Path = SPEC_PATH) -> Dict[str, Any]:
         raise SystemExit(
             "PyYAML is required. Install with `pip install pyyaml`."
         ) from exc
+    if not path.exists():
+        raise SystemExit(
+            f"{path.name} not found at {path}. The validators need a local, "
+            "untracked snapshot of the FastPix OpenAPI spec at this path to "
+            "validate API responses against."
+        )
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 

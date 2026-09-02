@@ -142,22 +142,16 @@ dmypy.json
 *.backup
 *.bak
 
-# Validation harness — artifacts contain workspace IDs and live-stream secrets
-# (streamKey, srtSecret); generated reports change every run.
+# Test harness output (generated per run)
 .venv-tests/
 tests/artifacts/
 tests/artifacts_non_get/
-tests/*OPENAPI_RESPONSE*.md
-tests/BROKEN_LINKS_REPORT.md
-tests/NON_GET_ENDPOINTS_VALIDATION_REPORT.md
-tests/GET_ENDPOINTS_VALIDATION_REPORT.md
-
-# Local SDK usage examples (contain live workspace credentials/IDs)
+tests/*_REPORT.md
+tests/*_FIX_SUGGESTIONS.md
 tests/examples/
 
 node_modules/
 
-#Local files
-/fixed.yaml
-/fastpix-openai.yaml
-fastpix.yaml
+# Local files
+*.yaml
+!.github/**/*.yaml

@@ -1,9 +1,12 @@
-"""Model-level tests for the OpenAPI spec sync (duration→float, enableRecording,
-accessRestrictions, live restriction endpoints). Pure pydantic round-trips — no network."""
+"""Model contract tests: pure pydantic round-trips, no network.
+
+Pins the wire-format contracts of the SDK's request/response models — field
+types, aliases, defaults, optionality, and serialized body shapes."""
 
 import json
 
 import pytest
+from pydantic import ValidationError
 
 from fastpix_python import models
 from fastpix_python.models.createlivestreamrequest import (
@@ -26,7 +29,7 @@ RESTRICTIONS = {
 
 
 # ---------------------------------------------------------------------------
-# duration: str -> float (seconds)
+# media duration: float seconds, optional
 # ---------------------------------------------------------------------------
 
 DURATION_MODELS = [
@@ -53,8 +56,8 @@ def test_duration_optional(cls):
 
 
 @pytest.mark.parametrize("cls", DURATION_MODELS)
-def test_duration_rejects_legacy_string(cls):
-    with pytest.raises(Exception):
+def test_duration_rejects_timestamp_string(cls):
+    with pytest.raises(ValidationError, match="duration"):
         cls.model_validate({"duration": "00:02:25"})
 
 
@@ -141,7 +144,7 @@ def test_playback_id_success_response_without_restrictions():
 
 
 # ---------------------------------------------------------------------------
-# new live restriction endpoint models
+# live stream restriction endpoint models
 # ---------------------------------------------------------------------------
 
 LIVE_OPS = [

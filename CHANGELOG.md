@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.2.0]
+
+### Breaking
+
+- **Media `duration` is now a float (seconds)** instead of an `"HH:MM:SS"`
+  string, matching the updated API. Affects the media responses returned by
+  `get_media`, `list_media`, `list_live_clips`, `updated_media`,
+  `updated_source_access`, `updated_mp4_support`, `get_media_clips`, and the
+  playlist `mediaList` items.
+
+### Added
+
+- **`enable_recording`** on live stream creation (`inputMediaSettings`,
+  defaults to `true`) — controls whether the livestream is recorded to a VOD
+  asset.
+- **`access_restrictions`** (domain and user-agent allow/deny policies) on
+  live playback ID create/get and on live stream `playbackSettings`.
+- **`update_live_stream_domain_restrictions()` /
+  `update_live_stream_user_agent_restrictions()`** (and `_async` variants) —
+  `PATCH /live/streams/{streamId}/playback-ids/{playbackId}/domains` and
+  `/user-agents`.
+- **Async variants** for the on-demand `update_domain_restrictions` and
+  `update_user_agent_restrictions`, which were sync-only.
+- **Model contract test suite** (`tests/test_models.py`).
+
+### Fixed
+
+- **Async error handling never raised** — `_raise_for_status_async` was called
+  without `await` across the async methods, so failed responses returned
+  `None` instead of raising typed errors.
+- **Live playback ID create/get return annotations** corrected to the actual
+  `PlaybackIDSuccessResponse` envelope.
+
+---
+
 ## [1.1.5]
 
 ### Fixed
