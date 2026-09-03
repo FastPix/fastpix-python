@@ -35,8 +35,9 @@ All notable changes to this project will be documented in this file.
 - **Async error handling never raised** — `_raise_for_status_async` was called
   without `await` across the async methods, so failed responses returned
   `None` instead of raising typed errors.
-- **Live playback ID create/get return annotations** corrected to the actual
-  `PlaybackIDSuccessResponse` envelope.
+- **Return annotations for live playback ID create/get, `list_media`, and
+  `list_live_clips`** corrected to the actual response envelopes
+  (`PlaybackIDSuccessResponse`, `ListMediaResponse`, `ListLiveClipsResponse`).
 
 ---
 
