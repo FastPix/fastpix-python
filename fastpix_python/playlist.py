@@ -59,7 +59,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistCreatedSchema:
+    ) -> models.PlaylistCreatedResponse:
         r"""Create a new playlist
 
         This endpoint creates a new playlist within a specified workspace. A playlist acts as a container for organizing media items either manually or based on filters and metadata. <br> <br>
@@ -189,7 +189,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistCreatedSchema:
+    ) -> models.PlaylistCreatedResponse:
         r"""Create a new playlist
 
         This endpoint creates a new playlist within a specified workspace. A playlist acts as a container for organizing media items either manually or based on filters and metadata. <br> <br>
@@ -309,7 +309,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.PlaylistItem]:
+    ) -> models.GetAllPlaylistsResponse:
         r"""Get all playlists
 
         This endpoint retrieves all playlists present within a specified workspace. It allows users to view the collection of playlists that have been created, whether manual or smart, along with their associated metadata.
@@ -404,7 +404,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.PlaylistItem]:
+    ) -> models.GetAllPlaylistsResponse:
         r"""Get all playlists
 
         This endpoint retrieves all playlists present within a specified workspace. It allows users to view the collection of playlists that have been created, whether manual or smart, along with their associated metadata.
@@ -498,7 +498,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Get a playlist by ID
 
         This endpoint retrieves detailed information about a specific playlist using its unique `playlistId`. It provides comprehensive metadata about the playlist, including its title, creation mode (manual or smart), media items along with the metadata of each media in the playlist.
@@ -589,7 +589,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Get a playlist by ID
 
         This endpoint retrieves detailed information about a specific playlist using its unique `playlistId`. It provides comprehensive metadata about the playlist, including its title, creation mode (manual or smart), media items along with the metadata of each media in the playlist.
@@ -682,7 +682,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistCreatedSchema:
+    ) -> models.PlaylistCreatedResponse:
         r"""Update a playlist by ID
 
         This endpoint allows you to update the name and description of an existing playlist. It enables modifications to the playlist's metadata without altering the media items or playlist structure.
@@ -792,7 +792,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistCreatedSchema:
+    ) -> models.PlaylistCreatedResponse:
         r"""Update a playlist by ID
 
         This endpoint allows you to update the name and description of an existing playlist. It enables modifications to the playlist's metadata without altering the media items or playlist structure.
@@ -900,7 +900,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.SuccessResponseData]:
+    ) -> models.SuccessResponse:
         r"""Delete a playlist by ID
 
         This endpoint allows you to delete an existing playlist from the workspace. Once deleted, the playlist and its metadata are permanently removed and cannot be recovered.
@@ -993,7 +993,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.SuccessResponseData]:
+    ) -> models.SuccessResponse:
         r"""Delete a playlist by ID
 
         This endpoint allows you to delete an existing playlist from the workspace. Once deleted, the playlist and its metadata are permanently removed and cannot be recovered.
@@ -1087,7 +1087,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Add media to a playlist by ID
 
         This endpoint allows you to add one or more media items to an existing playlist. By passing the media ID(s) in the request, the specified media items are appended to the playlist in the order provided.
@@ -1191,7 +1191,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Add media to a playlist by ID
 
         This endpoint allows you to add one or more media items to an existing playlist. By passing the media ID(s) in the request, the specified media items are appended to the playlist in the order provided.
@@ -1295,7 +1295,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Change media order in a playlist by ID
 
         This endpoint allows you to change the order of media items within a playlist. By passing the complete list of media IDs in the desired sequence, the playlist's play order is updated accordingly.
@@ -1397,7 +1397,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Change media order in a playlist by ID
 
         This endpoint allows you to change the order of media items within a playlist. By passing the complete list of media IDs in the desired sequence, the playlist's play order is updated accordingly.
@@ -1499,7 +1499,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Delete media in a playlist by ID
 
         This endpoint allows you to delete one or more media items from an existing playlist. By passing the media ID(s) in the request, the specified media items are removed from the playlist.
@@ -1605,7 +1605,7 @@ class Playlist(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlaylistByIDResponseData:
+    ) -> models.PlaylistByIDResponse:
         r"""Delete media in a playlist by ID
 
         This endpoint allows you to delete one or more media items from an existing playlist. By passing the media ID(s) in the request, the specified media items are removed from the playlist.

@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import List, Mapping, NoReturn, Optional, Union
+from typing import Mapping, NoReturn, Optional, Union
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -54,7 +54,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.ViewsList]:
+    ) -> models.ListVideoViewsResponse:
         r"""List video views
 
         Retrieves a list of video views that fall within the specified filters and have been completed within a defined timespan. It allows you to analyse viewer interactions with your video content effectively.
@@ -189,7 +189,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.ViewsList]:
+    ) -> models.ListVideoViewsResponse:
         r"""List video views
 
         Retrieves a list of video views that fall within the specified filters and have been completed within a defined timespan. It allows you to analyse viewer interactions with your video content effectively.
@@ -315,7 +315,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Views:
+    ) -> models.GetVideoViewDetailsResponse:
         r"""Get details of video view
 
         Allows you to retrieve detailed information about a specific video view using its unique `viewId`. This is useful for getting insights into individual viewer interactions with your video content. This detailed information is valuable for enhancing user experience and improving engagement with your video assets.
@@ -412,7 +412,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Views:
+    ) -> models.GetVideoViewDetailsResponse:
         r"""Get details of video view
 
         Allows you to retrieve detailed information about a specific video view using its unique `viewId`. This is useful for getting insights into individual viewer interactions with your video content. This detailed information is valuable for enhancing user experience and improving engagement with your video assets.
@@ -511,7 +511,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.ViewsByTopContentDetails]:
+    ) -> models.ListByTopContentResponse:
         r"""List by top content
 
         Retrieves a list of the top video views that fall within the specified filters and have been completed within a defined timespan. It allows you to identify the most popular content based on viewer interactions.
@@ -620,7 +620,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.ViewsByTopContentDetails]:
+    ) -> models.ListByTopContentResponse:
         r"""List by top content
 
         Retrieves a list of the top video views that fall within the specified filters and have been completed within a defined timespan. It allows you to identify the most popular content based on viewer interactions.
@@ -726,7 +726,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetDataViewlistCurrentViewsGetTimeseriesViewsData]:
+    ) -> models.GetDataViewlistCurrentViewsGetTimeseriesViewsResponse:
         r"""Get concurrent viewers timeseries
 
         Retrieves a time series of the number of concurrent viewers, providing a real-time snapshot of audience activity over the last 30 minutes. This endpoint is essential for monitoring live events, gauging audience reaction to new content releases, or understanding immediate engagement trends.
@@ -822,7 +822,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetDataViewlistCurrentViewsGetTimeseriesViewsData]:
+    ) -> models.GetDataViewlistCurrentViewsGetTimeseriesViewsResponse:
         r"""Get concurrent viewers timeseries
 
         Retrieves a time series of the number of concurrent viewers, providing a real-time snapshot of audience activity over the last 30 minutes. This endpoint is essential for monitoring live events, gauging audience reaction to new content releases, or understanding immediate engagement trends.
@@ -920,7 +920,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetDataViewlistCurrentViewsFilterData]:
+    ) -> models.GetDataViewlistCurrentViewsFilterResponse:
         r"""Get concurrent viewers breakdown by dimension
 
         Retrieves a real-time breakdown of present concurrent viewers, grouped by a chosen dimension. This endpoint allows you to see how your audience is distributed across different categories like geography, content, or technology, based on activity in the last 30 minutes.
@@ -1030,7 +1030,7 @@ class ViewsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetDataViewlistCurrentViewsFilterData]:
+    ) -> models.GetDataViewlistCurrentViewsFilterResponse:
         r"""Get concurrent viewers breakdown by dimension
 
         Retrieves a real-time breakdown of present concurrent viewers, grouped by a chosen dimension. This endpoint allows you to see how your audience is distributed across different categories like geography, content, or technology, based on activity in the last 30 minutes.

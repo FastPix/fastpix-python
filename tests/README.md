@@ -7,11 +7,15 @@ exercises every endpoint against a real workspace.
 
 ```bash
 pip install -e . pytest
-pytest tests/test_models.py tests/test_examples.py
+pytest tests/test_models.py tests/test_async_errors.py tests/test_return_annotations.py tests/test_examples.py
 ```
 
 - `test_models.py` — model contract tests (field types, aliases, defaults,
   serialized body shapes). Pure pydantic, no network.
+- `test_async_errors.py` — mocked-transport checks that sync and async methods
+  raise typed errors on failed responses.
+- `test_return_annotations.py` — asserts every resource method's declared return
+  type is the response class it actually unmarshals.
 - `test_examples.py` — sanity checks on `examples/` (compiles, has a
   `__main__` guard, no hardcoded credentials).
 

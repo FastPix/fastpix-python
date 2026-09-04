@@ -56,7 +56,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateMediaPlaybackIDData:
+    ) -> models.CreateMediaPlaybackIDResponse:
         r"""Create a playback ID
 
         You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
@@ -192,7 +192,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateMediaPlaybackIDData:
+    ) -> models.CreateMediaPlaybackIDResponse:
         r"""Create a playback ID
 
         You can create a new playback ID for a specific media asset. If you have already retrieved an existing `playbackId` using the <a href=\"https://fastpix.com/docs/video-on-demand-api/manage-videos/get-media\">Get Media by ID</a> endpoint for a media asset, you can use this endpoint to generate a new playback ID with a specified access policy.
@@ -530,7 +530,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPlaybackIDData:
+    ) -> models.GetPlaybackIDResponse:
         r"""Get a playback ID
 
         This endpoint retrieves details about a specific playback ID associated with a media asset. This endpoint is commonly used to check the access policy (e.g., public or private) with the specific playback ID.
@@ -629,7 +629,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPlaybackIDData:
+    ) -> models.GetPlaybackIDResponse:
         r"""Get a playback ID
 
         This endpoint retrieves details about a specific playback ID associated with a media asset. This endpoint is commonly used to check the access policy (e.g., public or private) with the specific playback ID.
@@ -727,7 +727,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPlaybackIdsResponse:
+    ) -> models.ListPlaybackIdsResponseBody:
         r"""Get all playback IDs details for a media
 
         Retrieves all playback IDs associated with a given media asset, including each playback ID’s access policy and detailed access restrictions such as allowed or denied domains and user agents.
@@ -824,7 +824,7 @@ class Playback(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPlaybackIdsResponse:
+    ) -> models.ListPlaybackIdsResponseBody:
         r"""Get all playback IDs details for a media
 
         Retrieves all playback IDs associated with a given media asset, including each playback ID’s access policy and detailed access restrictions such as allowed or denied domains and user agents.

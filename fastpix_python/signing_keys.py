@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import List, Mapping, NoReturn, Optional
+from typing import Mapping, NoReturn, Optional
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -47,7 +47,7 @@ class SigningKeys(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSigningKeyResponseDTO:
+    ) -> models.CreateResponse:
         r"""Create a signing key
 
         This endpoint allows you to create a new signing key pair for FastPix. When you call this endpoint, the API generates a 2048-bit RSA key pair. The privateKey will be returned in the response, encoded in Base64 format, and you will receive a unique key id to reference the key in future operations. FastPix will securely store the public key to validate signed tokens.
@@ -151,7 +151,7 @@ class SigningKeys(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSigningKeyResponseDTO:
+    ) -> models.CreateResponse:
         r"""Create a signing key
 
         This endpoint allows you to create a new signing key pair for FastPix. When you call this endpoint, the API generates a 2048-bit RSA key pair. The privateKey will be returned in the response, encoded in Base64 format, and you will receive a unique key id to reference the key in future operations. FastPix will securely store the public key to validate signed tokens.
@@ -688,7 +688,7 @@ class SigningKeys(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPublicPemUsingSigningKeyIDResponseDTOData:
+    ) -> models.GetPublicPemUsingSigningKeyIDResponseDTO:
         r"""Get signing key by ID
 
         This endpoint allows you to retrieve detailed information about a specific signing key using its unique key id. While the private key is not returned for security reasons, you'll be able to see the key's creation date, status, and other associated metadata. This endpoint also returns the workspaceId and publicKey in the response.
@@ -824,7 +824,7 @@ class SigningKeys(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPublicPemUsingSigningKeyIDResponseDTOData:
+    ) -> models.GetPublicPemUsingSigningKeyIDResponseDTO:
         r"""Get signing key by ID
 
         This endpoint allows you to retrieve detailed information about a specific signing key using its unique key id. While the private key is not returned for security reasons, you'll be able to see the key's creation date, status, and other associated metadata. This endpoint also returns the workspaceId and publicKey in the response.

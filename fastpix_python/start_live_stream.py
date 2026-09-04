@@ -27,7 +27,7 @@ class StartLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCreateLiveStreamResponseDTO:
+    ) -> models.LiveStreamResponseDTO:
         r"""Create a new stream
 
         Allows you to initiate a new <a href=\"https://fastpix.com/docs/get-started/live-overview\">RTMPS</a> or <a href=\"https://fastpix.com/docs/broadcast/live-stream-with-srt\">SRT</a> live stream on FastPix. Upon creating a stream, FastPix generates a unique `streamKey` and `srtSecret`, which can be used with any broadcasting software (like OBS) to connect to FastPix's RTMPS or SRT servers.
@@ -166,7 +166,7 @@ class StartLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCreateLiveStreamResponseDTO:
+    ) -> models.LiveStreamResponseDTO:
         r"""Create a new stream
 
         Allows you to initiate a new <a href=\"https://fastpix.com/docs/get-started/live-overview\">RTMPS</a> or <a href=\"https://fastpix.com/docs/broadcast/live-stream-with-srt\">SRT</a> live stream on FastPix. Upon creating a stream, FastPix generates a unique `streamKey` and `srtSecret`, which can be used with any broadcasting software (like OBS) to connect to FastPix's RTMPS or SRT servers.

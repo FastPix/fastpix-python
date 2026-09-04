@@ -65,7 +65,7 @@ class InputVideo(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateMediaResponse:
+    ) -> models.CreateMediaSuccessResponse:
         r"""Create media from URL
 
         This endpoint allows developers or users to create a new video or audio media in FastPix using a publicly accessible URL. FastPix will fetch the media from the provided URL, process it, and store it on the platform for use.
@@ -255,7 +255,7 @@ class InputVideo(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateMediaResponse:
+    ) -> models.CreateMediaSuccessResponse:
         r"""Create media from URL
 
         This endpoint allows developers or users to create a new video or audio media in FastPix using a publicly accessible URL. FastPix will fetch the media from the provided URL, process it, and store it on the platform for use.
@@ -431,7 +431,7 @@ class InputVideo(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DirectUpload:
+    ) -> models.DirectUploadVideoMediaResponse:
         r"""Upload media from device
 
         This endpoint enables accelerated uploads of large media files directly from your local device to FastPix for processing and storage.
@@ -572,7 +572,7 @@ class InputVideo(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DirectUpload:
+    ) -> models.DirectUploadVideoMediaResponse:
         r"""Upload media from device
 
         This endpoint enables accelerated uploads of large media files directly from your local device to FastPix for processing and storage.

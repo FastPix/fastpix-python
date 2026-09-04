@@ -675,8 +675,8 @@ class LivePlayback(BaseSDK):
         :param stream_id:
         :param playback_id:
         :param default_policy: Specify the fallback behavior for domains that are not listed in the `allow` or `deny` lists.
-        :param allow: List of domains explicitly allowed to play the media.
-        :param deny: List of domains explicitly denied from accessing the media.
+        :param allow: List of domains explicitly allowed to play the stream.
+        :param deny: List of domains explicitly denied from accessing the stream.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -798,8 +798,8 @@ class LivePlayback(BaseSDK):
         :param stream_id:
         :param playback_id:
         :param default_policy: Specify the fallback behavior for domains that are not listed in the `allow` or `deny` lists.
-        :param allow: List of domains explicitly allowed to play the media.
-        :param deny: List of domains explicitly denied from accessing the media.
+        :param allow: List of domains explicitly allowed to play the stream.
+        :param deny: List of domains explicitly denied from accessing the stream.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

@@ -48,7 +48,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.SummaryResponse:
+    ) -> models.UpdateMediaSummaryResponse:
         r"""Generate video summary
 
         This endpoint allows you to generate the summary for an existing media.
@@ -168,7 +168,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.SummaryResponse:
+    ) -> models.UpdateMediaSummaryResponse:
         r"""Generate video summary
 
         This endpoint allows you to generate the summary for an existing media.
@@ -287,7 +287,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ChaptersResponse:
+    ) -> models.UpdateMediaChaptersResponse:
         r"""Generate video chapters
 
         This endpoint enables you to generate chapters for an existing media file.
@@ -399,7 +399,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ChaptersResponse:
+    ) -> models.UpdateMediaChaptersResponse:
         r"""Generate video chapters
 
         This endpoint enables you to generate chapters for an existing media file.
@@ -511,7 +511,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.NamedEntitiesResponse:
+    ) -> models.UpdateMediaNamedEntitiesResponse:
         r"""Generate named entities
 
         This endpoint allows you to extract named entities from an existing media.
@@ -630,7 +630,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.NamedEntitiesResponse:
+    ) -> models.UpdateMediaNamedEntitiesResponse:
         r"""Generate named entities
 
         This endpoint allows you to extract named entities from an existing media.
@@ -754,7 +754,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ModerationResponse:
+    ) -> models.UpdateMediaModerationResponse:
         r"""Enable video moderation
 
         This endpoint enables moderation features, such as NSFW and profanity filtering, to detect inappropriate content in existing media.
@@ -875,7 +875,7 @@ class InVideoAIFeatures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ModerationResponse:
+    ) -> models.UpdateMediaModerationResponse:
         r"""Enable video moderation
 
         This endpoint enables moderation features, such as NSFW and profanity filtering, to detect inappropriate content in existing media.

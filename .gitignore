@@ -152,6 +152,5 @@ tests/examples/
 
 node_modules/
 
-# Local files
-*.yaml
-!.github/**/*.yaml
+# Local OpenAPI spec snapshot used by the test harness
+/openapi.yaml

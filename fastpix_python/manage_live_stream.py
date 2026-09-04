@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import Dict, List, Mapping, NoReturn, Optional
+from typing import Dict, Mapping, NoReturn, Optional
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -50,7 +50,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetCreateLiveStreamResponseDTO]:
+    ) -> models.GetStreamsResponse:
         r"""Get all live streams
 
         Retrieves a list of all live streams associated with the current workspace. It provides an overview of both current and past live streams, including details like `streamId`, `metadata`, `status`, `createdAt` and more.
@@ -148,7 +148,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.GetCreateLiveStreamResponseDTO]:
+    ) -> models.GetStreamsResponse:
         r"""Get all live streams
 
         Retrieves a list of all live streams associated with the current workspace. It provides an overview of both current and past live streams, including details like `streamId`, `metadata`, `status`, `createdAt` and more.
@@ -244,7 +244,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ViewsCountResponseData:
+    ) -> models.ViewsCountResponse:
         r"""Get stream views by ID
 
         This endpoint retrieves the current number of viewers watching a specific live stream, identified by its unique `streamId`.
@@ -340,7 +340,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ViewsCountResponseData:
+    ) -> models.ViewsCountResponse:
         r"""Get stream views by ID
 
         This endpoint retrieves the current number of viewers watching a specific live stream, identified by its unique `streamId`.
@@ -436,7 +436,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCreateLiveStreamResponseDTO:
+    ) -> models.LivestreamgetResponse:
         r"""Get stream by ID
 
         This endpoint retrieves details about a specific live stream by its unique `streamId`. It includes data such as the stream’s `status` (idle, preparing, active, disabled), `metadata` (title, description), and more.
@@ -530,7 +530,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCreateLiveStreamResponseDTO:
+    ) -> models.LivestreamgetResponse:
         r"""Get stream by ID
 
         This endpoint retrieves details about a specific live stream by its unique `streamId`. It includes data such as the stream’s `status` (idle, preparing, active, disabled), `metadata` (title, description), and more.
@@ -820,7 +820,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PatchResponseData:
+    ) -> models.PatchResponseDTO:
         r"""Update a stream
 
         This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. Once the live stream is disabled, you cannot update a stream.
@@ -934,7 +934,7 @@ class ManageLiveStream(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PatchResponseData:
+    ) -> models.PatchResponseDTO:
         r"""Update a stream
 
         This endpoint allows you to modify the parameters of an existing live stream, such as its `metadata` (title, description) or the `reconnectWindow`. It’s useful for making changes to a stream that has already been created but not yet ended. Once the live stream is disabled, you cannot update a stream.

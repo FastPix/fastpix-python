@@ -19,7 +19,7 @@ class PlaylistByIDResponseMediaListTypedDict(TypedDict):
     created_at: NotRequired[datetime]
     r"""Timestamp of media creation in the workspace."""
     duration: NotRequired[float]
-    r"""Duration of the media in hh:mm:ss format."""
+    r"""Duration of the media in seconds."""
     id: NotRequired[str]
     r"""unique id of the particular media."""
     source_resolution: NotRequired[str]
@@ -35,7 +35,7 @@ class PlaylistByIDResponseMediaList(BaseModel):
     r"""Timestamp of media creation in the workspace."""
 
     duration: Optional[float] = None
-    r"""Duration of the media in hh:mm:ss format."""
+    r"""Duration of the media in seconds."""
 
     id: Optional[str] = None
     r"""unique id of the particular media."""
