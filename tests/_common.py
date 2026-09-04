@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Set, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SPEC_PATH = REPO_ROOT / "fixed.yaml"
+SPEC_PATH = REPO_ROOT / "openapi.yaml"
 ARTIFACTS_GET = REPO_ROOT / "tests" / "artifacts"
 ARTIFACTS_NON_GET = REPO_ROOT / "tests" / "artifacts_non_get"
 PLACEHOLDER_UUID = "00000000-0000-0000-0000-000000000000"
@@ -46,11 +46,20 @@ def load_spec(path: Path = SPEC_PATH) -> Dict[str, Any]:
         raise SystemExit(
             "PyYAML is required. Install with `pip install pyyaml`."
         ) from exc
+    if not path.exists():
+        raise SystemExit(
+            f"{path.name} not found at {path}. The validators need a local, "
+            "untracked snapshot of the FastPix OpenAPI spec at this path to "
+            "validate API responses against."
+        )
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
 def spec_server_url(spec: Mapping[str, Any]) -> str:
+    override = os.environ.get("FASTPIX_BASE_URL")
+    if override:
+        return override.rstrip("/")
     servers = spec.get("servers") or []
     if not servers:
         raise RuntimeError("Spec has no servers[] entry.")
@@ -533,6 +542,9 @@ def build_sdk(client: Optional[Any] = None) -> Any:
     kwargs: Dict[str, Any] = {"security": security}
     if client is not None:
         kwargs["client"] = client
+    base_override = os.environ.get("FASTPIX_BASE_URL")
+    if base_override:
+        kwargs["server_url"] = base_override.rstrip("/")
     return fastpix_cls(**kwargs)
 
 

@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import List, Mapping, NoReturn, Optional
+from typing import Mapping, NoReturn, Optional
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -47,7 +47,7 @@ class DRMConfigurations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.DrmIDResponse]:
+    ) -> models.GetDrmConfigurationResponse:
         r"""Get list of DRM configuration IDs
 
 
@@ -150,7 +150,7 @@ class DRMConfigurations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.DrmIDResponse]:
+    ) -> models.GetDrmConfigurationResponse:
         r"""Get list of DRM configuration IDs
 
 
@@ -252,7 +252,7 @@ class DRMConfigurations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DrmIDResponse:
+    ) -> models.GetDrmConfigurationByIDResponse:
         r"""Get DRM configuration by ID
 
 
@@ -351,7 +351,7 @@ class DRMConfigurations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DrmIDResponse:
+    ) -> models.GetDrmConfigurationByIDResponse:
         r"""Get DRM configuration by ID
 
 

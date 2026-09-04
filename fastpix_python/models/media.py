@@ -124,7 +124,7 @@ class MediaTypedDict(TypedDict):
     r"""A collection of Playback ID objects utilized for crafting HLS playback URLs."""
     tracks: NotRequired[List[TrackTypedDict]]
     r"""A media consists of different media tracks, like video, audio, and subtitle, all combined."""
-    duration: NotRequired[str]
+    duration: NotRequired[float]
     r"""The time span of the media, measured in seconds with a maximum allowable duration of 12 hours per individual media."""
     frame_rate: NotRequired[str]
     r"""Frame rate quantifies the speed at which frames are displayed per second. It represents the range of frames available for a specific track. If the frame rate of the input file is indeterminable, it will be indicated by a value of -1."""
@@ -203,7 +203,7 @@ class Media(BaseModel):
     tracks: Optional[List[Track]] = None
     r"""A media consists of different media tracks, like video, audio, and subtitle, all combined."""
 
-    duration: Optional[str] = None
+    duration: Optional[float] = None
     r"""The time span of the media, measured in seconds with a maximum allowable duration of 12 hours per individual media."""
 
     frame_rate: Annotated[Optional[str], pydantic.Field(alias="frameRate")] = None

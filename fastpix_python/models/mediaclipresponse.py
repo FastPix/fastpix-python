@@ -205,8 +205,8 @@ class MediaClipResponseDataTypedDict(TypedDict):
     r"""Indicates whether subtitles are available for the media."""
     optimize_audio: NotRequired[bool]
     r"""Whether the audio track of the media has been volume-normalized."""
-    duration: NotRequired[str]
-    r"""The total duration of the media."""
+    duration: NotRequired[float]
+    r"""The total duration of the media in seconds."""
     aspect_ratio: NotRequired[str]
     r"""The aspect ratio of the media."""
     created_at: NotRequired[datetime]
@@ -276,8 +276,8 @@ class MediaClipResponseData(BaseModel):
     ] = None
     r"""Whether the audio track of the media has been volume-normalized."""
 
-    duration: Optional[str] = None
-    r"""The total duration of the media."""
+    duration: Optional[float] = None
+    r"""The total duration of the media in seconds."""
 
     aspect_ratio: Annotated[Optional[str], pydantic.Field(alias="aspectRatio")] = None
     r"""The aspect ratio of the media."""

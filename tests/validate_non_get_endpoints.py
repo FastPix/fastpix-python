@@ -309,6 +309,14 @@ STEPS: List[Step] = [
          retry_on=NOT_READY_SUBSTR,
          request=lambda c: {"media_id": c["media_id"], "playback_id": c["media_playback_id"]},
          body={"default_policy": "allow", "allow": [], "deny": []}),
+    Step("update-live-stream-domain-restrictions", "UPDATE",
+         needs=("stream_id", "stream_playback_id"),
+         request=lambda c: {"stream_id": c["stream_id"], "playback_id": c["stream_playback_id"]},
+         body={"default_policy": "allow", "allow": [], "deny": []}),
+    Step("update-live-stream-user-agent-restrictions", "UPDATE",
+         needs=("stream_id", "stream_playback_id"),
+         request=lambda c: {"stream_id": c["stream_id"], "playback_id": c["stream_playback_id"]},
+         body={"default_policy": "allow", "allow": [], "deny": []}),
     Step("update-a-playlist", "UPDATE",
          needs=("playlist_id",),
          request=lambda c: {"playlist_id": c["playlist_id"]},
@@ -780,7 +788,16 @@ def main() -> int:
         timeout=180.0,
     )
     security = models.Security(username=user, password=pwd)
-    sdk = fastpix_cls(security=security, client=client)
+    sdk_kwargs: Dict[str, Any] = {"security": security, "client": client}
+    if os.environ.get("FASTPIX_BASE_URL"):
+        sdk_kwargs["server_url"] = os.environ["FASTPIX_BASE_URL"].rstrip("/")
+    # Cap retries: the SDK's per-method default backoff runs up to an hour on
+    # persistent 429/5xx, which stalls the harness on a single broken endpoint.
+    from fastpix_python.utils import BackoffStrategy, RetryConfig
+    sdk_kwargs["retry_config"] = RetryConfig(
+        "backoff", BackoffStrategy(1000, 10000, 1.5, 30000), False
+    )
+    sdk = fastpix_cls(**sdk_kwargs)
     ctx: Dict[str, Any] = {}
 
     total = len(STEPS)

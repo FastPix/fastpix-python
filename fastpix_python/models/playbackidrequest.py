@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 from .basicaccesspolicy import BasicAccessPolicy
+from .playbackidresponse import (
+    PlaybackIDAccessRestrictions,
+    PlaybackIDAccessRestrictionsTypedDict,
+)
 from ..types import BaseModel
 import pydantic
 from typing import Optional
@@ -11,6 +15,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class PlaybackIDRequestTypedDict(TypedDict):
     access_policy: NotRequired[BasicAccessPolicy]
     r"""Basic access policy for media content"""
+    access_restrictions: NotRequired[PlaybackIDAccessRestrictionsTypedDict]
+    r"""Optional domain and user-agent access restrictions applied to the playback ID."""
 
 
 class PlaybackIDRequest(BaseModel):
@@ -18,3 +24,9 @@ class PlaybackIDRequest(BaseModel):
         Optional[BasicAccessPolicy], pydantic.Field(alias="accessPolicy")
     ] = None
     r"""Basic access policy for media content"""
+
+    access_restrictions: Annotated[
+        Optional[PlaybackIDAccessRestrictions],
+        pydantic.Field(alias="accessRestrictions"),
+    ] = None
+    r"""Optional domain and user-agent access restrictions applied to the playback ID."""

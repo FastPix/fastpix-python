@@ -19,6 +19,7 @@ def main():
             password=os.getenv("FASTPIX_PASSWORD"),
         ),
     )
+
     with fastpix:
         # 1. Create a direct upload. `cors_origin` "*" allows a browser upload from any origin.
         upload = fastpix.input_video.direct_upload_video_media(request={

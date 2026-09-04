@@ -500,6 +500,8 @@ For detailed documentation, see [FastPix Live Stream Overview](https://fastpix.c
 - [Create Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#create_playback_id) - Generate secure live playback access
 - [Delete Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#delete_playback_id) - Revoke live playback access
 - [Get Playback ID](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#get_playback_id_details) - Retrieve live playback configuration
+- [Update Domain Restrictions](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#update_live_stream_domain_restrictions) - Configure domain-based access control
+- [Update User-Agent Restrictions](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/liveplayback/README.md#update_live_stream_user_agent_restrictions) - Configure user-agent-based access control
 
 #### Simulcast Stream
 - [Create Simulcast](https://github.com/FastPix/fastpix-python/blob/feature/fixed-missing-parameters/docs/sdks/simulcaststream/README.md#create) - Set up multi-platform streaming
