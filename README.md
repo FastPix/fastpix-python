@@ -16,6 +16,18 @@ The FastPix Python SDK is a type-safe Python client for the FastPix video API. F
 
 📖 **Docs:** https://fastpix.com/docs/language-sdks/python-sdk &nbsp;·&nbsp; 🚀 **Free account:** https://dashboard.fastpix.com
 
+## Jump to
+
+Skip straight to a section without scrolling:
+
+| Get started | Reference | Help & more |
+|---|---|---|
+| [Start here](#start-here) | [Available resources & operations](#available-resources-and-operations) | [FAQ](#faq) |
+| [Before you begin](#before-you-begin) | [Error handling](#error-handling) | [Which SDK?](#which-fastpix-sdk-should-i-use) |
+| [Install the SDK](#3-install-the-sdk) | [Server selection](#server-selection) | [Development](#development) |
+| [Make your first API request](#7-make-your-first-api-request) | [Custom HTTP client](#custom-http-client) | [Detailed usage](#detailed-usage) |
+| [Media workflow](#9-understand-the-media-workflow) | [Retries](#retries) | [Examples](https://github.com/FastPix/fastpix-python/tree/main/examples) |
+
 <br />
 
 ## Start here
@@ -218,7 +230,6 @@ a. Create a file named `example.py`:
 
 ```python
 import os
-
 from fastpix_python import Fastpix, models
 
 fastpix = Fastpix(
@@ -274,7 +285,6 @@ a. Replace the contents of `example.py` with:
 ```python
 import json
 import os
-
 from fastpix_python import Fastpix, models
 
 with Fastpix(
@@ -295,6 +305,7 @@ with Fastpix(
             "source": "fastpix-python-demo",
         },
     )
+
     print(
         json.dumps(
             response.model_dump(
@@ -363,6 +374,8 @@ The basic workflow is:
 The media ID is the identifier you carry from one operation to the next.
 
 A playback ID is created separately when you need playback access.
+
+> **More examples:** For runnable, end-to-end flows (direct upload, live streaming, playlists, analytics, and more), see the [`examples/`](https://github.com/FastPix/fastpix-python/tree/main/examples) directory in the repo.
 
 ---
 
@@ -578,7 +591,6 @@ To change the default retry strategy for a single API call, simply provide a `Re
 ```python
 import os
 import json
-
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
 
@@ -609,7 +621,6 @@ with Fastpix(
     )
 
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
-
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
@@ -617,7 +628,6 @@ If you'd like to override the default retry strategy for all operations that sup
 ```python
 import os
 import json
-
 from fastpix_python import Fastpix, models
 from fastpix_python.utils import BackoffStrategy, RetryConfig
 
@@ -648,7 +658,6 @@ with Fastpix(
     )
 
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
-
 ```
 <!-- End Retries [retries] -->
 
@@ -673,7 +682,6 @@ with Fastpix(
 ```python
 import os
 import json
-
 from fastpix_python import Fastpix, errors, models
 
 
@@ -684,7 +692,6 @@ with Fastpix(
     ),
 ) as fastpix:
     try:
-
         res = fastpix.input_video.create_media(
             inputs=[
                 {
@@ -697,7 +704,6 @@ with Fastpix(
                 "key1": "value1",
             },
         )
-
         print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
     except errors.FastpixError as e:
         print(e.message)
@@ -739,7 +745,6 @@ The default server can be overridden globally by passing a URL to the `server_ur
 ```python
 import os
 import json
-
 from fastpix_python import Fastpix, models
 
 
@@ -765,7 +770,6 @@ with Fastpix(
     )
 
     print(json.dumps(res.model_dump(mode="json", by_alias=True, exclude_unset=True), indent=2))
-
 ```
 <!-- End Server Selection [server] -->
 
