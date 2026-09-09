@@ -87,7 +87,10 @@ class LivePlayback(BaseSDK):
             stream_id=stream_id,
             playback_id_request=models.PlaybackIDRequest(
                 access_policy=access_policy,
-                access_restrictions=access_restrictions,
+                access_restrictions=utils.get_pydantic_model(
+                    access_restrictions,
+                    Optional[models.PlaybackIDAccessRestrictions],
+                ),
             ),
         )
 
@@ -201,7 +204,10 @@ class LivePlayback(BaseSDK):
             stream_id=stream_id,
             playback_id_request=models.PlaybackIDRequest(
                 access_policy=access_policy,
-                access_restrictions=access_restrictions,
+                access_restrictions=utils.get_pydantic_model(
+                    access_restrictions,
+                    Optional[models.PlaybackIDAccessRestrictions],
+                ),
             ),
         )
 

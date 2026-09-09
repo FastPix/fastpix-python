@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .basicaccesspolicy import BasicAccessPolicy
-from .playbackidresponse import (
+from .playbackid import (
     PlaybackIDAccessRestrictions,
     PlaybackIDAccessRestrictionsTypedDict,
 )

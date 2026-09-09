@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
   `get_media`, `list_media`, `list_live_clips`, `updated_media`,
   `updated_source_access`, `updated_mp4_support`, `get_media_clips`, and the
   playlist `mediaList` items.
+  Publish this version only once production returns the numeric `duration`.
 
 ### Added
 

@@ -122,6 +122,26 @@ def test_access_restrictions_optional(cls):
     assert cls.model_validate({"accessPolicy": "public"}).access_restrictions is None
 
 
+@pytest.mark.parametrize(
+    "cls", [PlaybackIDRequest, PlaybackSettings, models.PlaybackIDSuccessResponseData]
+)
+def test_access_restrictions_accepts_public_model_instance(cls):
+    """The public ``models.PlaybackIDAccessRestrictions`` must be the exact class
+    every request/settings model expects. A duplicate definition would make
+    pydantic reject the instance form (dicts would still pass), so build the
+    object the typed way and assert it round-trips."""
+    ar = models.PlaybackIDAccessRestrictions(
+        domains=models.PlaybackIDDomains(default_policy="deny", allow=["example.com"]),
+        user_agents=models.PlaybackIDUserAgents(
+            default_policy="allow", deny=["PostmanRuntime/7.29.0"]
+        ),
+    )
+    obj = cls(access_restrictions=ar)
+    assert obj.access_restrictions is ar
+    wire = json.loads(obj.model_dump_json(by_alias=True, exclude_none=True))
+    assert wire["accessRestrictions"]["domains"]["allow"] == ["example.com"]
+
+
 def test_playback_id_success_response_with_restrictions():
     resp = PlaybackIDSuccessResponse.model_validate(
         {

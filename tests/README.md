@@ -6,7 +6,7 @@ exercises every endpoint against a real workspace.
 ## Offline tests (no credentials needed)
 
 ```bash
-pip install -e . pytest
+pip install -e . pytest pytest-asyncio
 pytest tests/test_models.py tests/test_async_errors.py tests/test_return_annotations.py tests/test_examples.py
 ```
 

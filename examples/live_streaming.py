@@ -18,6 +18,7 @@ def main():
             username=os.getenv("FASTPIX_USERNAME"),
             password=os.getenv("FASTPIX_PASSWORD"),
         ),
+        server_url=os.getenv("FASTPIX_BASE_URL"),
     )
     with fastpix:
         # 1. Create a live stream.

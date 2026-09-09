@@ -4,4 +4,4 @@ include CONTRIBUTING.md
 include LICENSE
 include USAGE.md
 
-recursive-include fastpix_python *.py *.typed *.yaml
+recursive-include fastpix_python *.py *.typed
