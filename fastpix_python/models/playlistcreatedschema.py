@@ -43,8 +43,8 @@ class PlaylistCreatedSchemaMetadata(BaseModel):
 class PlaylistCreatedSchemaMediaListTypedDict(TypedDict):
     created_at: NotRequired[datetime]
     r"""timestamp of media creation in the workspace"""
-    duration: NotRequired[str]
-    r"""duration of the media in hh:mm:ss format"""
+    duration: NotRequired[float]
+    r"""Duration of the media in seconds."""
     id: NotRequired[str]
     r"""unique identifier of the media"""
     source_resolution: NotRequired[str]
@@ -59,8 +59,8 @@ class PlaylistCreatedSchemaMediaList(BaseModel):
     created_at: Annotated[Optional[datetime], pydantic.Field(alias="createdAt")] = None
     r"""timestamp of media creation in the workspace"""
 
-    duration: Optional[str] = None
-    r"""duration of the media in hh:mm:ss format"""
+    duration: Optional[float] = None
+    r"""Duration of the media in seconds."""
 
     id: Optional[str] = None
     r"""unique identifier of the media"""

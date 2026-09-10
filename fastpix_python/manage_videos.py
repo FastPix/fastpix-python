@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import Dict, List, Mapping, NoReturn, Optional, Union
+from typing import Dict, Mapping, NoReturn, Optional, Union
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -50,7 +50,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.Media]:
+    ) -> models.ListMediaResponse:
         r"""Get list of all media
 
         This endpoint returns a list of all media files uploaded to FastPix within a specific workspace. Each media entry contains data such as the media `id`, `createdAt`, `status`, `type` and more. It allows you to retrieve an overview of your media assets, making it easier to manage and review them.
@@ -154,7 +154,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.Media]:
+    ) -> models.ListMediaResponse:
         r"""Get list of all media
 
         This endpoint returns a list of all media files uploaded to FastPix within a specific workspace. Each media entry contains data such as the media `id`, `createdAt`, `status`, `type` and more. It allows you to retrieve an overview of your media assets, making it easier to manage and review them.
@@ -239,7 +239,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -259,7 +259,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.Media]:
+    ) -> models.ListLiveClipsResponse:
         r"""Get all clips of a live stream
 
         Retrieves a list of all media clips generated from a specific livestream. Each media entry includes metadata such as the clip media IDs, and other relevant details. A media clip is a segmented portion of an original media file (source live stream). Clips are often created for various purposes such as previews, highlights, or customized edits.
@@ -360,7 +360,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.Media]:
+    ) -> models.ListLiveClipsResponse:
         r"""Get all clips of a live stream
 
         Retrieves a list of all media clips generated from a specific livestream. Each media entry includes metadata such as the clip media IDs, and other relevant details. A media clip is a segmented portion of an original media file (source live stream). Clips are often created for various purposes such as previews, highlights, or customized edits.
@@ -441,7 +441,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListLiveClipsResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -458,7 +458,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.GetMediaResponse:
         r"""Get a media by ID
 
         By calling this endpoint, you can retrieve detailed information about a specific media item, including its current `status` and a `playbackId`. This is particularly useful for retrieving specific media details when managing large content libraries.
@@ -567,7 +567,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.GetMediaResponse:
         r"""Get a media by ID
 
         By calling this endpoint, you can retrieve detailed information about a specific media item, including its current `status` and a `playbackId`. This is particularly useful for retrieving specific media details when managing large content libraries.
@@ -658,7 +658,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -677,7 +677,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedMediaResponse:
         r"""Update a media by ID
 
         This endpoint allows you to update specific parameters of an existing media file. You can modify the key-value pairs of the metadata that were provided in the payload during the creation of media from a URL or when uploading the media directly from device.
@@ -792,7 +792,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedMediaResponse:
         r"""Update a media by ID
 
         This endpoint allows you to update specific parameters of an existing media file. You can modify the key-value pairs of the metadata that were provided in the payload during the creation of media from a URL or when uploading the media directly from device.
@@ -888,7 +888,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -1092,7 +1092,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteMediaResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -1113,7 +1113,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.AddTrackResponse:
+    ) -> models.AddMediaTrackResponse:
         r"""Add audio / subtitle track
 
         This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload. You can optionally provide a `title` for the track.
@@ -1243,7 +1243,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.AddTrackResponse:
+    ) -> models.AddMediaTrackResponse:
         r"""Add audio / subtitle track
 
         This endpoint allows you to add an audio or subtitle track to an existing media file using its `mediaId`. You need to provide the track `url` along with its `type` (audio or subtitle), `languageName` and `languageCode` in the request payload. You can optionally provide a `title` for the track.
@@ -1351,7 +1351,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "201", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.AddMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -1370,7 +1370,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.MediaCancelResponse:
+    ) -> models.CancelUploadResponse:
         r"""Cancel ongoing upload
 
         This endpoint allows you to cancel ongoing upload by its `uploadId`. Once cancelled, the upload will be marked as cancelled. Use this if a user aborts an upload or if you want to programmatically stop an in-progress upload.
@@ -1473,7 +1473,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.MediaCancelResponse:
+    ) -> models.CancelUploadResponse:
         r"""Cancel ongoing upload
 
         This endpoint allows you to cancel ongoing upload by its `uploadId`. Once cancelled, the upload will be marked as cancelled. Use this if a user aborts an upload or if you want to programmatically stop an in-progress upload.
@@ -1557,7 +1557,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.CancelUploadResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.BadRequestErrorData, errors.BadRequestError),
@@ -1580,7 +1580,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateTrackResponse:
+    ) -> models.UpdateMediaTrackResponse:
         r"""Update audio / subtitle track
 
         This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new `languageName` and `languageCode`, ensuring both parameters are included in the request. You can optionally provide a `title` for the track.
@@ -1719,7 +1719,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateTrackResponse:
+    ) -> models.UpdateMediaTrackResponse:
         r"""Update audio / subtitle track
 
         This endpoint allows you to update an existing audio or subtitle track associated with a media file. When updating a track, you must provide the new `languageName` and `languageCode`, ensuring both parameters are included in the request. You can optionally provide a `title` for the track.
@@ -1835,7 +1835,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdateMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -2068,7 +2068,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.DeleteMediaTrackResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -2091,7 +2091,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GenerateTrackResponse:
+    ) -> models.GenerateSubtitleTrackResponse:
         r"""Generate track subtitle
 
         This endpoint allows you to generate subtitles for an existing audio track in a media file. By calling this API, you can generate subtitles automatically using speech recognition
@@ -2223,7 +2223,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GenerateTrackResponse:
+    ) -> models.GenerateSubtitleTrackResponse:
         r"""Generate track subtitle
 
         This endpoint allows you to generate subtitles for an existing audio track in a media file. By calling this API, you can generate subtitles automatically using speech recognition
@@ -2331,7 +2331,7 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.GenerateSubtitleTrackResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.TrackDuplicateRequestErrorData, errors.TrackDuplicateRequestError),
@@ -2351,7 +2351,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedSourceAccessResponse:
         r"""Update the source access of a media by ID
 
         This endpoint allows you to update the `sourceAccess` setting of an existing media file. The `sourceAccess` parameter determines whether the original media file is accessible or restricted. Setting this to `true` enables access to the media source, while setting it to `false` restricts access.
@@ -2461,7 +2461,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedSourceAccessResponse:
         r"""Update the source access of a media by ID
 
         This endpoint allows you to update the `sourceAccess` setting of an existing media file. The `sourceAccess` parameter determines whether the original media file is accessible or restricted. Setting this to `true` enables access to the media source, while setting it to `false` restricts access.
@@ -2552,7 +2552,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedSourceAccessResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -2571,7 +2571,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedMp4SupportResponse:
         r"""Update the mp4Support of a media by ID
 
         This endpoint allows you to update the `mp4Support` setting of an existing media file using its media ID. You can specify the MP4 support level, such as `none`, `capped_4k`, `audioOnly`, or a combination of `audioOnly`, `capped_4k`, in the request payload.
@@ -2703,7 +2703,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.Media:
+    ) -> models.UpdatedMp4SupportResponse:
         r"""Update the mp4Support of a media by ID
 
         This endpoint allows you to update the `mp4Support` setting of an existing media file using its media ID. You can specify the MP4 support level, such as `none`, `capped_4k`, `audioOnly`, or a combination of `audioOnly`, `capped_4k`, in the request payload.
@@ -2815,7 +2815,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.UpdatedMp4SupportResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("400", errors.DuplicateMp4SupportErrorData, errors.DuplicateMp4SupportError),
@@ -2834,7 +2834,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.RetrieveMediaInputInfoData:
+    ) -> models.RetrieveMediaInputInfoResponse:
         r"""Get info of media inputs
 
         Allows you to retrieve detailed information about the media inputs associated with a specific media item. You can use this endpoint to verify the media file's input URL, track creation status, and container format. The `mediaId` (either `uploadId` or `id`) must be provided to fetch the information.
@@ -2938,7 +2938,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.RetrieveMediaInputInfoData:
+    ) -> models.RetrieveMediaInputInfoResponse:
         r"""Get info of media inputs
 
         Allows you to retrieve detailed information about the media inputs associated with a specific media item. You can use this endpoint to verify the media file's input URL, track creation status, and container format. The `mediaId` (either `uploadId` or `id`) must be provided to fetch the information.
@@ -3024,7 +3024,7 @@ class ManageVideos(BaseSDK):
             return unmarshal_json_response(
                 models.RetrieveMediaInputInfoResponse, http_res
             )
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3214,7 +3214,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.GetMediaSummaryResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3234,7 +3234,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.DirectUpload]:
+    ) -> models.ListUploadsResponse:
         r"""Get all unused upload URLs
 
         This endpoint retrieves a paginated list of all unused upload signed URLs within your organization. It provides comprehensive metadata including upload IDs, creation dates, status, and URLs, helping you manage your media resources efficiently.
@@ -3343,7 +3343,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.DirectUpload]:
+    ) -> models.ListUploadsResponse:
         r"""Get all unused upload URLs
 
         This endpoint retrieves a paginated list of all unused upload signed URLs within your organization. It provides comprehensive metadata including upload IDs, creation dates, status, and URLs, helping you manage your media resources efficiently.
@@ -3433,7 +3433,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.ListUploadsResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),
@@ -3453,7 +3453,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MediaClipResponseData]:
+    ) -> models.MediaClipResponse:
         r"""Get all clips of a media
 
         This endpoint retrieves a list of all media clips associated with a given source media ID. It helps in organizing and managing media's efficiently by providing metadata, including clip media IDs and other relevant details.
@@ -3568,7 +3568,7 @@ class ManageVideos(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MediaClipResponseData]:
+    ) -> models.MediaClipResponse:
         r"""Get all clips of a media
 
         This endpoint retrieves a list of all media clips associated with a given source media ID. It helps in organizing and managing media's efficiently by providing metadata, including clip media IDs and other relevant details.
@@ -3662,7 +3662,7 @@ class ManageVideos(BaseSDK):
 
         if utils.match_response(http_res, "200", CONTENT_TYPE_JSON):
             return unmarshal_json_response(models.MediaClipResponse, http_res)
-        self._raise_for_status_async(
+        await self._raise_for_status_async(
             http_res,
             [
                 ("401", errors.InvalidPermissionErrorData, errors.InvalidPermissionError),

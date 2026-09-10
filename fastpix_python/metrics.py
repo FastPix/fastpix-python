@@ -6,7 +6,7 @@ from ._hooks import HookContext
 from .types import OptionalNullable, UNSET
 from .utils import get_security_from_env
 from .utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional
+from typing import Any, Mapping, Optional
 
 CONTENT_TYPE_JSON = "application/json"
 API_ERROR_MESSAGE = "API error occurred"
@@ -30,7 +30,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MetricsBreakdownDetails]:
+    ) -> models.ListBreakdownValuesResponse:
         r"""List breakdown values
 
         Retrieves breakdown values for a specified metric and timespan, allowing you to analyze the performance of your content based on various dimensions. It provides insights into how different factors contribute to the overall metrics.
@@ -181,7 +181,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MetricsBreakdownDetails]:
+    ) -> models.ListBreakdownValuesResponse:
         r"""List breakdown values
 
         Retrieves breakdown values for a specified metric and timespan, allowing you to analyze the performance of your content based on various dimensions. It provides insights into how different factors contribute to the overall metrics.
@@ -327,7 +327,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.MetricsOverallDataDetails:
+    ) -> models.ListOverallValuesResponse:
         r"""List overall values
 
         Retrieves overall values for a specified metric, providing summary statistics that help you understand the performance of your content. The response includes key metrics such as `totalWatchTime`, `uniqueViews`, `totalPlayTime` and `totalViews`.
@@ -470,7 +470,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.MetricsOverallDataDetails:
+    ) -> models.ListOverallValuesResponse:
         r"""List overall values
 
         Retrieves overall values for a specified metric, providing summary statistics that help you understand the performance of your content. The response includes key metrics such as `totalWatchTime`, `uniqueViews`, `totalPlayTime` and `totalViews`.
@@ -615,7 +615,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MetricsTimeseriesDataDetails]:
+    ) -> models.GetTimeseriesDataResponse:
         r"""Get timeseries data
 
         This endpoint retrieves timeseries data for a specified metric, providing insights into how the metric values change over time. The response includes an array of data points, each representing the metric's value at specific intervals.
@@ -744,7 +744,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[models.MetricsTimeseriesDataDetails]:
+    ) -> models.GetTimeseriesDataResponse:
         r"""Get timeseries data
 
         This endpoint retrieves timeseries data for a specified metric, providing insights into how the metric values change over time. The response includes an array of data points, each representing the metric's value at specific intervals.
@@ -871,7 +871,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[List[models.MetricsComparisonDetails]]:
+    ) -> models.ListComparisonValuesResponse:
         r"""List comparison values
 
         This endpoint allows you to compare multiple metrics across specified dimensions. You can specify the metrics you want to compare in the query parameters, and the response will include the relevant metrics for the specified dimensions.
@@ -1001,7 +1001,7 @@ class Metrics(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> List[List[models.MetricsComparisonDetails]]:
+    ) -> models.ListComparisonValuesResponse:
         r"""List comparison values
 
         This endpoint allows you to compare multiple metrics across specified dimensions. You can specify the metrics you want to compare in the query parameters, and the response will include the relevant metrics for the specified dimensions.

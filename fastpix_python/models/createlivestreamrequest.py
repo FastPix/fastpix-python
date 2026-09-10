@@ -30,6 +30,8 @@ class InputMediaSettingsTypedDict(TypedDict):
     r"""You can search for videos with specific key value pairs using metadata, when you tag a video in \"key\":\"value\"s pairs. Dynamic Metadata allows you to define a key that allows any value pair. You can have maximum of 255 characters and upto 10 entries are allowed."""
     enable_dvr_mode: NotRequired[bool]
     r"""Enables DVR (Digital Video Recorder) functionality for the live stream. When set to true, viewers can pause, rewind, and resume playback during the live broadcast. This allows time-shifted viewing of the stream while it is still ongoing."""
+    enable_recording: NotRequired[bool]
+    r"""Controls whether the livestream is recorded to a VOD asset (Live-to-VOD). When set to true (default), FastPix records and stores the livestream for on-demand viewing. When set to false, the livestream is not recorded."""
 
 
 class InputMediaSettings(BaseModel):
@@ -58,6 +60,11 @@ class InputMediaSettings(BaseModel):
         Optional[bool], pydantic.Field(alias="enableDvrMode")
     ] = None
     r"""Enables DVR (Digital Video Recorder) functionality for the live stream. When set to true, viewers can pause, rewind, and resume playback during the live broadcast. This allows time-shifted viewing of the stream while it is still ongoing."""
+
+    enable_recording: Annotated[
+        Optional[bool], pydantic.Field(alias="enableRecording")
+    ] = True
+    r"""Controls whether the livestream is recorded to a VOD asset (Live-to-VOD). When set to true (default), FastPix records and stores the livestream for on-demand viewing. When set to false, the livestream is not recorded."""
 
 
 class CreateLiveStreamRequestTypedDict(TypedDict):

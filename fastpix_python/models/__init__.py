@@ -736,6 +736,39 @@ if TYPE_CHECKING:
         UpdateAPlaylistRequest,
         UpdateAPlaylistRequestTypedDict,
     )
+    from .update_domain_restrictionsop import (
+        UpdateDomainRestrictionsData,
+        UpdateDomainRestrictionsDataTypedDict,
+        UpdateDomainRestrictionsDefaultPolicy,
+        UpdateDomainRestrictionsRequest,
+        UpdateDomainRestrictionsRequestBody,
+        UpdateDomainRestrictionsRequestBodyTypedDict,
+        UpdateDomainRestrictionsRequestTypedDict,
+        UpdateDomainRestrictionsResponseBody,
+        UpdateDomainRestrictionsResponseBodyTypedDict,
+    )
+    from .update_live_stream_domain_restrictionsop import (
+        UpdateLiveStreamDomainRestrictionsData,
+        UpdateLiveStreamDomainRestrictionsDataTypedDict,
+        UpdateLiveStreamDomainRestrictionsDefaultPolicy,
+        UpdateLiveStreamDomainRestrictionsRequest,
+        UpdateLiveStreamDomainRestrictionsRequestBody,
+        UpdateLiveStreamDomainRestrictionsRequestBodyTypedDict,
+        UpdateLiveStreamDomainRestrictionsRequestTypedDict,
+        UpdateLiveStreamDomainRestrictionsResponseBody,
+        UpdateLiveStreamDomainRestrictionsResponseBodyTypedDict,
+    )
+    from .update_live_stream_user_agent_restrictionsop import (
+        UpdateLiveStreamUserAgentRestrictionsData,
+        UpdateLiveStreamUserAgentRestrictionsDataTypedDict,
+        UpdateLiveStreamUserAgentRestrictionsDefaultPolicy,
+        UpdateLiveStreamUserAgentRestrictionsRequest,
+        UpdateLiveStreamUserAgentRestrictionsRequestBody,
+        UpdateLiveStreamUserAgentRestrictionsRequestBodyTypedDict,
+        UpdateLiveStreamUserAgentRestrictionsRequestTypedDict,
+        UpdateLiveStreamUserAgentRestrictionsResponseBody,
+        UpdateLiveStreamUserAgentRestrictionsResponseBodyTypedDict,
+    )
     from .update_live_streamop import (
         UpdateLiveStreamRequest,
         UpdateLiveStreamRequestTypedDict,
@@ -783,6 +816,17 @@ if TYPE_CHECKING:
     from .update_specific_simulcast_of_streamop import (
         UpdateSpecificSimulcastOfStreamRequest,
         UpdateSpecificSimulcastOfStreamRequestTypedDict,
+    )
+    from .update_user_agent_restrictionsop import (
+        UpdateUserAgentRestrictionsData,
+        UpdateUserAgentRestrictionsDataTypedDict,
+        UpdateUserAgentRestrictionsDefaultPolicy,
+        UpdateUserAgentRestrictionsRequest,
+        UpdateUserAgentRestrictionsRequestBody,
+        UpdateUserAgentRestrictionsRequestBodyTypedDict,
+        UpdateUserAgentRestrictionsRequestTypedDict,
+        UpdateUserAgentRestrictionsResponseBody,
+        UpdateUserAgentRestrictionsResponseBodyTypedDict,
     )
     from .updated_mediaop import (
         UpdatedMediaRequest,
@@ -1528,6 +1572,28 @@ _module_exports: dict[str, list[str]] = {
         "UpdateUserAgentRestrictionsRequestTypedDict",
         "UpdateUserAgentRestrictionsDataTypedDict",
         "UpdateUserAgentRestrictionsResponseBodyTypedDict",
+    ],
+    ".update_live_stream_domain_restrictionsop": [
+        "UpdateLiveStreamDomainRestrictionsData",
+        "UpdateLiveStreamDomainRestrictionsRequest",
+        "UpdateLiveStreamDomainRestrictionsRequestBody",
+        "UpdateLiveStreamDomainRestrictionsResponseBody",
+        "UpdateLiveStreamDomainRestrictionsDefaultPolicy",
+        "UpdateLiveStreamDomainRestrictionsRequestBodyTypedDict",
+        "UpdateLiveStreamDomainRestrictionsRequestTypedDict",
+        "UpdateLiveStreamDomainRestrictionsDataTypedDict",
+        "UpdateLiveStreamDomainRestrictionsResponseBodyTypedDict",
+    ],
+    ".update_live_stream_user_agent_restrictionsop": [
+        "UpdateLiveStreamUserAgentRestrictionsData",
+        "UpdateLiveStreamUserAgentRestrictionsRequest",
+        "UpdateLiveStreamUserAgentRestrictionsRequestBody",
+        "UpdateLiveStreamUserAgentRestrictionsResponseBody",
+        "UpdateLiveStreamUserAgentRestrictionsDefaultPolicy",
+        "UpdateLiveStreamUserAgentRestrictionsRequestBodyTypedDict",
+        "UpdateLiveStreamUserAgentRestrictionsRequestTypedDict",
+        "UpdateLiveStreamUserAgentRestrictionsDataTypedDict",
+        "UpdateLiveStreamUserAgentRestrictionsResponseBodyTypedDict",
     ],
     ".default_error": [
         "Error",

@@ -2,7 +2,7 @@
 /**
  * Long-lived OpenAPI response-validation sidecar.
  *
- * Loads ``fixed.yaml`` once, then reads JSON-Lines validation requests from
+ * Loads the repo-root ``openapi.yaml`` once, then reads JSON-Lines validation requests from
  * stdin and writes JSON-Lines results to stdout — one request, one result.
  *
  * Request shape:
@@ -36,7 +36,7 @@ const OpenAPIResponseValidator =
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const SPEC_PATH = join(__dirname, "..", "fixed.yaml");
+const SPEC_PATH = join(__dirname, "..", "openapi.yaml");
 
 const spec = yaml.load(readFileSync(SPEC_PATH, "utf-8"));
 
@@ -82,7 +82,7 @@ for (const [_path, item] of Object.entries(spec.paths || {})) {
 }
 
 process.stderr.write(
-  `[sidecar] loaded ${validatorByOpId.size} operation validators from fixed.yaml\n`,
+  `[sidecar] loaded ${validatorByOpId.size} operation validators from openapi.yaml\n`,
 );
 // Ready signal — Python waits for this before piping requests.
 process.stdout.write(JSON.stringify({ ready: true, operations: validatorByOpId.size }) + "\n");

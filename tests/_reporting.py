@@ -55,7 +55,7 @@ def _suggest_enum_oneof(r: EndpointResult, paths: List[str]) -> List[Dict[str, s
                 "`oneOf` requires exactly one match."
             ),
             "where": (
-                "In `fixed.yaml`: "
+                "In `openapi.yaml`: "
                 "`components/schemas/{VideoTrack,VideoTrackForGetAll,AudioTrack,SubtitleTrack}.properties.type`"
             ),
             "paste_yaml": (
@@ -80,7 +80,7 @@ def _suggest_enum_oneof(r: EndpointResult, paths: List[str]) -> List[Dict[str, s
                 "`\"480p\"`-style values."
             ),
             "where": (
-                "In `fixed.yaml`: under the relevant media response schema(s) "
+                "In `openapi.yaml`: under the relevant media response schema(s) "
                 "`sourceResolution:` field definition"
             ),
         })
@@ -96,7 +96,7 @@ def _suggest_enum_oneof(r: EndpointResult, paths: List[str]) -> List[Dict[str, s
                 "rejects them."
             ),
             "where": (
-                "In `fixed.yaml`: media response schemas' `maxResolution:` field definition"
+                "In `openapi.yaml`: media response schemas' `maxResolution:` field definition"
             ),
         })
 
@@ -119,7 +119,7 @@ def _suggest_schema_overlap(r: EndpointResult, paths: List[str]) -> List[Dict[st
                 "multiple branches."
             ),
             "where": (
-                "In `fixed.yaml`: "
+                "In `openapi.yaml`: "
                 "`paths./data/dimensions.get.responses.200.content.application/json.schema.properties.data.oneOf`"
             ),
         })
@@ -134,7 +134,7 @@ def _suggest_schema_overlap(r: EndpointResult, paths: List[str]) -> List[Dict[st
                 "In JSON Schema, `integer` is a subset of `number`. A value like `0` matches both, "
                 "causing oneOf validation errors."
             ),
-            "where": "In `fixed.yaml`: metrics schemas that use `oneOf: [integer, number]`",
+            "where": "In `openapi.yaml`: metrics schemas that use `oneOf: [integer, number]`",
         })
 
     return out
@@ -149,7 +149,7 @@ def _suggest_field_issues(r: EndpointResult, paths: List[str]) -> List[Dict[str,
         out.append({
             "title": "Make `fpApiVersion` nullable in the spec",
             "why": "The API can return `null` for fpApiVersion but the schema declares `string` only.",
-            "where": "In `fixed.yaml`: `components/schemas/Views.properties.fpApiVersion`",
+            "where": "In `openapi.yaml`: `components/schemas/Views.properties.fpApiVersion`",
         })
 
     # 7) phantom Optional fields the API never returns
@@ -162,7 +162,7 @@ def _suggest_field_issues(r: EndpointResult, paths: List[str]) -> List[Dict[str,
                 "the spec (preferred) or surface them only when the API actually returns them."
             ),
             "where": (
-                "In `fixed.yaml`: response schemas for `" + r.operation_id + "`; "
+                "In `openapi.yaml`: response schemas for `" + r.operation_id + "`; "
                 "fields to inspect: " + ", ".join(f"`{p}`" for p in r.missing_in_api)
             ),
         })
@@ -177,7 +177,7 @@ def _suggest_field_issues(r: EndpointResult, paths: List[str]) -> List[Dict[str,
             ),
             "where": (
                 "In the generated SDK: response model for `" + r.operation_id + "`. "
-                "Update the operation's response schema in `fixed.yaml` to the full envelope and regenerate."
+                "Update the operation's response schema in `openapi.yaml` to the full envelope and regenerate."
             ),
         })
 
@@ -191,7 +191,7 @@ def _suggest_field_issues(r: EndpointResult, paths: List[str]) -> List[Dict[str,
                 "while the actual `metadata` payload is dropped."
             ),
             "where": (
-                "Either fix `fixed.yaml` to spell the field `metadata` everywhere, "
+                "Either fix `openapi.yaml` to spell the field `metadata` everywhere, "
                 "or add a wire-format alias in the SDK's response model."
             ),
         })
